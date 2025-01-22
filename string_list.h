@@ -17,12 +17,31 @@ namespace string_list
     {
         while(*head != nullptr)
         {
-            auto remember{reinterpret_cast<ListNode>(*head[1])};
+            auto remember{reinterpret_cast<ListNode>((*head)[1])};
             free(*head[0]);
             free(*head);
             *head = remember;
         }
         *head = nullptr;
+    }
+
+    void push_front(ListNode* node, const char* str)
+    {
+        const auto size{strlen(str) + 1};
+        char* data{static_cast<char*>(std::malloc(sizeof(char) * (size)))};
+        strcpy_s(data, size * sizeof(char), str);
+
+        auto next{static_cast<ListNode>(std::malloc(sizeof(char*) + sizeof(ListNode)))};
+        next[0] = data;
+        next[1] = nullptr;
+
+        auto current{*node};
+        *node = next;
+
+        if(current != nullptr)
+        {
+            next[1] = reinterpret_cast<char*>(current);
+        }
     }
 
     void add(ListNode* node, const char* str)
@@ -35,7 +54,7 @@ namespace string_list
         next[0] = data;
         next[1] = nullptr;
 
-        if(*node == nullptr) [[unlikely]]
+        if(*node == nullptr)
         {
             *node = next;
         }
@@ -138,6 +157,7 @@ namespace string_list
 
     void sort(ListNode* node)
     {
+
     }
 }
 

@@ -48,7 +48,6 @@ int main()
     string_list::add(&head, "Long time no see");
 
     string_list::remove_duplicates(head);
-    string_list::replace(head, "Hi", "GG");
     print(head);
 
     string_list::destroy(&head);
