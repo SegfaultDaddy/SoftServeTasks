@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <cassert>
 
 namespace string_list
 {
@@ -11,31 +12,7 @@ namespace string_list
     namespace implementation
     {
         using ListNode = char**;
-    }
 
-    std::size_t size(const List list)
-    {
-        using namespace implementation;
-
-        std::size_t counter{0};
-        auto current{reinterpret_cast<ListNode>(list[0])};
-        while(current != nullptr)
-        {
-            counter += 1;
-            current = reinterpret_cast<ListNode>(current[1]);
-        }
-        return counter;
-    }
-
-    std::size_t index_of(const List list, const char* str)
-    {
-        using namespace implementation;
-
-        return 0;
-    }
-
-    namespace implementation
-    {
         ListNode create_node(const char* str)
         {
             const auto size{strlen(str) + 1};
@@ -52,7 +29,7 @@ namespace string_list
 
         void remove(ListNode* head, const char* str, bool firstOccurence)
         {
-            auto current{reinterpret_cast<ListNode>(*head)};
+            auto current{*head};
             while(current != nullptr)
             {
                 auto next{reinterpret_cast<ListNode>(current[1])};
@@ -85,6 +62,44 @@ namespace string_list
                 current = next; 
             }
         }
+    }
+
+    std::size_t size(const List list)
+    {
+        using namespace implementation;
+
+        std::size_t counter{0};
+        auto current{reinterpret_cast<ListNode>(list[0])};
+        while(current != nullptr)
+        {
+            counter += 1;
+            current = reinterpret_cast<ListNode>(current[1]);
+        }
+        return counter;
+    }
+
+    std::size_t index_of(const List list, const char* str, const bool enableAssert = false)
+    {
+        using namespace implementation;
+
+        std::size_t counter{0};
+        auto current{reinterpret_cast<ListNode>(list[0])};
+        while(current != nullptr)
+        {
+            if(std::strcmp(current[0], str) == 0)
+            {
+                return counter;
+            }
+            counter += 1;
+            current = reinterpret_cast<ListNode>(current[1]);
+        }
+
+        if(enableAssert)
+        {
+            assert(false && "Failed to find specified string in list");
+        }
+
+        return counter;
     }
 
     void init(List* list)
@@ -222,17 +237,6 @@ namespace string_list
     void unique(List list)
     {
         using namespace implementation;
-
-        auto current{reinterpret_cast<ListNode>(list[0])};
-        auto tail{reinterpret_cast<ListNode>(list[1])};
-        while(current != tail)
-        {
-            const auto str{current[0]};
-            const auto prev{current};
-            current = reinterpret_cast<ListNode>(current[1]);
-            remove(&current, str, false);
-            prev[1] = reinterpret_cast<char*>(current);
-        }
     }
 
     void replace(List list, const char* src, const char* dest)
@@ -254,6 +258,10 @@ namespace string_list
         }   
     }
 
+    void sort(List list)
+    {
+        using namespace implementation;
+    }
 }
 
 #endif

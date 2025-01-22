@@ -26,18 +26,15 @@ int main()
     string_list::init(&list);
     string_list::push_front(list, "Welcome");
     string_list::push_front(list, "Hello");
-    string_list::push_front(list, "Welcome");
     string_list::push_front(list, "Greetings");
-    string_list::push_front(list, "Welcome");
     string_list::push_back(list, "Hi");
-    string_list::push_back(list, "Hola");
-    string_list::push_back(list, "Hola");
     string_list::push_back(list, "Hola");
     string_list::push_back(list, "Long time no see");
 
     string_list::unique(list);
 
     print(reinterpret_cast<string_list::implementation::ListNode>(list[0]));
+
     std::println("Size: {}", string_list::size(list));
 
     string_list::destroy(&list);
