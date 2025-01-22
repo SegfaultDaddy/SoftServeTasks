@@ -13,6 +13,56 @@ namespace string_list
     {
         using ListNode = char**;
 
+        ListNode head(List list)
+        {
+            return reinterpret_cast<ListNode>(list[0]);
+        }
+
+        ListNode tail(List list)
+        {
+            return reinterpret_cast<ListNode>(list[1]);
+        }
+
+        void set_head(List list, ListNode head)
+        {
+            list[0] = reinterpret_cast<char*>(head);
+        }
+
+        void set_tail(List list, ListNode tail)
+        {
+            list[1] = reinterpret_cast<char*>(tail);
+        }
+
+        char* value(ListNode node)
+        {
+            return node[0];
+        }
+
+        ListNode next(ListNode node)
+        {
+            return reinterpret_cast<ListNode>(node[1]);
+        }
+
+        ListNode prev(ListNode node)
+        {
+            return reinterpret_cast<ListNode>(node[2]);
+        }
+
+        void set_value(ListNode node, char* value)
+        {
+            node[0] = value;
+        }
+
+        void set_next(ListNode node, ListNode next)
+        {
+            node[1] = reinterpret_cast<char*>(next);
+        }
+
+        void set_prev(ListNode node, ListNode prev)
+        {
+            node[2] = reinterpret_cast<char*>(prev);
+        }
+
         ListNode create_node(const char* str)
         {
             const auto size{strlen(str) + 1};
@@ -20,9 +70,9 @@ namespace string_list
             strcpy_s(data, size * sizeof(char), str);
 
             auto node{static_cast<ListNode>(std::malloc(sizeof(char*) + 2 * sizeof(ListNode)))};
-            node[0] = data;
-            node[1] = nullptr;
-            node[2] = nullptr;
+            set_value(node, data);
+            set_next(node, nullptr);
+            set_prev(node, nullptr);
 
             return node;
         }
@@ -32,26 +82,26 @@ namespace string_list
             auto current{*head};
             while(current != nullptr)
             {
-                auto next{reinterpret_cast<ListNode>(current[1])};
-                if(std::strcmp(current[0], str) == 0)
+                auto next{implementation::next(current)};
+                if(std::strcmp(value(current), str) == 0)
                 {
-                    auto prev{reinterpret_cast<ListNode>(current[2])};
+                    auto prev{implementation::prev(current)};
 
                     if(prev == nullptr) [[unlikely]]
                     {
                         *head = next;
                         if(next != nullptr)
                         {
-                            next[2] = nullptr;
+                            set_prev(next, nullptr);
                         }
                     }
                     else 
                     {
-                        prev[1] = reinterpret_cast<char*>(next);
-                        next[2] = reinterpret_cast<char*>(prev);
+                        set_next(prev, next);
+                        set_prev(next, prev);
                     }
 
-                    std::free(current[0]);
+                    std::free(value(current));
                     std::free(current);
 
                     if(firstOccurence)
@@ -60,8 +110,15 @@ namespace string_list
                     }
                 }
                 current = next; 
-            }
-        }
+            } 
+        } 
+    }
+
+    bool empty(const List list)
+    {
+        using namespace implementation;
+
+        return head(list) == nullptr && tail(list) == nullptr;
     }
 
     std::size_t size(const List list)
@@ -69,11 +126,11 @@ namespace string_list
         using namespace implementation;
 
         std::size_t counter{0};
-        auto current{reinterpret_cast<ListNode>(list[0])};
+        auto current{head(list)};
         while(current != nullptr)
         {
             counter += 1;
-            current = reinterpret_cast<ListNode>(current[1]);
+            current = next(current);
         }
         return counter;
     }
@@ -83,15 +140,15 @@ namespace string_list
         using namespace implementation;
 
         std::size_t counter{0};
-        auto current{reinterpret_cast<ListNode>(list[0])};
+        auto current{head(list)};
         while(current != nullptr)
         {
-            if(std::strcmp(current[0], str) == 0)
+            if(std::strcmp(value(current), str) == 0)
             {
                 return counter;
             }
             counter += 1;
-            current = reinterpret_cast<ListNode>(current[1]);
+            current = next(current);
         }
 
         if(enableAssert)
@@ -107,19 +164,19 @@ namespace string_list
         using namespace implementation;
 
         *list = static_cast<List>(std::malloc(sizeof(ListNode) * 2));
-        (*list)[0] = nullptr;
-        (*list)[1] = nullptr;
+        set_head(*list, nullptr);
+        set_tail(*list, nullptr);
     }
 
     void destroy(List* list)
     {
         using namespace implementation;
 
-        auto head{reinterpret_cast<ListNode>((*list)[0])};
+        auto head{implementation::head(*list)};
         while(head != nullptr)
         {
-            auto remember{reinterpret_cast<ListNode>(head[1])};
-            std::free(head[0]);
+            auto remember{next(head)};
+            std::free(value(head));
             std::free(head);
             head = remember;
         }
@@ -132,18 +189,17 @@ namespace string_list
         using namespace implementation;
 
         auto next{implementation::create_node(str)};
-        auto node{reinterpret_cast<char*>(next)};
-        if(list[0] == nullptr && list[1] == nullptr) [[unlikely]]
+        if(empty(list)) [[unlikely]]
         {
-            list[0] = node;
-            list[1] = node;
+            set_head(list, next);
+            set_tail(list, next);
         }
         else
         {
-            auto tail{reinterpret_cast<ListNode>(list[1])};
-            tail[1] = node;
-            next[2] = reinterpret_cast<char*>(tail);
-            list[1] = node;
+            auto tail{implementation::tail(list)};
+            set_next(tail, next);
+            set_prev(next, tail);
+            set_tail(list, next);
         }
     }
 
@@ -151,19 +207,18 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto next{implementation::create_node(str)};
-        auto node{reinterpret_cast<char*>(next)};
-        if(list[0] == nullptr && list[1] == nullptr) [[unlikely]]
+        auto prev{implementation::create_node(str)};
+        if(empty(list)) [[unlikely]]
         {
-            list[0] = node;
-            list[1] = node;
+            set_head(list, prev);
+            set_tail(list, prev);
         }
         else
         {
-            auto head{reinterpret_cast<ListNode>(list[0])};
-            list[0] = node;
-            next[1] = reinterpret_cast<char*>(head);
-            head[2] = node;
+            auto head{implementation::head(list)};
+            set_head(list, prev);
+            set_next(prev, head);
+            set_prev(head, prev);
         }
     }
 
@@ -171,26 +226,26 @@ namespace string_list
     {
         using namespace implementation;
 
-        if(list[1] == nullptr)
+        if(empty(list))
         {
             return;
         }
 
-        auto tail{reinterpret_cast<ListNode>(list[1])};
-        auto prev{reinterpret_cast<ListNode>(tail[2])};
+        auto tail{implementation::tail(list)};
+        auto prev{implementation::prev(tail)};
 
         if(prev == nullptr) [[unlikely]]
         {
-            list[0] = nullptr;
-            list[1] = nullptr;
+            set_head(list, nullptr);
+            set_tail(list, nullptr);
         }
         else 
         {
-            prev[1] = nullptr;
-            list[1] = reinterpret_cast<char*>(prev);
+            set_next(prev, nullptr);
+            set_tail(list, prev);
         }
 
-        free(tail[0]);
+        free(value(tail));
         free(tail);
     }
 
@@ -237,6 +292,16 @@ namespace string_list
     void unique(List list)
     {
         using namespace implementation;
+
+        auto current{reinterpret_cast<ListNode>(list[0])};
+        for(int i{0}; i < 2; ++i)
+        {
+            auto next{reinterpret_cast<ListNode>(current[1])};
+            remove(&next, current[0], false);
+            current[1] = reinterpret_cast<char*>(next);
+            next[2] = reinterpret_cast<char*>(current);
+            current = next;
+        }       
     }
 
     void replace(List list, const char* src, const char* dest)
