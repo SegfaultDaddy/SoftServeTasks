@@ -22,12 +22,26 @@ int main()
     string_list::List list{nullptr};
     string_list::init(&list);
     string_list::push_back(list, "Hi");
-    string_list::push_back(list, "Hello");
+    string_list::push_front(list, "Hello");
     string_list::push_back(list, "Hola");
-    string_list::push_front(list, "ola");
-    string_list::push_front(list, "ola");
-    string_list::push_front(list, "ola");
+    string_list::push_front(list, "Welcome");
+    string_list::push_front(list, "Greetings");
+    string_list::push_back(list, "Long time no see");
+
+    string_list::pop_front(list);
+    string_list::pop_front(list);
+    string_list::pop_front(list);
+    string_list::pop_back(list);
+    string_list::pop_back(list);
+    string_list::pop_front(list);
+    string_list::pop_back(list);
+
+    string_list::push_back(list, "Hi");
+    string_list::push_front(list, "Hello");
     string_list::push_back(list, "Hola");
+    string_list::push_front(list, "Welcome");
+    string_list::push_front(list, "Greetings");
+    string_list::push_back(list, "Long time no see");
     print(reinterpret_cast<string_list::ListNode>(list[0]));
     return EXIT_SUCCESS;
 }

@@ -69,6 +69,61 @@ namespace string_list
             head[2] = node;
         }
     }
+
+    void pop_back(List list)
+    {
+        if(list[1] == nullptr)
+        {
+            return;
+        }
+
+        auto tail{reinterpret_cast<ListNode>(list[1])};
+        auto prev{reinterpret_cast<ListNode>(tail[2])};
+
+        if(prev == nullptr) [[unlikely]]
+        {
+            list[0] = nullptr;
+            list[1] = nullptr;
+        }
+        else 
+        {
+            prev[1] = nullptr;
+            list[1] = reinterpret_cast<char*>(prev);
+        }
+
+        free(tail[0]);
+        free(tail);
+    }
+
+    void pop_front(List list)
+    {
+        if(list[0] == nullptr)
+        {
+            return;
+        }
+
+        auto head{reinterpret_cast<ListNode>(list[0])};
+        auto next{reinterpret_cast<ListNode>(head[1])};
+
+        if(next == nullptr) [[unlikely]]
+        {
+            list[0] = nullptr;
+            list[1] = nullptr;
+        }
+        else 
+        {
+            next[1] = nullptr;
+            list[0] = reinterpret_cast<char*>(next);
+        }
+
+        free(head[0]);
+        free(head);
+    }
+
+    void remove(List list, const char* str)
+    {
+
+    }
 }
 
 #endif
