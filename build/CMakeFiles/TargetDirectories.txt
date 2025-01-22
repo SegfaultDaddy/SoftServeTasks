@@ -1,0 +1,3 @@
+D:/SoftServe/TestTasks/1/build/CMakeFiles/string_list.dir
+D:/SoftServe/TestTasks/1/build/CMakeFiles/edit_cache.dir
+D:/SoftServe/TestTasks/1/build/CMakeFiles/rebuild_cache.dir
