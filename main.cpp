@@ -18,19 +18,39 @@ void print(const string_list::ListNode list)
 
 int main()
 {
-    string_list::ListNode list{};
+    string_list::ListNode head{};
 
-    string_list::init(&list);
+    string_list::init(&head);
 
-    string_list::add(&list, "Hi");
-    string_list::add(&list, "Hello");
-    string_list::add(&list, "What's up");
-    string_list::add(&list, "Good evening");
-    string_list::add(&list, "Nice to meet you");
-    string_list::add(&list, "Long time no see");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hello");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "What's up");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Good evening");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Nice to meet you");
+    string_list::add(&head, "Nice to meet you");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Nice to meet you");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "Hi");
+    string_list::add(&head, "What's up");
+    string_list::add(&head, "What's up");
+    string_list::add(&head, "Nice to meet you");
+    string_list::add(&head, "Long time no see");
 
-    print(list);
-    std::println("{}", string_list::size(list));
+    string_list::remove_duplicates(head);
+    string_list::replace(head, "Hi", "GG");
+    print(head);
 
+    string_list::destroy(&head);
     return EXIT_SUCCESS;
 }
