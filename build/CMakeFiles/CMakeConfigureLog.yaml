@@ -101,8 +101,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f"
-      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f"
+      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8"
+      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "D:/Coding/C++/Compilers/LLVM/bin/clang-scan-deps.exe"
       CMAKE_C_FLAGS: ""
@@ -115,21 +115,21 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f'
+        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_882ca/fast
-        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_882ca.dir/build.make CMakeFiles/cmTC_882ca.dir/build
-        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f"
-        Building C object CMakeFiles/cmTC_882ca.dir/CMakeCCompilerABI.c.obj
-        D:/Coding/C++/Compilers/LLVM/bin/clang.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_882ca.dir/CMakeCCompilerABI.c.obj -MF CMakeFiles/cmTC_882ca.dir/CMakeCCompilerABI.c.obj.d -o CMakeFiles/cmTC_882ca.dir/CMakeCCompilerABI.c.obj -c "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeCCompilerABI.c"
-        Linking C executable cmTC_882ca.exe
-        D:/Coding/C++/Compilers/LLVM/bin/clang.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd  -v -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_882ca.dir/objects1.rsp -o cmTC_882ca.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_882ca.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f/cmTC_882ca.pdb -Xlinker /version:0.0 
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_1ac56/fast
+        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_1ac56.dir/build.make CMakeFiles/cmTC_1ac56.dir/build
+        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8"
+        Building C object CMakeFiles/cmTC_1ac56.dir/CMakeCCompilerABI.c.obj
+        D:/Coding/C++/Compilers/LLVM/bin/clang.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_1ac56.dir/CMakeCCompilerABI.c.obj -MF CMakeFiles/cmTC_1ac56.dir/CMakeCCompilerABI.c.obj.d -o CMakeFiles/cmTC_1ac56.dir/CMakeCCompilerABI.c.obj -c "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeCCompilerABI.c"
+        Linking C executable cmTC_1ac56.exe
+        D:/Coding/C++/Compilers/LLVM/bin/clang.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd  -v -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_1ac56.dir/objects1.rsp -o cmTC_1ac56.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_1ac56.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8/cmTC_1ac56.pdb -Xlinker /version:0.0 
         clang version 19.1.0
         Target: x86_64-pc-windows-msvc
         Thread model: posix
         InstalledDir: D:\\Coding\\C++\\Compilers\\LLVM\\bin
-         "D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\bin\\\\lld-link" -out:cmTC_882ca.exe "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\lib\\\\x64" "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\atlmfc\\\\lib\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\ucrt\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\um\\\\x64" "-libpath:D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\lib\\\\clang\\\\19\\\\lib\\\\windows" -nologo -debug /subsystem:console CMakeFiles/cmTC_882ca.dir/CMakeCCompilerABI.c.obj /MANIFEST:EMBED /implib:cmTC_882ca.lib /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f/cmTC_882ca.pdb /version:0.0
-        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-5yxx7f"
+         "D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\bin\\\\lld-link" -out:cmTC_1ac56.exe "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\lib\\\\x64" "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\atlmfc\\\\lib\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\ucrt\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\um\\\\x64" "-libpath:D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\lib\\\\clang\\\\19\\\\lib\\\\windows" -nologo -debug /subsystem:console CMakeFiles/cmTC_1ac56.dir/CMakeCCompilerABI.c.obj /MANIFEST:EMBED /implib:cmTC_1ac56.lib /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8/cmTC_1ac56.pdb /version:0.0
+        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-fxeib8"
         
       exitCode: 0
   -
@@ -190,8 +190,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz"
-      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz"
+      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd"
+      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "D:/Coding/C++/Compilers/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -205,21 +205,21 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz'
+        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_a3e50/fast
-        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_a3e50.dir/build.make CMakeFiles/cmTC_a3e50.dir/build
-        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz"
-        Building CXX object CMakeFiles/cmTC_a3e50.dir/CMakeCXXCompilerABI.cpp.obj
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_a3e50.dir/CMakeCXXCompilerABI.cpp.obj -MF CMakeFiles/cmTC_a3e50.dir/CMakeCXXCompilerABI.cpp.obj.d -o CMakeFiles/cmTC_a3e50.dir/CMakeCXXCompilerABI.cpp.obj -c "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp"
-        Linking CXX executable cmTC_a3e50.exe
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd  -v -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_a3e50.dir/objects1.rsp -o cmTC_a3e50.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_a3e50.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz/cmTC_a3e50.pdb -Xlinker /version:0.0 
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_c145e/fast
+        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_c145e.dir/build.make CMakeFiles/cmTC_c145e.dir/build
+        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd"
+        Building CXX object CMakeFiles/cmTC_c145e.dir/CMakeCXXCompilerABI.cpp.obj
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -MD -MT CMakeFiles/cmTC_c145e.dir/CMakeCXXCompilerABI.cpp.obj -MF CMakeFiles/cmTC_c145e.dir/CMakeCXXCompilerABI.cpp.obj.d -o CMakeFiles/cmTC_c145e.dir/CMakeCXXCompilerABI.cpp.obj -c "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp"
+        Linking CXX executable cmTC_c145e.exe
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd  -v -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_c145e.dir/objects1.rsp -o cmTC_c145e.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_c145e.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd/cmTC_c145e.pdb -Xlinker /version:0.0 
         clang version 19.1.0
         Target: x86_64-pc-windows-msvc
         Thread model: posix
         InstalledDir: D:\\Coding\\C++\\Compilers\\LLVM\\bin
-         "D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\bin\\\\lld-link" -out:cmTC_a3e50.exe "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\lib\\\\x64" "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\atlmfc\\\\lib\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\ucrt\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\um\\\\x64" "-libpath:D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\lib\\\\clang\\\\19\\\\lib\\\\windows" -nologo -debug /subsystem:console CMakeFiles/cmTC_a3e50.dir/CMakeCXXCompilerABI.cpp.obj /MANIFEST:EMBED /implib:cmTC_a3e50.lib /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz/cmTC_a3e50.pdb /version:0.0
-        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-4rwuiz"
+         "D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\bin\\\\lld-link" -out:cmTC_c145e.exe "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\lib\\\\x64" "-libpath:C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Tools\\\\MSVC\\\\14.42.34433\\\\atlmfc\\\\lib\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\ucrt\\\\x64" "-libpath:C:\\\\Program Files (x86)\\\\Windows Kits\\\\10\\\\Lib\\\\10.0.22621.0\\\\um\\\\x64" "-libpath:D:\\\\Coding\\\\C++\\\\Compilers\\\\LLVM\\\\lib\\\\clang\\\\19\\\\lib\\\\windows" -nologo -debug /subsystem:console CMakeFiles/cmTC_c145e.dir/CMakeCXXCompilerABI.cpp.obj /MANIFEST:EMBED /implib:cmTC_c145e.lib /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd/cmTC_c145e.pdb /version:0.0
+        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ymh7fd"
         
       exitCode: 0
   -
@@ -283,8 +283,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p"
-      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p"
+      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44"
+      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "D:/Coding/C++/Compilers/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -297,16 +297,16 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p'
+        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_0079c/fast
-        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_0079c.dir/build.make CMakeFiles/cmTC_0079c.dir/build
-        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p"
-        Building CXX object CMakeFiles/cmTC_0079c.dir/feature_tests.cxx.obj
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_0079c.dir/feature_tests.cxx.obj -MF CMakeFiles/cmTC_0079c.dir/feature_tests.cxx.obj.d -o CMakeFiles/cmTC_0079c.dir/feature_tests.cxx.obj -c D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p/feature_tests.cxx
-        Linking CXX executable cmTC_0079c.exe
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_0079c.dir/objects1.rsp -o cmTC_0079c.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_0079c.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p/cmTC_0079c.pdb -Xlinker /version:0.0  @CMakeFiles/cmTC_0079c.dir/linkLibs.rsp
-        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-iy8j2p"
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_fef59/fast
+        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_fef59.dir/build.make CMakeFiles/cmTC_fef59.dir/build
+        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44"
+        Building CXX object CMakeFiles/cmTC_fef59.dir/feature_tests.cxx.obj
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_fef59.dir/feature_tests.cxx.obj -MF CMakeFiles/cmTC_fef59.dir/feature_tests.cxx.obj.d -o CMakeFiles/cmTC_fef59.dir/feature_tests.cxx.obj -c D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44/feature_tests.cxx
+        Linking CXX executable cmTC_fef59.exe
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_fef59.dir/objects1.rsp -o cmTC_fef59.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_fef59.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44/cmTC_fef59.pdb -Xlinker /version:0.0  @CMakeFiles/cmTC_fef59.dir/linkLibs.rsp
+        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-773w44"
         
       exitCode: 0
   -
@@ -321,8 +321,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d"
-      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d"
+      source: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve"
+      binary: "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "D:/Coding/C++/Compilers/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_FLAGS: ""
@@ -335,16 +335,16 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d'
+        Change Dir: 'D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_28c0e/fast
-        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_28c0e.dir/build.make CMakeFiles/cmTC_28c0e.dir/build
-        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d"
-        Building CXX object CMakeFiles/cmTC_28c0e.dir/feature_tests.cxx.obj
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_28c0e.dir/feature_tests.cxx.obj -MF CMakeFiles/cmTC_28c0e.dir/feature_tests.cxx.obj.d -o CMakeFiles/cmTC_28c0e.dir/feature_tests.cxx.obj -c D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d/feature_tests.cxx
-        Linking CXX executable cmTC_28c0e.exe
-        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_28c0e.dir/objects1.rsp -o cmTC_28c0e.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_28c0e.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d/cmTC_28c0e.pdb -Xlinker /version:0.0  @CMakeFiles/cmTC_28c0e.dir/linkLibs.rsp
-        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-ejcz2d"
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/PROGRA~2/GnuWin32/bin/make.exe -f Makefile cmTC_5b4e3/fast
+        C:/PROGRA~2/GnuWin32/bin/make.exe  -f CMakeFiles/cmTC_5b4e3.dir/build.make CMakeFiles/cmTC_5b4e3.dir/build
+        make.exe[1]: ┬їюцє є ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve"
+        Building CXX object CMakeFiles/cmTC_5b4e3.dir/feature_tests.cxx.obj
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd   -std=c++14 -MD -MT CMakeFiles/cmTC_5b4e3.dir/feature_tests.cxx.obj -MF CMakeFiles/cmTC_5b4e3.dir/feature_tests.cxx.obj.d -o CMakeFiles/cmTC_5b4e3.dir/feature_tests.cxx.obj -c D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve/feature_tests.cxx
+        Linking CXX executable cmTC_5b4e3.exe
+        D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/cmTC_5b4e3.dir/objects1.rsp -o cmTC_5b4e3.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_5b4e3.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve/cmTC_5b4e3.pdb -Xlinker /version:0.0  @CMakeFiles/cmTC_5b4e3.dir/linkLibs.rsp
+        make.exe[1]: ╟рыш°р■ ърЄрыюу "D:/SoftServe/TestTasks/1/build/CMakeFiles/CMakeScratch/TryCompile-bdyxve"
         
       exitCode: 0
 ...
