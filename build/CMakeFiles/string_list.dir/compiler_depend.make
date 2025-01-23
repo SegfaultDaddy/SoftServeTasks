@@ -144,6 +144,46 @@ CMakeFiles/string_list.dir/main.cpp.obj: D:/SoftServe/TestTasks/1/main.cpp \
   D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/yvals_core.h \
   D:/SoftServe/TestTasks/1/string_list.h
 
+CMakeFiles/string_list.dir/string_list.cpp.obj: D:/SoftServe/TestTasks/1/string_list.cpp \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/assert.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_malloc.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_math.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_memcpy_s.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_memory.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_search.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_wstdlib.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_wstring.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/errno.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/math.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/stddef.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/stdlib.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/string.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/cassert \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/concurrencysal.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/cstdlib \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/cstring \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/limits.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/sal.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/vadefs.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/vcruntime.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/vcruntime_string.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/xkeycheck.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/yvals_core.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_header_macro.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_max_align_t.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_null.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_nullptr_t.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_offsetof.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_ptrdiff_t.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_size_t.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/__stddef_wchar_t.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/limits.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/stddef.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/vadefs.h \
+  D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/yvals_core.h \
+  D:/SoftServe/TestTasks/1/string_list.h
+
 
 C:/Program\ Files\ (x86)/Windows\ Kits/10/Include/10.0.22621.0/ucrt/corecrt_search.h:
 
@@ -388,6 +428,8 @@ C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.3
 C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/xlocmes:
 
 C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/xlocmon:
+
+D:/SoftServe/TestTasks/1/string_list.cpp:
 
 C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.42.34433/include/xloctime:
 

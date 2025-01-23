@@ -86,18 +86,34 @@ CMakeFiles/string_list.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/string_list.dir/main.cpp.s"
 	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
 
+CMakeFiles/string_list.dir/string_list.cpp.obj: CMakeFiles/string_list.dir/flags.make
+CMakeFiles/string_list.dir/string_list.cpp.obj: D:/SoftServe/TestTasks/1/string_list.cpp
+CMakeFiles/string_list.dir/string_list.cpp.obj: CMakeFiles/string_list.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/SoftServe/TestTasks/1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/string_list.dir/string_list.cpp.obj"
+	D:/Coding/C++/Compilers/LLVM/bin/clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/string_list.dir/string_list.cpp.obj -MF CMakeFiles/string_list.dir/string_list.cpp.obj.d -o CMakeFiles/string_list.dir/string_list.cpp.obj -c D:/SoftServe/TestTasks/1/string_list.cpp
+
+CMakeFiles/string_list.dir/string_list.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/string_list.dir/string_list.cpp.i"
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
+
+CMakeFiles/string_list.dir/string_list.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/string_list.dir/string_list.cpp.s"
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
+
 # Object files for target string_list
 string_list_OBJECTS = \
-"CMakeFiles/string_list.dir/main.cpp.obj"
+"CMakeFiles/string_list.dir/main.cpp.obj" \
+"CMakeFiles/string_list.dir/string_list.cpp.obj"
 
 # External object files for target string_list
 string_list_EXTERNAL_OBJECTS =
 
 string_list.exe: CMakeFiles/string_list.dir/main.cpp.obj
+string_list.exe: CMakeFiles/string_list.dir/string_list.cpp.obj
 string_list.exe: CMakeFiles/string_list.dir/build.make
 string_list.exe: CMakeFiles/string_list.dir/linkLibs.rsp
 string_list.exe: CMakeFiles/string_list.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:/SoftServe/TestTasks/1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable string_list.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:/SoftServe/TestTasks/1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable string_list.exe"
 	D:/Coding/C++/Compilers/LLVM/bin/clang++.exe -nostartfiles -nostdlib -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Xlinker /subsystem:console -fuse-ld=lld-link @CMakeFiles/string_list.dir/objects1.rsp -o string_list.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:string_list.lib -Xlinker /pdb:D:/SoftServe/TestTasks/1/build/string_list.pdb -Xlinker /version:0.0  @CMakeFiles/string_list.dir/linkLibs.rsp
 	C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -noprofile -executionpolicy Bypass -file D:/Coding/C++/PackageManagers/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/SoftServe/TestTasks/1/build/string_list.exe -installedDir D:/Coding/C++/PackageManagers/vcpkg/installed/x64-windows/debug/bin -OutVariable out
 

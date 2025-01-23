@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/SoftServe/TestTasks/1/main.cpp" "CMakeFiles/string_list.dir/main.cpp.obj" "gcc" "CMakeFiles/string_list.dir/main.cpp.obj.d"
+  "D:/SoftServe/TestTasks/1/string_list.cpp" "CMakeFiles/string_list.dir/string_list.cpp.obj" "gcc" "CMakeFiles/string_list.dir/string_list.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

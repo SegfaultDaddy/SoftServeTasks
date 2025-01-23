@@ -153,6 +153,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_list.dir/build.make CMakeFiles/string_list.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+string_list.obj: string_list.cpp.obj
+.PHONY : string_list.obj
+
+# target to build an object file
+string_list.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_list.dir/build.make CMakeFiles/string_list.dir/string_list.cpp.obj
+.PHONY : string_list.cpp.obj
+
+string_list.i: string_list.cpp.i
+.PHONY : string_list.i
+
+# target to preprocess a source file
+string_list.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_list.dir/build.make CMakeFiles/string_list.dir/string_list.cpp.i
+.PHONY : string_list.cpp.i
+
+string_list.s: string_list.cpp.s
+.PHONY : string_list.s
+
+# target to generate assembly for a file
+string_list.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_list.dir/build.make CMakeFiles/string_list.dir/string_list.cpp.s
+.PHONY : string_list.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... string_list.obj"
+	@echo "... string_list.i"
+	@echo "... string_list.s"
 .PHONY : help
 
 

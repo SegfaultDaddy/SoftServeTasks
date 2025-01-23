@@ -28,6 +28,8 @@ int main()
     string_list::push_back(list, "Welcome");
     string_list::push_back(list, "Greetings");
     string_list::push_back(list, "Long time no see");
+
+    string_list::sort(list);
     
     std::println("Size: {}", string_list::size(list));
     print(reinterpret_cast<string_list::implementation::ListNode>(list[0]));

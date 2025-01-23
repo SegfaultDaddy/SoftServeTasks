@@ -4,5 +4,11 @@
   "command": "D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -std=gnu++23 -o CMakeFiles/string_list.dir/main.cpp.obj -c D:/SoftServe/TestTasks/1/main.cpp",
   "file": "D:/SoftServe/TestTasks/1/main.cpp",
   "output": "CMakeFiles/string_list.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/SoftServe/TestTasks/1/build",
+  "command": "D:/Coding/C++/Compilers/LLVM/bin/clang++.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -std=gnu++23 -o CMakeFiles/string_list.dir/string_list.cpp.obj -c D:/SoftServe/TestTasks/1/string_list.cpp",
+  "file": "D:/SoftServe/TestTasks/1/string_list.cpp",
+  "output": "CMakeFiles/string_list.dir/string_list.cpp.obj"
 }
 ]
