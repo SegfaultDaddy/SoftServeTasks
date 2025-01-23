@@ -391,7 +391,7 @@ namespace string_list
         }       
     }
 
-    void replace(List list, const char* src, const char* dest)
+    void replace(List list, const char* src, const char* dest, const bool firstOccurence = false)
     {
         using namespace implementation;
 
@@ -405,6 +405,11 @@ namespace string_list
                 auto allocated{static_cast<char*>(std::malloc(sizeof(char) * size))};
                 strcpy_s(allocated, size * sizeof(char), dest);
                 set_value(current, allocated);
+
+                if(firstOccurence)
+                {
+                    return;
+                }
             }
             current = next(current);
         }   

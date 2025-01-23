@@ -142,7 +142,6 @@ CMakeFiles/string_list.dir/main.cpp.obj: D:/SoftServe/TestTasks/1/main.cpp \
   D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/stdint.h \
   D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/vadefs.h \
   D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/yvals_core.h \
-  D:/SoftServe/TestTasks/1/forward_string_list.h \
   D:/SoftServe/TestTasks/1/string_list.h
 
 
@@ -427,7 +426,5 @@ D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/stddef.h:
 D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/vadefs.h:
 
 D:/Coding/C++/Compilers/LLVM/lib/clang/19/include/yvals_core.h:
-
-D:/SoftServe/TestTasks/1/forward_string_list.h:
 
 D:/SoftServe/TestTasks/1/string_list.h:
