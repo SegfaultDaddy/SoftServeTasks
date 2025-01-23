@@ -153,16 +153,25 @@ TEST(StringList, unique)
 {
     using namespace string_list;
 
+    List list{nullptr};
+    init(&list);
+    destroy(&list);
 }
 
 TEST(StringList, replace) 
 {
     using namespace string_list;
 
+    List list{nullptr};
+    init(&list);
+    destroy(&list);
 }
 
 TEST(StringList, sort) 
 {
     using namespace string_list;
 
+    List list{nullptr};
+    init(&list);
+    destroy(&list);
 }
