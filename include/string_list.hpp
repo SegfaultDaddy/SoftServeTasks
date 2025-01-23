@@ -1,5 +1,5 @@
-#ifndef STRING_LIST_H
-#define STRING_LIST_H
+#ifndef STRING_LIST_HPP
+#define STRING_LIST_HPP
 
 #include <cstdlib>
 #include <cstring>
