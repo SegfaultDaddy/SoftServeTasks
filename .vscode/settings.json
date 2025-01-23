@@ -13,6 +13,8 @@
         "xstring": "cpp",
         "xtree": "cpp",
         "*.ipp": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "algorithm": "cpp",
+        "xutility": "cpp"
     }
 }

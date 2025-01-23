@@ -13,52 +13,52 @@ namespace string_list
     {
         using ListNode = char**;
 
-        ListNode head(List list)
+        inline ListNode head(List list)
         {
             return reinterpret_cast<ListNode>(list[0]);
         }
 
-        ListNode tail(List list)
+        inline ListNode tail(List list)
         {
             return reinterpret_cast<ListNode>(list[1]);
         }
 
-        void set_head(List list, ListNode head)
+        inline void set_head(List list, ListNode head)
         {
             list[0] = reinterpret_cast<char*>(head);
         }
 
-        void set_tail(List list, ListNode tail)
+        inline void set_tail(List list, ListNode tail)
         {
             list[1] = reinterpret_cast<char*>(tail);
         }
 
-        char* value(ListNode node)
+        inline char* value(ListNode node)
         {
             return node[0];
         }
 
-        ListNode next(ListNode node)
+        inline ListNode next(ListNode node)
         {
             return reinterpret_cast<ListNode>(node[1]);
         }
 
-        ListNode prev(ListNode node)
+        inline ListNode prev(ListNode node)
         {
             return reinterpret_cast<ListNode>(node[2]);
         }
 
-        void set_value(ListNode node, char* value)
+        inline void set_value(ListNode node, char* value)
         {
             node[0] = value;
         }
 
-        void set_next(ListNode node, ListNode next)
+        inline void set_next(ListNode node, ListNode next)
         {
             node[1] = reinterpret_cast<char*>(next);
         }
 
-        void set_prev(ListNode node, ListNode prev)
+        inline void set_prev(ListNode node, ListNode prev)
         {
             node[2] = reinterpret_cast<char*>(prev);
         }
@@ -126,9 +126,89 @@ namespace string_list
             }
         }
 
-        void ()
+        ListNode split(ListNode head)
         {
+            auto fast{head};
+            auto slow{head};
 
+            while(fast != nullptr && 
+                  next(fast) != nullptr &&
+                  next(next(fast)) != nullptr)
+            {
+                fast = next(next(fast));
+                slow = next(slow);
+            }
+
+            auto remember{next(slow)};
+            set_next(slow, nullptr); 
+
+            if(remember != nullptr)
+            {
+                set_prev(remember, nullptr);
+            }
+
+            return remember; 
+        }
+
+        ListNode merge(List list, ListNode first, ListNode second)
+        {
+            auto compare{[](const char* first, const char* second){return std::strcmp(first, second) < 0;}}; 
+
+            if(first == nullptr)
+            { 
+                return second;
+            }
+
+            if(second == nullptr)
+            {
+                return first;
+            }
+
+            if(compare(value(first), value(second)))
+            {
+                auto result{merge(list, next(first), second)};
+                set_next(first, result);
+
+                if(next(first) != nullptr)
+                {
+                    set_prev(next(first), first);
+                } 
+
+                set_prev(first, nullptr);
+                return first;
+            }
+            else
+            {
+                auto result{merge(list, first, next(second))};
+                set_next(second, result);
+                
+                if(next(second) != nullptr)
+                {
+                    set_prev(next(second), second);
+                    if(next(next(second)) == nullptr)
+                    {
+                        set_tail(list, next(second));
+                    }
+                }  
+
+                set_prev(second, nullptr);
+                return second;
+            }
+        }
+
+        ListNode merge_sort(List list, ListNode head)
+        {
+            if(head == nullptr ||
+               next(head) == nullptr)
+            {
+                return head;
+            }
+            
+            auto second{split(head)};
+            head = merge_sort(list, head);
+            second = merge_sort(list, second);
+
+            return merge(list, head, second);
         }
     }
 
@@ -153,7 +233,7 @@ namespace string_list
         return counter;
     }
 
-    std::size_t index_of(const List list, const char* str, const bool enableAssert = false)
+    std::size_t index_of(const List list, const char* str, const bool showError = false)
     {
         using namespace implementation;
 
@@ -169,10 +249,7 @@ namespace string_list
             current = next(current);
         }
 
-        if(enableAssert)
-        {
-            assert(false && "Failed to find specified string in list");
-        }
+        assert(!showError && "Failed to find specified string in list");
 
         return counter;
     }
@@ -306,7 +383,7 @@ namespace string_list
         using namespace implementation;
 
         auto current{head(list)};
-        for(int i{0}; i < 6; ++i)
+        while(current != nullptr)
         {
             auto next{implementation::next(current)};
             remove(list, next, value(current), false);
@@ -337,7 +414,7 @@ namespace string_list
     {
         using namespace implementation;
 
-
+        set_head(list, merge_sort(list, head(list)));
     }
 }
 
