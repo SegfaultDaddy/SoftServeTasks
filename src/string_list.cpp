@@ -173,7 +173,7 @@ namespace string_list
         return counter;
     }
 
-    bool empty(const List list)
+    bool empty(const List list) 
     {
         using namespace implementation;
 
@@ -347,9 +347,8 @@ namespace string_list
         {
             if(std::strcmp(value(current), src) == 0)
             {
-                std::free(value(current));
                 const auto size{std::strlen(dest) + 1};
-                auto allocated{static_cast<char*>(std::malloc(sizeof(char) * size))};
+                auto allocated{static_cast<char*>(std::realloc(value(current), sizeof(char) * size))};
                 strcpy_s(allocated, size * sizeof(char), dest);
                 set_value(current, allocated);
 
