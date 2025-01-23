@@ -77,25 +77,38 @@ namespace string_list
             return node;
         }
 
-        void remove(ListNode* head, const char* str, bool firstOccurence)
+        void remove(List list, ListNode start, const char* str, bool firstOccurence = false)
         {
-            auto current{*head};
+            auto current{start};
             while(current != nullptr)
             {
                 auto next{implementation::next(current)};
                 if(std::strcmp(value(current), str) == 0)
                 {
                     auto prev{implementation::prev(current)};
+                    auto conditionSatisfied{true};
 
+                    if(next == nullptr) [[unlikely]]
+                    {
+                        set_tail(list, prev);
+                        if(prev != nullptr)
+                        {
+                            set_next(prev, nullptr);
+                        }
+                        conditionSatisfied = false;
+                    }
+                    
                     if(prev == nullptr) [[unlikely]]
                     {
-                        *head = next;
+                        set_head(list, next);
                         if(next != nullptr)
                         {
                             set_prev(next, nullptr);
                         }
+                        conditionSatisfied = false;
                     }
-                    else 
+
+                    if(conditionSatisfied)
                     {
                         set_next(prev, next);
                         set_prev(next, prev);
@@ -110,8 +123,13 @@ namespace string_list
                     }
                 }
                 current = next; 
-            } 
-        } 
+            }
+        }
+
+        void ()
+        {
+
+        }
     }
 
     bool empty(const List list)
@@ -188,7 +206,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto next{implementation::create_node(str)};
+        auto next{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
             set_head(list, next);
@@ -207,7 +225,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto prev{implementation::create_node(str)};
+        auto prev{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
             set_head(list, prev);
@@ -245,62 +263,54 @@ namespace string_list
             set_tail(list, prev);
         }
 
-        free(value(tail));
-        free(tail);
+        std::free(value(tail));
+        std::free(tail);
     }
 
     void pop_front(List list)
     {
         using namespace implementation;
 
-        if(list[0] == nullptr)
+        if(empty(list))
         {
             return;
         }
 
-        auto head{reinterpret_cast<ListNode>(list[0])};
-        auto next{reinterpret_cast<ListNode>(head[1])};
+        auto head{implementation::head(list)};
+        auto next{implementation::next(head)};
 
         if(next == nullptr) [[unlikely]]
         {
-            list[0] = nullptr;
-            list[1] = nullptr;
+            set_head(list, nullptr);
+            set_tail(list, nullptr);
         }
         else 
         {
-            next[1] = nullptr;
-            list[0] = reinterpret_cast<char*>(next);
+            set_prev(next, nullptr);
+            set_head(list, next);
         }
 
-        free(head[0]);
-        free(head);
+        std::free(value(head));
+        std::free(head);
     }
 
     void remove(List list, const char* str, bool firstOccurence = false)
     {
         using namespace implementation;
 
-        auto head{reinterpret_cast<ListNode>(list[0])};
-        remove(&head, str, firstOccurence);
-        list[0] = reinterpret_cast<char*>(head);
-        if(list[0] == nullptr)
-        {
-            list[1] = nullptr;
-        }
+        remove(list, head(list), str, false);
     }
 
     void unique(List list)
     {
         using namespace implementation;
 
-        auto current{reinterpret_cast<ListNode>(list[0])};
-        for(int i{0}; i < 2; ++i)
+        auto current{head(list)};
+        for(int i{0}; i < 6; ++i)
         {
-            auto next{reinterpret_cast<ListNode>(current[1])};
-            remove(&next, current[0], false);
-            current[1] = reinterpret_cast<char*>(next);
-            next[2] = reinterpret_cast<char*>(current);
-            current = next;
+            auto next{implementation::next(current)};
+            remove(list, next, value(current), false);
+            current = implementation::next(current);
         }       
     }
 
@@ -308,24 +318,26 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto current{reinterpret_cast<ListNode>(list[0])};
+        auto current{head(list)};
         while(current != nullptr)
         {
-            if(std::strcmp(current[0], src) == 0)
+            if(std::strcmp(value(current), src) == 0)
             {
-                std::free(current[0]);
+                std::free(value(current));
                 const auto size{std::strlen(dest) + 1};
                 auto allocated{static_cast<char*>(std::malloc(sizeof(char) * size))};
                 strcpy_s(allocated, size * sizeof(char), dest);
-                current[0] = allocated;
+                set_value(current, allocated);
             }
-            current = reinterpret_cast<ListNode>(current[1]);
+            current = next(current);
         }   
     }
 
     void sort(List list)
     {
         using namespace implementation;
+
+
     }
 }
 

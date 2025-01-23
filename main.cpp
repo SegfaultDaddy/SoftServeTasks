@@ -24,31 +24,26 @@ int main()
     string_list::List list{nullptr};
 
     string_list::init(&list);
-    string_list::push_back(list, "Welcome");
-    string_list::push_back(list, "Hello");
-    string_list::push_back(list, "Hello");
-    string_list::push_back(list, "Hello");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Hello");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
-    string_list::push_back(list, "Greetings");
+
+    /*
     string_list::push_back(list, "Hi");
     string_list::push_back(list, "Hola");
-    string_list::push_back(list, "Hola");
-    string_list::push_back(list, "Hola");
+    string_list::push_back(list, "Hello");
+    string_list::push_back(list, "Welcome");
+    string_list::push_back(list, "Greetings");
+    string_list::push_back(list, "Greetings");
     string_list::push_back(list, "Long time no see");
-    string_list::push_back(list, "Long time no see");
-    string_list::push_back(list, "Long time no see");
-    string_list::push_back(list, "Long time no see");
-    string_list::push_back(list, "Hola");
+    */
 
-    //string_list::unique(list);
+    string_list::push_back(list, "B");
+    string_list::push_back(list, "C");
+    string_list::push_back(list, "A");
+    string_list::push_back(list, "F");
+    string_list::push_back(list, "C");
+    string_list::push_back(list, "Z");
+    string_list::push_back(list, "X");
+    string_list::push_back(list, "B");
+
     print(reinterpret_cast<string_list::implementation::ListNode>(list[0]));
 
     std::println("Size: {}", string_list::size(list));
