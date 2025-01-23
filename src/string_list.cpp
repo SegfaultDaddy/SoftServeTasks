@@ -1,9 +1,17 @@
-#include "string_list.h"
+#include <cstring>
+#include <cassert>
+
+#include "string_list.hpp"
 
 namespace string_list
 {
     namespace implementation
     {
+        bool compare_less_than(const char* first, const char* second)
+        {
+            return std::strcmp(first, second) < 0;
+        }
+
         ListNode create_node(const char* str)
         {
             const auto size{strlen(str) + 1};

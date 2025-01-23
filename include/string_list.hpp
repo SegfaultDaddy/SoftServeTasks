@@ -2,8 +2,6 @@
 #define STRING_LIST_HPP
 
 #include <cstdlib>
-#include <cstring>
-#include <cassert>
 
 namespace string_list
 {
@@ -63,11 +61,7 @@ namespace string_list
             node[2] = reinterpret_cast<char*>(prev);
         }
 
-        inline bool compare_less_than(const char* first, const char* second)
-        {
-            return std::strcmp(first, second) < 0;
-        }
-
+        bool compare_less_than(const char* first, const char* second);
         ListNode create_node(const char* str);
         void remove(List list, ListNode start, const char* str, bool firstOccurence = false);
         ListNode split(ListNode head);

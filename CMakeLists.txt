@@ -1,18 +1,14 @@
-cmake_minimum_required(VERSION 3.10)
-
-project(CMakeExample)
-
-set(CMAKE_CXX_STANDARD 17)
-
-set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}" "${CMAKE_MODULE_PATH}")
-set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}" "${CMAKE_PREFIX_PATH}")
-
-option(BUILD_TESTS "Build tests" ON)
-
-enable_testing()
+cmake_minimum_required(VERSION 3.31.1)
+project(task1)
+set(CMAKE_CXX_STANDARD 23)
 
 add_subdirectory(src)
+add_subdirectory(test)
 
-if (BUILD_TESTS)
-    add_subdirectory(test)
-endif ()
+include(FetchContent)
+FetchContent_Declare(googletest
+                     URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
