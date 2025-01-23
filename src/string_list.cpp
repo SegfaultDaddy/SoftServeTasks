@@ -26,7 +26,7 @@ namespace string_list
             return node;
         }
 
-        void remove(List list, ListNode start, const char* str, bool firstOccurence)
+        void remove(List list, ListNode start, const char* str, const bool firstOccurence)
         {
             auto current{start};
             while(current != nullptr)
@@ -159,13 +159,6 @@ namespace string_list
         }
     }
 
-    bool empty(const List list)
-    {
-        using namespace implementation;
-
-        return head(list) == nullptr && tail(list) == nullptr;
-    }
-
     std::size_t size(const List list)
     {
         using namespace implementation;
@@ -178,6 +171,13 @@ namespace string_list
             current = next(current);
         }
         return counter;
+    }
+
+    bool empty(const List list)
+    {
+        using namespace implementation;
+
+        return head(list) == nullptr && tail(list) == nullptr;
     }
 
     std::size_t index_of(const List list, const char* str, const bool showError)
@@ -318,7 +318,7 @@ namespace string_list
         std::free(head);
     }
 
-    void remove(List list, const char* str, bool firstOccurence)
+    void remove(List list, const char* str, const bool firstOccurence)
     {
         using namespace implementation;
 

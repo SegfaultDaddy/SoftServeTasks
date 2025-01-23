@@ -63,7 +63,7 @@ namespace string_list
 
         bool compare_less_than(const char* first, const char* second);
         ListNode create_node(const char* str);
-        void remove(List list, ListNode start, const char* str, bool firstOccurence = false);
+        void remove(List list, ListNode start, const char* str, const bool firstOccurence = false);
         ListNode split(ListNode head);
         ListNode merge(List list, ListNode first, ListNode second, bool (*compare)(const char*, const char*));
         ListNode merge_sort(List list, ListNode head, bool (*compare)(const char*, const char*) = &compare_less_than);
@@ -71,14 +71,14 @@ namespace string_list
 
     void init(List* list);
     void destroy(List* list); 
-    bool empty(const List list);
     std::size_t size(const List list);
+    bool empty(const List list);
     std::size_t index_of(const List list, const char* str, const bool showError = false);
-    void push_back(List list, const char* str);
     void push_front(List list, const char* str);
-    void pop_back(List list);
+    void push_back(List list, const char* str);
     void pop_front(List list);
-    void remove(List list, const char* str, bool firstOccurence = false);
+    void pop_back(List list);
+    void remove(List list, const char* str, const bool firstOccurence = false);
     void unique(List list);
     void replace(List list, const char* src, const char* dest, const bool firstOccurence = false);
     void sort(List list);
