@@ -64,9 +64,7 @@ namespace string_list
         bool compare_less_than(const char* first, const char* second);
         ListNode create_node(const char* str);
         void remove(List list, ListNode start, const char* str, const bool firstOccurence = false);
-        ListNode split(ListNode head);
-        ListNode merge(List list, ListNode first, ListNode second, bool (*compare)(const char*, const char*));
-        ListNode merge_sort(List list, ListNode head, bool (*compare)(const char*, const char*) = &compare_less_than);
+        void selection_sort(ListNode head, bool (*compare)(const char*, const char*) = &compare_less_than);
     }
 
     void init(List* list);

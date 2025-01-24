@@ -327,37 +327,56 @@ TEST(StringList, sort)
     const char* data[]
     {
         "H",
-        "H",
+        "J",
         "A",
-        "H",
-        "H",
-        "G",
-        "H",
-        "H",
-        "H",
+        "A",
+        "L",
+        "L",
+        "L",
+        "L",
+        "L",
+        "A",
+        "A",
+        "L",
+        "L",
+        "L",
+        "A",
+        "A",
+        "A",
+        "A",
         "B",
-        "F",
-        "F",
-        "F",
-        "F",
-        "E",
-        "D",
-        "F",
-        "C"
-        "C"
-        "C"
-        "F",
-        "F",
-        "C"
+        "B",
+        "B",
+        "B",
+        "L",
+        "L",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "B",
+        "B",
+        "B",
+        "B",
+        "B",
+        "B",
+        "G",
+        "B",
+        "C",
+        "I",
+        "C",
+        "C",
     };
 
     List list{nullptr};
 
-    std::default_random_engine dre{};
+    std::default_random_engine dre{std::random_device{}()};
     for(const auto i : std::views::iota(0, 1000))
     {
         init(&list);
-        std::shuffle(std::begin(data), std::end(data), dre);
+        //std::shuffle(std::begin(data), std::end(data), dre);
         for(const auto& elem : data)
         {
             push_back(list, elem);

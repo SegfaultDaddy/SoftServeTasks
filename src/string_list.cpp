@@ -75,80 +75,32 @@ namespace string_list
             }
         }
 
-        ListNode split(ListNode head)
+        void selection_sort(ListNode head, bool (*compare)(const char*, const char*))
         {
-            auto fast{head};
-            auto slow{head};
-
-            while(fast != nullptr && 
-                  next(fast) != nullptr &&
-                  next(next(fast)) != nullptr)
+            auto start{head};
+            while(start != nullptr) 
             {
-                fast = next(next(fast));
-                slow = next(slow);
-            }
+                auto min{start};
 
-            auto remember{next(slow)};
-            set_next(slow, nullptr); 
-
-            if(remember != nullptr)
-            {
-                set_prev(remember, nullptr);
-            }
-
-            return remember; 
-        }
-
-        ListNode merge(List list, ListNode first, ListNode second, bool (*compare)(const char*, const char*))
-        {
-            if(first == nullptr)
-            { 
-                return second;
-            }
-
-            if(second == nullptr)
-            {
-                return first;
-            }
-
-            if(compare(value(first), value(second)))
-            {
-                auto result{merge(list, next(first), second, compare)};
-                set_next(first, result);
-                if(next(first) != nullptr)
+                auto current{next(start)};
+                while(current != nullptr) 
                 {
-                    set_prev(next(first), first);
-                } 
-                set_prev(first, nullptr);
-                return first;
-            }
-            else
-            {
-                auto result{merge(list, first, next(second), compare)};
-                set_next(second, result);
-                if(next(second) != nullptr)
+                    if(compare(value(current), value(min))) 
+                    {
+                        min = current;
+                    }
+                    current = next(current);
+                }
+
+                if(min != start) 
                 {
-                    set_prev(next(second), second);
-                }  
-                set_prev(second, nullptr);
-                return second;
-            }
-        }
+                    auto value{implementation::value(start)};
+                    set_value(start, implementation::value(min));
+                    set_value(min, value);
+                }
 
-        ListNode merge_sort(List list, ListNode head, bool (*compare)(const char*, const char*))
-        {
-            if(head == nullptr ||
-               next(head) == nullptr)
-            {
-                return head;
+                start = next(start);
             }
-            
-            auto second{split(head)};
-            const auto val{value(second)};
-            head = merge_sort(list, head, compare);
-            second = merge_sort(list, second, compare);
-
-            return merge(list, head, second, compare);
         }
     }
 
@@ -359,12 +311,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        set_head(list, merge_sort(list, head(list)));
-        auto tail{implementation::tail(list)};
-        while(next(tail) != nullptr)
-        {
-            set_tail(list, next(tail));
-            tail = next(tail);
-        }
+        auto head{implementation::head(list)};
+        selection_sort(head);
     }
 }
