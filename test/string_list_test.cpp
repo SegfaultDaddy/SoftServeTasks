@@ -128,6 +128,28 @@ TEST(StringList, pop_front)
 
     List list{nullptr};
     init(&list);
+    push_back(list, "Hi");
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    pop_front(list);
+    pop_front(list);
+    pop_front(list);
+    EXPECT_EQ(size(list), 3);
+    pop_front(list);
+    pop_front(list);
+    pop_front(list);
+    EXPECT_NO_THROW(push_front(list, "Hi"));
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    EXPECT_NO_THROW(pop_back(list));
+    EXPECT_NO_THROW(pop_front(list));
+    EXPECT_EQ(size(list), 4);
     destroy(&list);   
 }
 
