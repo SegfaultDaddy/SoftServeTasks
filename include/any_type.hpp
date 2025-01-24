@@ -26,12 +26,12 @@ public:
 
     template <class T>
     AnyType& operator=(T&& value);
-    bool has_value() const noexcept;
-    const std::type_info& type() const noexcept;
-    void reset() noexcept;
 
     template<typename T>
     T get();
+    bool has_value() const noexcept;
+    const std::type_info& type() const noexcept;
+    void reset() noexcept;
 private:
     Placeholder* data_;
 };

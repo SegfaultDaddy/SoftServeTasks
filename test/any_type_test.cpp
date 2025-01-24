@@ -40,4 +40,32 @@ TEST(AnyType, constructors)
         EXPECT_NO_THROW(AnyType{value});
         EXPECT_TRUE(std::strcmp(any.get<const char*>(), value) == 0);
     }
+
+    {
+        std::string value{"Hello"};
+
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_TRUE(any.get<std::string>() == value);
+    }
+}
+
+TEST(AnyType, swap)
+{
+}
+
+TEST(AnyType, assignment)
+{
+}
+
+TEST(AnyType, has_value)
+{
+}
+
+TEST(AnyType, reset)
+{
+}
+
+TEST(AnyType, get)
+{
 }
