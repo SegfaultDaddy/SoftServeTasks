@@ -1,5 +1,8 @@
 #include <cstring>
 
+#include <random>
+#include <ranges>
+
 #include <gtest/gtest.h>
 
 #include "string_list.hpp"
@@ -9,6 +12,7 @@ TEST(StringList, init)
     using namespace string_list;
 
     List list{nullptr};
+    EXPECT_DEATH(init(nullptr), "Provide viable address not nullptr");
     EXPECT_NO_THROW(init(&list));
     EXPECT_NE(list, nullptr);
     destroy(&list);
@@ -22,6 +26,7 @@ TEST(StringList, destroy)
     init(&list);
     EXPECT_NO_THROW(destroy(&list));
     EXPECT_EQ(list, nullptr);
+    EXPECT_DEATH(destroy(nullptr), "Provide viable address not nullptr");
 }
 
 TEST(StringList, size) 
@@ -159,6 +164,28 @@ TEST(StringList, pop_back)
 
     List list{nullptr};
     init(&list);
+    push_back(list, "Hi");
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    pop_back(list);
+    pop_back(list);
+    pop_back(list);
+    EXPECT_EQ(size(list), 3);
+    pop_back(list);
+    pop_back(list);
+    pop_back(list);
+    EXPECT_NO_THROW(push_front(list, "Hi"));
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    EXPECT_NO_THROW(pop_front(list));
+    EXPECT_NO_THROW(pop_back(list));
+    EXPECT_EQ(size(list), 4);
     destroy(&list);
 }
 
@@ -168,6 +195,30 @@ TEST(StringList, remove)
 
     List list{nullptr};
     init(&list);
+    push_back(list, "Hi");
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good evening");
+    push_back(list, "Hi");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    push_back(list, "Hi");
+    EXPECT_NO_THROW(remove(list, "Hi"));
+    EXPECT_EQ(size(list), 6);
+    EXPECT_DEATH(index_of(list, "Hi", true), "Failed to find specified string in list");
+    EXPECT_NO_THROW(remove(list, "Good evening", true));
+    EXPECT_EQ(size(list), 5);
+    EXPECT_EQ(index_of(list, "Good evening"), 1);
+    EXPECT_NO_THROW(remove(list, "Hello"));
+    EXPECT_NO_THROW(remove(list, "Good evening"));
+    EXPECT_NO_THROW(remove(list, "Good afternoon"));
+    EXPECT_NO_THROW(remove(list, "Nice to meet you"));
+    EXPECT_NO_THROW(remove(list, "Long time no see"));
+    EXPECT_EQ(size(list), 0);
+    EXPECT_NO_THROW(push_back(list, "Hi"));
+    EXPECT_EQ(size(list), 1);
+    EXPECT_EQ(index_of(list, "Hi"), 0);
     destroy(&list);
 }
 
@@ -177,6 +228,76 @@ TEST(StringList, unique)
 
     List list{nullptr};
     init(&list);
+    push_back(list, "Hi");
+    push_back(list, "Hi");
+    push_back(list, "Hi");
+    push_back(list, "Hi");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good evening");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hi");
+    push_back(list, "Good afternoon");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Hello");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    push_back(list, "Hi");
+    EXPECT_NO_THROW(unique(list));
+    EXPECT_EQ(size(list), 6);
+    push_back(list, "Hola");
+    EXPECT_EQ(size(list), 7);
+    destroy(&list);
+    init(&list);
+    EXPECT_NO_THROW(unique(list));
+    push_back(list, "Hello");
+    EXPECT_NO_THROW(unique(list));
+    EXPECT_EQ(size(list), 1);
+    EXPECT_EQ(index_of(list, "Hello"), 0);
     destroy(&list);
 }
 
@@ -186,6 +307,16 @@ TEST(StringList, replace)
 
     List list{nullptr};
     init(&list);
+    EXPECT_NO_THROW(replace(list, "Hi", "Hello"));
+    push_back(list, "Hi");
+    push_back(list, "Hello");
+    push_back(list, "Good evening");
+    push_back(list, "Good afternoon");
+    push_back(list, "Nice to meet you");
+    push_back(list, "Long time no see");
+    EXPECT_NO_THROW(replace(list, "Hi", "Hola"));
+    EXPECT_EQ(index_of(list, "Hola"), 0);
+    EXPECT_EQ(size(list), 6);
     destroy(&list);
 }
 
@@ -193,7 +324,66 @@ TEST(StringList, sort)
 {
     using namespace string_list;
 
+    const char* data[]
+    {
+        "H",
+        "H",
+        "A",
+        "H",
+        "H",
+        "G",
+        "H",
+        "H",
+        "H",
+        "B",
+        "F",
+        "F",
+        "F",
+        "F",
+        "E",
+        "D",
+        "F",
+        "C"
+        "C"
+        "C"
+        "F",
+        "F",
+        "C"
+    };
+
     List list{nullptr};
-    init(&list);
-    destroy(&list);
+
+    std::default_random_engine dre{};
+    for(const auto i : std::views::iota(0, 0))
+    {
+        init(&list);
+        std::shuffle(std::begin(data), std::end(data), dre);
+        for(const auto& elem : data)
+        {
+            push_back(list, elem);
+        }
+        sort(list);
+        std::sort(std::begin(data), std::end(data), &implementation::compare_less_than);
+        auto j{implementation::head(list)};
+        for(auto k{0}; j != nullptr; k += 1)
+        {
+            EXPECT_TRUE(std::strcmp(data[k], implementation::value(j)) == 0);
+            j = implementation::next(j);
+        }
+        destroy(&list);
+    } 
+
+    for(const auto i : std::views::iota(0, 100))
+    {
+        init(&list);
+        std::shuffle(std::begin(data), std::end(data), dre);
+        for(const auto& elem : data)
+        {
+            push_back(list, elem);
+        }
+        sort(list);
+        pop_back(list);
+        EXPECT_EQ(size(list), std::size(data) - 1);
+        destroy(&list);
+    }
 }

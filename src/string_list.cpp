@@ -115,12 +115,10 @@ namespace string_list
             {
                 auto result{merge(list, next(first), second, compare)};
                 set_next(first, result);
-
                 if(next(first) != nullptr)
                 {
                     set_prev(next(first), first);
                 } 
-
                 set_prev(first, nullptr);
                 return first;
             }
@@ -128,16 +126,10 @@ namespace string_list
             {
                 auto result{merge(list, first, next(second), compare)};
                 set_next(second, result);
-                
                 if(next(second) != nullptr)
                 {
                     set_prev(next(second), second);
-                    if(next(next(second)) == nullptr)
-                    {
-                        set_tail(list, next(second));
-                    }
                 }  
-
                 set_prev(second, nullptr);
                 return second;
             }
@@ -152,6 +144,7 @@ namespace string_list
             }
             
             auto second{split(head)};
+            const auto val{value(second)};
             head = merge_sort(list, head, compare);
             second = merge_sort(list, second, compare);
 
@@ -205,6 +198,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide viable address not nullptr");
         *list = static_cast<List>(std::malloc(sizeof(ListNode) * 2));
         set_head(*list, nullptr);
         set_tail(*list, nullptr);
@@ -213,7 +207,7 @@ namespace string_list
     void destroy(List* list)
     {
         using namespace implementation;
-
+        assert((list != nullptr) && "Provide viable address not nullptr");
         auto head{implementation::head(*list)};
         while(head != nullptr)
         {
@@ -322,7 +316,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        remove(list, head(list), str, false);
+        remove(list, head(list), str, firstOccurence);
     }
 
     void unique(List list)
@@ -366,5 +360,11 @@ namespace string_list
         using namespace implementation;
 
         set_head(list, merge_sort(list, head(list)));
+        auto tail{implementation::tail(list)};
+        while(next(tail) != nullptr)
+        {
+            set_tail(list, next(tail));
+            tail = next(tail);
+        }
     }
 }
