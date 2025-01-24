@@ -376,7 +376,7 @@ TEST(StringList, sort)
     for(const auto i : std::views::iota(0, 1000))
     {
         init(&list);
-        //std::shuffle(std::begin(data), std::end(data), dre);
+        std::shuffle(std::begin(data), std::end(data), dre);
         for(const auto& elem : data)
         {
             push_back(list, elem);
