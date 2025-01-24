@@ -354,7 +354,7 @@ TEST(StringList, sort)
     List list{nullptr};
 
     std::default_random_engine dre{};
-    for(const auto i : std::views::iota(0, 0))
+    for(const auto i : std::views::iota(0, 1000))
     {
         init(&list);
         std::shuffle(std::begin(data), std::end(data), dre);
@@ -373,7 +373,7 @@ TEST(StringList, sort)
         destroy(&list);
     } 
 
-    for(const auto i : std::views::iota(0, 100))
+    for(const auto i : std::views::iota(0, 1000))
     {
         init(&list);
         std::shuffle(std::begin(data), std::end(data), dre);
