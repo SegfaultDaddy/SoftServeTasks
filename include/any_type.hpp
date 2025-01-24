@@ -52,7 +52,7 @@ AnyType& AnyType::operator=(T&& value)
 template<typename T>
 T AnyType::get() 
 {
-    if(std::strcmp(typeid(T).name(), type().name()) == 0)
+    if(typeid(T) == type())
     {
         return static_cast<Holder<T>*>(data_)->value;
     }

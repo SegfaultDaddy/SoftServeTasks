@@ -1,12 +1,43 @@
+#include <cstring>
+
 #include <gtest/gtest.h>
 
 #include <any_type.hpp>
 
 TEST(AnyType, constructors)
 {
-    AnyType any{true};
-    EXPECT_EQ(any.get<bool>(), true);
-    any = 1.2;
+    {
+        auto value{true};
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_EQ(any.get<bool>(), value);
+    }
+    
+    {
+        auto value{1.2};
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_EQ(any.get<double>(), value);
+    }
 
-    EXPECT_EQ(any.get<double>(), 1.2);
+    {
+        auto value{1.2f};
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_EQ(any.get<float>(), value);
+    }
+    
+    {
+        auto value{1};
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_EQ(any.get<int>(), value);
+    }
+
+    {
+        auto value{"Hello"};
+        AnyType any{value};
+        EXPECT_NO_THROW(AnyType{value});
+        EXPECT_TRUE(std::strcmp(any.get<const char*>(), value) == 0);
+    }
 }
