@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 find_package(GTest CONFIG REQUIRED)
 
-if(!${GTest_FOUND})
+if(NOT GTest_FOUND)
 
 include(FetchContent)
 FetchContent_Declare(googletest
