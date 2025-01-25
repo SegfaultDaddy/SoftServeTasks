@@ -4,6 +4,7 @@
 class VariantType
 {
 public:
+
 };
 
 #endif
