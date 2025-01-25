@@ -13,6 +13,7 @@ AnyType::AnyType(const AnyType& other)
 AnyType::AnyType(AnyType&& other)
     : data_{other.data_}
 {
+    other.data_ = nullptr;
 }
 
 AnyType::~AnyType()

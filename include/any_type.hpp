@@ -5,6 +5,7 @@
 
 #include <type_traits>
 #include <format>
+#include <optional>
 
 #include "any_get_error.hpp"
 #include "placeholder.hpp"
@@ -17,6 +18,9 @@ public:
 
     template<typename T>
     AnyType(const T& value);
+
+    template<typename T>
+    AnyType(T&& value, std::enable_if_t<!std::is_same_v<AnyType&, T>>* = 0);
     AnyType(const AnyType& other);
     AnyType(AnyType&& other);
     ~AnyType();
@@ -28,7 +32,10 @@ public:
     AnyType& operator=(T&& value);
 
     template<typename T>
-    T get();
+    T to();
+
+    template<typename T>
+    std::optional<T> try_to();
     bool has_value() const noexcept;
     const std::type_info& type() const noexcept;
     void reset() noexcept;
@@ -38,27 +45,44 @@ private:
 
 template<typename T>
 AnyType::AnyType(const T& value)
-    : data_{new Holder<T>(value)}
+    : data_{new Holder<std::remove_cv_t<std::decay_t<const T>>>(value)}
 {
 }
 
-template <class T>
+template<typename T>
+AnyType::AnyType(T&& value, std::enable_if_t<!std::is_same_v<AnyType&, T>>*)
+    : data_(new Holder<std::decay_t<T>>(std::forward<T>(value)))
+{
+}
+
+template<typename T>
 AnyType& AnyType::operator=(T&& value)
 {
-    AnyType(std::forward<T>(value)).swap(*this);
+    AnyType{std::forward<T>(value)}.swap(*this);
     return *this;
 }
 
 template<typename T>
-T AnyType::get() 
+T AnyType::to() 
 {
-    if(typeid(T) == type())
+    if(type() == typeid(T))
     {
         return static_cast<Holder<T>*>(data_)->value;
     }
 
-    throw AnyGetError{std::format("Wrong type provided Contained: {} Provided: {}", typeid(T).name(), data_->type().name())};
+    throw AnyGetError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
     return {};
+}
+
+template<typename T>
+std::optional<T> AnyType::try_to() 
+{
+    if(type() == typeid(T))
+    {
+        return static_cast<Holder<T>*>(data_)->value;
+    }
+
+    return std::nullopt;
 }
 
 #endif
