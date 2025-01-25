@@ -37,8 +37,8 @@ public:
 
     template<BannedType T>
     std::optional<T> try_to();
-    bool has_value() const noexcept;
     const std::type_info& type() const noexcept;
+    bool has_value() const noexcept;
     void reset() noexcept;
 private:
     Placeholder* data_;

@@ -29,16 +29,15 @@ public:
     bool has_value() const noexcept;
     void reset() noexcept;
 private:
-    using DataType = std::aligned_storage_t<size, align>;
+    static constexpr std::size_t size{MaxSize<sizeof(Types)...>::size};
+    static constexpr std::size_t align{MaxSize<alignof(Types)...>::size};
+
     using HelperType = VariantHelper<Types...>;
 
     static constexpr const std::type_info& invalid_type();
 
-    static constexpr std::size_t size{MaxSize<sizeof(Types)...>::size};
-    static constexpr std::size_t align{MaxSize<alignof(Types)...>::size};
-
     std::type_info type_;
-    DataType data_;
+    alignas(align) std::byte data_[size];
 };
 
 template<typename... Types>
