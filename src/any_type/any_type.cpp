@@ -57,3 +57,8 @@ void AnyType::reset() noexcept
     AnyType{}.swap(*this);
     data_ = nullptr;
 }
+
+void swap(AnyType& first, AnyType& second)
+{
+    first.swap(second);
+}
