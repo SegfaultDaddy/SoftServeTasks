@@ -23,9 +23,7 @@ AnyType::~AnyType()
 
 AnyType& AnyType::swap(AnyType& other)
 {
-    auto copy{data_};
-    data_ = other.data_;
-    other.data_ = copy;
+    std::swap(data_, other.data_);
     return *this;
 }
 

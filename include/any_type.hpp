@@ -7,7 +7,7 @@
 #include <format>
 #include <optional>
 
-#include "./any_type/any_to_error.hpp"
+#include "./any_type/any_type_to_error.hpp"
 #include "./any_type/placeholder.hpp"
 #include "./any_type/banned_type.hpp"
 #include "./any_type/holder.hpp"
@@ -73,7 +73,7 @@ T AnyType::to()
         return static_cast<Holder<T>*>(data_)->value;
     }
 
-    throw AnyToError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
+    throw AnyTypeToError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
     return {};
 }
 

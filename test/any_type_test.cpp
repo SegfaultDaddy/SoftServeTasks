@@ -201,6 +201,14 @@ TEST(AnyType, assignment)
     }
 
     {
+        Data c{1, 2.0f, 3.0};
+        AnyType type{std::move(c)};
+        EXPECT_EQ(type.to<Data>().x, 1);
+        EXPECT_EQ(type.to<Data>().y, 2.0f);
+        EXPECT_EQ(type.to<Data>().z, 3.0);
+    }
+
+    {
         AnyType any{"Hi"};
         AnyType anyAny{"Hello"};
         EXPECT_TRUE(std::strcmp(any.to<const char*>(), "Hi") == 0);
@@ -240,35 +248,35 @@ TEST(AnyType, to)
     {
         auto value{true};
         AnyType any{value};
-        EXPECT_THROW(any.to<int>(), AnyToError);
+        EXPECT_THROW(any.to<int>(), AnyTypeToError);
         EXPECT_EQ(any.to<bool>(), value);
     }
     
     {
         auto value{1.2};
         AnyType any{value};
-        EXPECT_THROW(any.to<int>(), AnyToError);
+        EXPECT_THROW(any.to<int>(), AnyTypeToError);
         EXPECT_EQ(any.to<double>(), value);
     }
 
     {
         auto value{1.2f};
         AnyType any{value};
-        EXPECT_THROW(any.to<int>(), AnyToError);
+        EXPECT_THROW(any.to<int>(), AnyTypeToError);
         EXPECT_EQ(any.to<float>(), value);
     }
     
     {
         auto value{1};
         AnyType any{value};
-        EXPECT_THROW(any.to<double>(), AnyToError);
+        EXPECT_THROW(any.to<double>(), AnyTypeToError);
         EXPECT_EQ(any.to<int>(), value);
     }
 
     {
         auto value{"Hello"};
         AnyType any{value};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_TRUE(std::strcmp(any.to<const char*>(), value) == 0);
     }
 
@@ -276,7 +284,7 @@ TEST(AnyType, to)
         std::string value{"AFDFDJSFksdkfdkjskjfdskfdkskfdksHello"};
 
         AnyType any{value};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(any.to<std::string>(), value);
     }
 
@@ -285,7 +293,7 @@ TEST(AnyType, to)
         auto value{&data};
 
         AnyType any{value};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(any.to<int*>(), value);
     }
 
@@ -293,7 +301,7 @@ TEST(AnyType, to)
         int value[]{1, 2, 3};
 
         AnyType any{value};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(any.to<int*>(), value);
     }
 
@@ -302,7 +310,7 @@ TEST(AnyType, to)
         std::string copy{"AFDFDJSFksdkfdkjskjfdskfdkskfdksHello"};
 
         AnyType any{std::move(value)};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(any.to<std::string>(), copy);
     }
 
@@ -310,7 +318,7 @@ TEST(AnyType, to)
         int value[]{1, 2, 3};
     
         AnyType any{value};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(any.to<int*>(), value);
     } 
 
@@ -318,7 +326,7 @@ TEST(AnyType, to)
         Data data{1, 5.0f, 10};  
         AnyType any{data};
         auto[x, y, z]{any.to<Data>()};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(data.x, x);
         EXPECT_EQ(data.y, y);
         EXPECT_EQ(data.z, z);
@@ -329,7 +337,7 @@ TEST(AnyType, to)
         Data copy{1, 5.0f, 10};  
         AnyType any{std::move(data)};
         auto[x, y, z]{any.to<Data>()};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(copy.x, x);
         EXPECT_EQ(copy.y, y);
         EXPECT_EQ(copy.z, z);
@@ -342,7 +350,7 @@ TEST(AnyType, to)
 
         auto valFirst{any.to<Data>()};
         auto valSecond{copy.to<Data>()};
-        EXPECT_THROW(any.to<char*>(), AnyToError);
+        EXPECT_THROW(any.to<char*>(), AnyTypeToError);
         EXPECT_EQ(valFirst.x, valSecond.x);
         EXPECT_EQ(valFirst.y, valSecond.y);
         EXPECT_EQ(valFirst.z, valSecond.z);
@@ -354,7 +362,7 @@ TEST(AnyType, to)
         AnyType copy{std::move(any)};
 
         auto valSecond{copy.to<Data>()};
-        EXPECT_THROW(copy.to<char*>(), AnyToError);
+        EXPECT_THROW(copy.to<char*>(), AnyTypeToError);
         EXPECT_EQ(data.x, valSecond.x);
         EXPECT_EQ(data.y, valSecond.y);
         EXPECT_EQ(data.z, valSecond.z);

@@ -1,1 +1,0 @@
-#include "variant_type.hpp"

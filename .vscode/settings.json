@@ -1,5 +1,21 @@
 {
     "files.associations": {
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "optional": "cpp",
+        "ostream": "cpp",
+        "stop_token": "cpp",
+        "system_error": "cpp",
+        "valarray": "cpp",
+        "variant": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xmemory": "cpp",
+        "xtree": "cpp"
     }
 }
