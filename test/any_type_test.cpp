@@ -91,7 +91,7 @@ TEST(AnyType, constructors)
     };
 
     {
-        Data data{1, 1.0f, 10};  
+        Data data{1, 5.0f, 10};  
         EXPECT_NO_THROW(AnyType{data});
         AnyType any{data};
         auto[x, y, z]{any.to<Data>()};
@@ -101,8 +101,8 @@ TEST(AnyType, constructors)
     }
 
     {
-        Data data{1, 1.0f, 10};  
-        Data copy{1, 1.0f, 10};  
+        Data data{1, 5.0f, 10};  
+        Data copy{1, 5.0f, 10};  
         EXPECT_NO_THROW(AnyType{data});
         AnyType any{std::move(data)};
         auto[x, y, z]{any.to<Data>()};
@@ -112,7 +112,7 @@ TEST(AnyType, constructors)
     }
 
     {
-        Data data{1, 1.0f, 10};  
+        Data data{1, 5.0f, 10};  
         EXPECT_NO_THROW(AnyType{data});
         AnyType any{data};
         EXPECT_NO_THROW(AnyType{any});
@@ -126,7 +126,7 @@ TEST(AnyType, constructors)
     }
 
     {
-        Data data{1, 1.0f, 10};  
+        Data data{1, 5.0f, 10};  
         EXPECT_NO_THROW(AnyType{data});
         AnyType any{data};
         EXPECT_NO_THROW(AnyType{any});
@@ -136,6 +136,11 @@ TEST(AnyType, constructors)
         EXPECT_EQ(data.x, valSecond.x);
         EXPECT_EQ(data.y, valSecond.y);
         EXPECT_EQ(data.z, valSecond.z);
+    }
+
+    {
+        AnyType any{};
+        any.~AnyType();
     }
 }
 
