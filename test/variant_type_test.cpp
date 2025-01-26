@@ -115,3 +115,46 @@ TEST(VariantTypeTest, to_except)
     type = true;
     EXPECT_EQ(true, type.to<bool>());
 }
+
+TEST(VariantTypeTest, try_to_has_type)
+{
+    VariantType<int*, bool, char, int> type{10};
+    EXPECT_TRUE(type.try_to<int>().has_value());
+    type = true;
+    EXPECT_EQ(true, type.try_to<bool>().value());
+}
+
+TEST(VariantTypeTest, try_to_has_type_false)
+{
+    VariantType<int*, bool, char, int> type{10};
+    EXPECT_FALSE(type.try_to<bool>().has_value());
+    type = true;
+    EXPECT_EQ(true, type.try_to<bool>().value());
+}
+
+TEST(VariantTypeTest, has_value_false)
+{
+    VariantType<int*, bool, char, int> type{};
+    EXPECT_FALSE(type.has_value());
+}
+
+TEST(VariantTypeTest, has_value_true)
+{
+    VariantType<int*, bool, char, int> type{true};
+    EXPECT_TRUE(type.has_value());
+}
+
+TEST(VariantTypeTest, type)
+{
+    VariantType<int*, bool, char, int, const char*> type{"Hello"};
+    EXPECT_EQ(typeid(const char*), type.type());
+}
+
+TEST(VariantTypeTest, reset)
+{
+    VariantType<int*, bool, char, int, const char*> type{"Hello"};
+    EXPECT_STREQ("Hello", type.to<const char*>());
+    type.reset();
+    EXPECT_THROW(type.to<const char*>(), VariantTypeToError);
+    EXPECT_FALSE(type.has_value());
+}

@@ -35,21 +35,26 @@ public:
 
     template<typename T>
     std::optional<T> try_to();
-
     const std::type_info& type() const noexcept;
     bool has_value() const noexcept;
     void reset() noexcept;
 private:
-    static constexpr std::size_t size{MaxSize<sizeof(Types)...>::size};
-    static constexpr std::size_t align{MaxSize<alignof(Types)...>::size};
-
     using HelperType = VariantHelper<Types...>;
+
+    constexpr static std::size_t size{MaxSize<sizeof(Types)...>::size};
+    constexpr static std::size_t align{MaxSize<alignof(Types)...>::size};
 
     static constexpr const std::type_info* invalid_type();
 
     const std::type_info* type_;
     alignas(align) std::byte data_[size];
 };
+
+template<typename... Types>
+void swap(VariantType<Types...>& first, VariantType<Types...>& second)
+{
+    first.swap(second);
+}
 
 template<typename... Types>
 VariantType<Types...>::VariantType()
@@ -62,10 +67,12 @@ template<typename T>
 VariantType<Types...>::VariantType(const T& value)
     : type_{invalid_type()}
 {
-    static_assert(HelperType::has_type(typeid(T)));
+    using TransformedType = std::remove_cv_t<std::decay_t<const T>>;
+
+    static_assert(HelperType::has_type(typeid(TransformedType)));
     HelperType::destroy(type(), &data_);      
-    new (&data_) std::remove_cv_t<std::decay_t<const T>>(value);
-    type_ = &typeid(T);
+    new (&data_) TransformedType(value);
+    type_ = &typeid(TransformedType);
 }
 
 template<typename... Types>
@@ -73,10 +80,12 @@ template<typename T>
 VariantType<Types...>::VariantType(T&& value, std::enable_if_t<!std::is_same_v<VariantType&, T>>*)
     : type_{invalid_type()}
 {
-    static_assert(HelperType::has_type(typeid(T)));
+    using TransformedType = std::decay_t<T>;
+
+    static_assert(HelperType::has_type(typeid(TransformedType)));
     HelperType::destroy(type(), &data_);
-    new (&data_) std::decay_t<T>(std::forward<T>(value));
-    type_ = &typeid(T);
+    new (&data_) TransformedType(std::forward<T>(value));
+    type_ = &typeid(TransformedType);
 }
 
 template<typename... Types>
