@@ -11,7 +11,7 @@ struct Data
     double z;
 };
 
-TEST(AnyType, constructors)
+TEST(AnyTypeTest, constructors)
 {
     {
         auto value{true};
@@ -145,7 +145,7 @@ TEST(AnyType, constructors)
     }
 }
 
-TEST(AnyType, swap)
+TEST(AnyTypeTest, swap)
 {
     {
         Data data{1, 5.0f, 10};  
@@ -183,7 +183,7 @@ TEST(AnyType, swap)
     }
 }
 
-TEST(AnyType, assignment)
+TEST(AnyTypeTest, assignment)
 {
     {
         int a{21};
@@ -224,7 +224,7 @@ TEST(AnyType, assignment)
     }
 }
 
-TEST(AnyType, has_value)
+TEST(AnyTypeTest, has_value)
 {
     AnyType any{};
     EXPECT_FALSE(any.has_value());
@@ -234,7 +234,7 @@ TEST(AnyType, has_value)
     EXPECT_FALSE(any.has_value());
 }
 
-TEST(AnyType, reset)
+TEST(AnyTypeTest, reset)
 {
     AnyType any{};
     any = 2.34554;
@@ -243,7 +243,7 @@ TEST(AnyType, reset)
     EXPECT_FALSE(any.has_value());
 }
 
-TEST(AnyType, to)
+TEST(AnyTypeTest, to)
 {
     {
         auto value{true};
@@ -369,7 +369,7 @@ TEST(AnyType, to)
     }
 }
 
-TEST(AnyType, try_to)
+TEST(AnyTypeTest, try_to)
 {
     {
         auto value{true};

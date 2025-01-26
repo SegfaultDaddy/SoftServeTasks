@@ -66,7 +66,7 @@ AnyType& AnyType::operator=(T&& value)
 }
 
 template<BannedType T>
-T AnyType::to() 
+T AnyType::to()
 {
     if(type() == typeid(T))
     {

@@ -19,13 +19,13 @@ public:
 	VariantType(const T& value);
 
     template<typename T>
-	VariantType(T&& value, std::enable_if_t<!std::is_same_v<VariantType<Types...>&, T>>* = 0);
-    VariantType(const VariantType<Types...>& other);
-    VariantType(VariantType<Types...>&& other);
+	VariantType(T&& value, std::enable_if_t<!std::is_same_v<VariantType&, T>>* = 0);
+    VariantType(const VariantType& other);
+    VariantType(VariantType&& other);
     ~VariantType();
-    VariantType<Types...>& swap(VariantType<Types...>& other);
-	VariantType<Types...>& operator=(const VariantType<Types...>& other);
-	VariantType<Types...>& operator=(VariantType<Types...>&& other);
+    VariantType& swap(VariantType& other);
+	VariantType& operator=(const VariantType& other);
+	VariantType& operator=(VariantType&& other);
 
     template<typename T>
 	VariantType<Types...>& operator=(T&& value);
@@ -60,45 +60,48 @@ VariantType<Types...>::VariantType()
 template<typename... Types>
 template<typename T>
 VariantType<Types...>::VariantType(const T& value)
+    : type_{invalid_type()}
 {
-    static_assert(HelperType::has_type(T));
-    HelperType::destroy(type(), &data);      
-    new (&data_) T(value);
+    static_assert(HelperType::has_type(typeid(T)));
+    HelperType::destroy(type(), &data_);      
+    new (&data_) std::remove_cv_t<std::decay_t<const T>>(value);
     type_ = &typeid(T);
 }
 
 template<typename... Types>
 template<typename T>
-VariantType<Types...>::VariantType(T&& value, std::enable_if_t<!std::is_same_v<VariantType<Types...>&, T>>*)
+VariantType<Types...>::VariantType(T&& value, std::enable_if_t<!std::is_same_v<VariantType&, T>>*)
+    : type_{invalid_type()}
 {
-    static_assert(HelperType::has_type(T));
-    HelperType::destroy(type(), &data);
-    new (&data_) T(std::forward(value));
+    static_assert(HelperType::has_type(typeid(T)));
+    HelperType::destroy(type(), &data_);
+    new (&data_) std::decay_t<T>(std::forward<T>(value));
     type_ = &typeid(T);
 }
 
 template<typename... Types>
-VariantType<Types...>::VariantType(const VariantType<Types...>& other)
+VariantType<Types...>::VariantType(const VariantType& other)
     : type_{other.type_}
 {
     HelperType::copy(type(), &other.data_, &data_);
 }
 
 template<typename... Types>
-VariantType<Types...>::VariantType(VariantType<Types...>&& other)
+VariantType<Types...>::VariantType(VariantType&& other)
     : type_{other.type_}
 {
     HelperType::move(type(), &other.data_, &data_);
+    other.type_ = invalid_type();
 }
 
 template<typename... Types>
 VariantType<Types...>::~VariantType()
 {
-    HelperType::destroy(type(), &data_);
+    reset();
 }
 
 template<typename... Types>
-VariantType<Types...>& VariantType<Types...>::swap(VariantType<Types...>& other)
+VariantType<Types...>& VariantType<Types...>::swap(VariantType& other)
 {
     std::swap(type_, other.type_);
     std::swap(data_, other.data_);
@@ -106,14 +109,14 @@ VariantType<Types...>& VariantType<Types...>::swap(VariantType<Types...>& other)
 }
 
 template<typename... Types>
-VariantType<Types...>& VariantType<Types...>::operator=(const VariantType<Types...>& other)
+VariantType<Types...>& VariantType<Types...>::operator=(const VariantType& other)
 {
     VariantType{other}.swap(*this);
     return *this;
 }
 
 template<typename... Types>
-VariantType<Types...>& VariantType<Types...>::operator=(VariantType<Types...>&& other)
+VariantType<Types...>& VariantType<Types...>::operator=(VariantType&& other)
 {
     other.swap(*this);
     VariantType{}.swap(other);
@@ -134,10 +137,10 @@ T VariantType<Types...>::to()
 {
     if(type() == typeid(T))
     {
-        return *reinterpret_cast<T*>(&data);
+        return *reinterpret_cast<T*>(&data_);
     }
 
-    throw VariantTypeToError{"Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name()};
+    throw VariantTypeToError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
     return {};
 }
 
@@ -147,7 +150,7 @@ std::optional<T> VariantType<Types...>::try_to()
 {
     if(type() == typeid(T))
     {
-        return *reinterpret_cast<T*>(&data);
+        return *reinterpret_cast<T*>(&data_);
     }
 
     return {};

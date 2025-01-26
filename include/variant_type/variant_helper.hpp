@@ -9,23 +9,23 @@ struct VariantHelper;
 template<typename T, typename... Types>
 struct VariantHelper<T, Types...>
 {
-    static void copy(const std::type_info& prevType, void* prevData, void* nextData);
+    static void copy(const std::type_info& prevType, const void* prevData, void* nextData);
     static void move(const std::type_info& prevType, void* prevData, void* nextData);
     static void destroy(const std::type_info& type, void* data);
-    static bool has_type(const std::type_info& type);
+    constexpr static bool has_type(const std::type_info& type);
 };
 
 template<>
 struct VariantHelper<>
 {
-    static void copy(const std::type_info& prevType, void* prevData, void* nextData){}
+    static void copy(const std::type_info& prevType, const void* prevData, void* nextData){}
     static void move(const std::type_info& prevType, void* prevData, void* nextData){}
     static void destroy(const std::type_info& type, void* data){}
-    static bool has_type(const std::type_info& type){return false;}
+    constexpr static bool has_type(const std::type_info& type){return false;}
 };
 
 template<typename T, typename... Types>
-void VariantHelper<T, Types...>::copy(const std::type_info& prevType, void* prevData, void* nextData)
+void VariantHelper<T, Types...>::copy(const std::type_info& prevType, const void* prevData, void* nextData)
 {
     if(prevType == typeid(T))
     {
@@ -64,7 +64,7 @@ void VariantHelper<T, Types...>::destroy(const std::type_info& type, void* data)
 }
 
 template<typename T, typename... Types>
-bool VariantHelper<T, Types...>::has_type(const std::type_info& type)
+constexpr bool VariantHelper<T, Types...>::has_type(const std::type_info& type)
 {
     if(type == typeid(T))
     {

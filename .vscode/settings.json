@@ -16,6 +16,11 @@
         "vector": "cpp",
         "xhash": "cpp",
         "xmemory": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "algorithm": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "ranges": "cpp",
+        "type_traits": "cpp"
     }
 }
