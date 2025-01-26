@@ -205,7 +205,7 @@ TEST(StringList, remove)
     EXPECT_NO_THROW(remove(list, "Hi"));
     EXPECT_EQ(size(list), 6);
     EXPECT_DEATH(index_of(list, "Hi", true), "Failed to find specified string in list");
-    EXPECT_NO_THROW(remove(list, "Good evening", true));
+    EXPECT_NO_THROW(remove(list, "Good evening", false));
     EXPECT_EQ(size(list), 5);
     EXPECT_EQ(index_of(list, "Good evening"), 1);
     EXPECT_NO_THROW(remove(list, "Hello"));

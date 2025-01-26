@@ -26,7 +26,7 @@ namespace string_list
             return node;
         }
 
-        void remove(List list, ListNode start, const char* str, const bool firstOccurence)
+        void remove(List list, ListNode start, const char* str, const bool removeAll)
         {
             auto current{start};
             while(current != nullptr)
@@ -35,29 +35,29 @@ namespace string_list
                 if(std::strcmp(value(current), str) == 0)
                 {
                     auto prev{implementation::prev(current)};
-                    auto conditionSatisfied{true};
+                    auto innerNode{true};
 
-                    if(next == nullptr) [[unlikely]]
-                    {
-                        set_tail(list, prev);
-                        if(prev != nullptr)
-                        {
-                            set_next(prev, nullptr);
-                        }
-                        conditionSatisfied = false;
-                    }
-                    
-                    if(prev == nullptr) [[unlikely]]
+                    if(prev == nullptr)
                     {
                         set_head(list, next);
                         if(next != nullptr)
                         {
                             set_prev(next, nullptr);
                         }
-                        conditionSatisfied = false;
+                        innerNode = false;
                     }
 
-                    if(conditionSatisfied)
+                    if(next == nullptr)
+                    {
+                        set_tail(list, prev);
+                        if(prev != nullptr)
+                        {
+                            set_next(prev, nullptr);
+                        }
+                        innerNode = false;
+                    }
+
+                    if(innerNode)
                     {
                         set_next(prev, next);
                         set_prev(next, prev);
@@ -66,7 +66,7 @@ namespace string_list
                     std::free(value(current));
                     std::free(current);
 
-                    if(firstOccurence)
+                    if(!removeAll)
                     {
                         return;
                     }
@@ -176,18 +176,18 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto next{create_node(str)};
+        auto node{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
-            set_head(list, next);
-            set_tail(list, next);
+            set_head(list, node);
+            set_tail(list, node);
         }
         else
         {
             auto tail{implementation::tail(list)};
-            set_next(tail, next);
-            set_prev(next, tail);
-            set_tail(list, next);
+            set_next(tail, node);
+            set_prev(node, tail);
+            set_tail(list, node);
         }
     }
 
@@ -195,18 +195,18 @@ namespace string_list
     {
         using namespace implementation;
 
-        auto prev{create_node(str)};
+        auto node{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
-            set_head(list, prev);
-            set_tail(list, prev);
+            set_head(list, node);
+            set_tail(list, node);
         }
         else
         {
             auto head{implementation::head(list)};
-            set_head(list, prev);
-            set_next(prev, head);
-            set_prev(head, prev);
+            set_head(list, node);
+            set_next(node, head);
+            set_prev(head, node);
         }
     }
 
@@ -264,11 +264,11 @@ namespace string_list
         std::free(head);
     }
 
-    void remove(List list, const char* str, const bool firstOccurence)
+    void remove(List list, const char* str, const bool removeAll)
     {
         using namespace implementation;
 
-        remove(list, head(list), str, firstOccurence);
+        remove(list, head(list), str, removeAll);
     }
 
     void unique(List list)
@@ -279,12 +279,12 @@ namespace string_list
         while(current != nullptr)
         {
             auto next{implementation::next(current)};
-            remove(list, next, value(current), false);
+            remove(list, next, value(current), true);
             current = implementation::next(current);
         }       
     }
 
-    void replace(List list, const char* src, const char* dest, const bool firstOccurence)
+    void replace(List list, const char* src, const char* dest, const bool removeAll)
     {
         using namespace implementation;
 
@@ -298,7 +298,7 @@ namespace string_list
                 strcpy_s(allocated, size * sizeof(char), dest);
                 set_value(current, allocated);
 
-                if(firstOccurence)
+                if(!removeAll)
                 {
                     return;
                 }
