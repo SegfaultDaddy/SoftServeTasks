@@ -29,30 +29,19 @@ namespace file_reader
 
     std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions)
     {
-        std::queue<std::filesystem::path> directories{};
-        directories.push(startDirectory);
         std::vector<std::filesystem::path> files{};
-        while(!directories.empty())
+        for(const auto& entry : std::filesystem::recursive_directory_iterator{startDirectory})
         {
-            const auto top{directories.front()};
-            for(const auto& entry : std::filesystem::directory_iterator{top})
+            if(entry.is_regular_file())
             {
-                if(entry.is_regular_file())
+                auto extension{entry.path().extension().string()};
+                if(std::any_of(std::begin(extensions), std::end(extensions), 
+                                [&](const auto& elem){
+                                return elem == extension;}))
                 {
-                    auto extension{entry.path().extension().string()};
-                    if(std::any_of(std::begin(extensions), std::end(extensions), 
-                                   [&](const auto& elem){
-                                    return elem == extension;}))
-                    {
-                        files.push_back(entry.path());
-                    }
-                }
-                else if(entry.is_directory())
-                {
-                    directories.push(entry.path());
+                    files.push_back(entry.path());
                 }
             }
-            directories.pop();
         }
         return files;
     }

@@ -8,24 +8,29 @@ void Counter::count_line_types(const std::vector<std::string>& data)
     }
 }
 
-const Counter::LineType& Counter::counted_lines() const noexcept
+const LineType& Counter::counted_lines() const noexcept
 {
     return countedLines_;
 }
 
 void Counter::process_line(const std::string& line)
 {
-    ++countedLines_.any;
+    countedLines_.any += 1;
     if(line.empty())
     {
-        ++countedLines_.blank;
+        countedLines_.blank += 1;
     }
-    else if(line.contains("//"))
+    else if(is_comment(line))
     {
-        ++countedLines_.comment;
+        countedLines_.comment += 1;
     }
     else
     {
-        ++countedLines_.code;
+        countedLines_.code += 1;
     }
+}
+
+bool Counter::is_comment(const std::string& line)
+{
+    return line.contains("//");
 }

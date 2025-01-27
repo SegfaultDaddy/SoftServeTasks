@@ -1,0 +1,1 @@
+target_sources(task3 PRIVATE main.cpp)
