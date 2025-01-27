@@ -1,4 +1,4 @@
-﻿{
+{
     "version": 3,
     "configurePresets": [
         {
@@ -50,13 +50,13 @@
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
-      {
-        "name": "x86-release",
-        "displayName": "x86 Release",
-        "inherits": "x86-debug",
-        "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Release"
+        {
+            "name": "x86-release",
+            "displayName": "x86 Release",
+            "inherits": "x86-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
         }
-      }
     ]
 }
