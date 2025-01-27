@@ -38,7 +38,7 @@ void first_method(const std::vector<std::filesystem::path>& files, Counter& coun
 
 int main(int argc, char** argv)
 {
-    const std::filesystem::path doomPath{"D:/SoftServe/TestTasks/Doom"};
+    const std::filesystem::path doomPath{"D:/SoftServe/Doom"};
     Counter concurrentCounter{};
     const auto start{std::chrono::steady_clock::now()};
 
