@@ -21,6 +21,7 @@
         "chrono": "cpp",
         "random": "cpp",
         "ranges": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "cstddef": "cpp"
     }
 }

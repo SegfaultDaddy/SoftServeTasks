@@ -75,4 +75,5 @@ constexpr bool VariantHelper<T, Types...>::has_type(const std::type_info& type)
         return VariantHelper<Types...>::has_type(type);
     }
 }
+
 #endif

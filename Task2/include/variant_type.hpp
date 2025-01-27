@@ -41,13 +41,13 @@ public:
 private:
     using HelperType = VariantHelper<Types...>;
 
-    constexpr static std::size_t size{MaxSize<sizeof(Types)...>::size};
-    constexpr static std::size_t align{MaxSize<alignof(Types)...>::size};
+    constexpr static std::size_t size_{MaxSize<sizeof(Types)...>::size};
+    constexpr static std::size_t align_{MaxSize<alignof(Types)...>::size};
 
     static constexpr const std::type_info* invalid_type();
 
     const std::type_info* type_;
-    alignas(align) std::byte data_[size];
+    alignas(align_) std::byte data_[size_];
 };
 
 template<typename... Types>
@@ -136,7 +136,7 @@ template<typename... Types>
 template<typename T>
 VariantType<Types...>& VariantType<Types...>::operator=(T&& value)
 {
-    VariantType<Types...>{std::forward<T>(value)}.swap(*this);
+    VariantType{std::forward<T>(value)}.swap(*this);
     return *this;
 }
 

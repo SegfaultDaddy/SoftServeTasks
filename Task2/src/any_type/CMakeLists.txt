@@ -1,0 +1,1 @@
+target_sources(task2_library PRIVATE any_type.cpp)
