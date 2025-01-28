@@ -214,10 +214,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        if(empty(list))
-        {
-            return;
-        }
+        assert(!empty(list) && "Using pop_back on empty list");
 
         auto tail{implementation::tail(list)};
         auto prev{implementation::prev(tail)};
@@ -241,10 +238,7 @@ namespace string_list
     {
         using namespace implementation;
 
-        if(empty(list))
-        {
-            return;
-        }
+        assert(!empty(list) && "Using pop_front on empty list");
 
         auto head{implementation::head(list)};
         auto next{implementation::next(head)};

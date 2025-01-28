@@ -7,10 +7,10 @@
 #include <stack>
 #include <fstream>
 
-#include "library/timer.hpp"
-#include "library/file_reader.hpp"
+#include "stopwatch.hpp"
+#include "file_reader.hpp"
 
-#include "application/concurrent_reader.hpp"
+#include "concurrent_reader.hpp"
 
 int main(int argc, char** argv)
 {
@@ -27,11 +27,11 @@ int main(int argc, char** argv)
     }
 
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
-    library::Timer timer{};
-    application::ConcurrentReader reader{};
+    Stopwatch timer{};
+    ConcurrentReader reader{};
 
     timer.set_start();
-    auto files{library::file_reader::find_all_files_with_extensions(argv[1], extensions)};
+    auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     timer.set_finish();
     const auto filesFoundTime{timer.time()};
 
@@ -41,10 +41,10 @@ int main(int argc, char** argv)
     const auto filesProcessedTime{timer.time()};
 
     timer.set_start();
-    library::Counter counter{};
+    Counter counter{};
     for(const auto& file : files)
     {
-        counter.count_line_types(library::file_reader::read_file_by_line(file));
+        counter.count_line_types(file_reader::read_file_by_line(file));
     }
     timer.set_finish();
     const auto filesProcessedSingleCore{timer.time()};

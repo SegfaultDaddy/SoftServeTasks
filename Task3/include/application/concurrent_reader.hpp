@@ -4,21 +4,18 @@
 #include <filesystem>
 #include <functional>
 
-#include "library/vector_chunk.hpp"
-#include "library/counter.hpp"
+#include "vector_chunk.hpp"
+#include "counter.hpp"
 
-namespace application
+class ConcurrentReader
 {
-    class ConcurrentReader
-    {
-    public:
-        const library::LineType& process_files_asynchronously(const std::vector<std::filesystem::path>& files);
-        void reset() noexcept;
-    private:
-        void read_file(const library::VectorChunk<std::filesystem::path>& chunk);
+public:
+    const LineType& process_files_asynchronously(const std::vector<std::filesystem::path>& files);
+    void reset() noexcept;
+private:
+    void read_file(const VectorChunk<std::filesystem::path>& chunk);
 
-        library::Counter counter_;   
-    };
-}
+    Counter counter_;   
+};
 
 #endif

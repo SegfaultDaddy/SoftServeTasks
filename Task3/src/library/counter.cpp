@@ -1,72 +1,69 @@
 #include <print>
 
-#include "./library/counter.hpp"
+#include "counter.hpp"
 
-namespace library
+void Counter::count_line_types(const std::vector<std::string>& data)
 {
-    void Counter::count_line_types(const std::vector<std::string>& data)
+    bool multiLineComment{false};
+    for(const auto& line : data)
     {
-        bool multiLineCommentApproached{false};
-        for(const auto& line : data)
-        {
-            process_line(line, multiLineCommentApproached);
-        }
+        process_line(line, multiLineComment);
     }
+}
 
-    const LineType& Counter::counted_lines() const noexcept
+const LineType& Counter::counted_lines() const noexcept
+{
+    return countedLines_;
+}
+
+void Counter::process_line(const std::string& line, bool& multiLineComment)
+{
+    countedLines_.any += 1;
+    if(line.empty())
     {
-        return countedLines_;
+        countedLines_.blank += 1;
     }
-
-    void Counter::process_line(const std::string& line, bool& multiLineCommentApproached)
+    else if(is_comment(line, multiLineComment))
     {
-        countedLines_.any += 1;
-        if(line.empty())
+        countedLines_.comment += 1;
+    }
+    else
+    {
+        countedLines_.code += 1;
+    }
+}
+
+bool Counter::is_comment(const std::string& line, bool& multiLineComment)
+{
+    auto start{line.find_first_of("/*")};
+    auto end{line.find_first_of("*/")};
+    if(multiLineComment)
+    {
+        if(end != std::string::npos)
         {
-            countedLines_.blank += 1;
+            multiLineComment = false;
         }
-        else if(is_comment(line, multiLineCommentApproached))
+        return true;
+    }
+    else if(start != std::string::npos)
+    {
+        if(end != std::string::npos && end > start + 1)
         {
-            countedLines_.comment += 1;
+            multiLineComment = false;
         }
         else
         {
-            countedLines_.code += 1;
+            multiLineComment = true;
         }
+        return true;
     }
+    return line.contains("//");
+}
 
-    bool Counter::is_comment(const std::string& line, bool& multiLineCommentApproached)
-    {
-        auto start{line.find_first_of("/*")};
-        auto end{line.find_first_of("*/")};
-        if(multiLineCommentApproached)
-        {
-            if(end != std::string::npos)
-            {
-                multiLineCommentApproached = false;
-            }
-            return true;
-        }
-        else if(start != std::string::npos)
-        {
-            if(end != std::string::npos && end > start + 1)
-            {
-                multiLineCommentApproached = false;
-            }
-            else
-            {
-                multiLineCommentApproached = true;
-            }
-            return true;
-        }
-        return line.contains("//");
-    }
-
-    void Counter::reset() noexcept
-    {
-        countedLines_.any = 0;
-        countedLines_.blank = 0;
-        countedLines_.code = 0;
-        countedLines_.comment = 0;
-    }
+void Counter::reset() noexcept
+{
+    countedLines_.any = 0;
+    countedLines_.blank = 0;
+    countedLines_.code = 0;
+    countedLines_.comment = 0;
 }
