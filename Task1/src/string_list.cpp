@@ -140,9 +140,7 @@ namespace string_list
             counter += 1;
             current = next(current);
         }
-
         assert(!showError && "Failed to find specified string in list");
-
         return counter;
     }
 
@@ -159,6 +157,7 @@ namespace string_list
     void destroy(List* list)
     {
         using namespace implementation;
+
         assert((list != nullptr) && "Provide viable address not nullptr");
         auto head{implementation::head(*list)};
         while(head != nullptr)

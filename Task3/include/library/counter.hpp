@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <atomic>
 
 #include "line_type.hpp"
 

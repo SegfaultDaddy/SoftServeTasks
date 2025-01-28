@@ -72,7 +72,6 @@ T AnyType::to()
     {
         return static_cast<Holder<T>*>(data_)->value;
     }
-
     throw AnyTypeToError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
     return {};
 }
@@ -84,7 +83,6 @@ std::optional<T> AnyType::try_to()
     {
         return static_cast<Holder<T>*>(data_)->value;
     }
-
     return std::nullopt;
 }
 

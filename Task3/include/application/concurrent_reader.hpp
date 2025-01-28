@@ -13,7 +13,7 @@ public:
     LineType<std::uint64_t> process_files_asynchronously(const std::vector<std::filesystem::path>& files);
     void reset() noexcept;
 private:
-    void read_file(const VectorChunk<std::filesystem::path>& chunk);
+    void read_and_process_file(const VectorChunk<std::filesystem::path>& chunk);
 
     Counter counter_;   
 };

@@ -1,8 +1,6 @@
 #ifndef LINE_TYPE_HPP
 #define LINE_TYPE_HPP
 
-#include <atomic>
-
 template<typename T>
 struct LineType
 {

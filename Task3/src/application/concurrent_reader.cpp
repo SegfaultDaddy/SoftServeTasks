@@ -12,7 +12,7 @@ LineType<std::uint64_t> ConcurrentReader::process_files_asynchronously(const std
     auto chunks{split(files, size)};
     for(const auto& chunk : chunks)
     {
-        futures.push_back(std::async(std::launch::async, &ConcurrentReader::read_file, this, chunk));
+        futures.push_back(std::async(std::launch::async, &ConcurrentReader::read_and_process_file, this, chunk));
     }
     for(const auto& future : futures)
     {
@@ -26,7 +26,7 @@ void ConcurrentReader::reset() noexcept
     counter_.reset();
 }
 
-void ConcurrentReader::read_file(const VectorChunk<std::filesystem::path>& chunk)
+void ConcurrentReader::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
 {
     for(auto i{chunk.begin}; i != chunk.end; ++i)
     {

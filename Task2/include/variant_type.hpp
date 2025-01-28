@@ -148,7 +148,6 @@ T VariantType<Types...>::to()
     {
         return *reinterpret_cast<T*>(&data_);
     }
-
     throw VariantTypeToError{std::format("Wrong type provided Contained: {} Provided: {}", type().name(), typeid(T).name())};
     return {};
 }
@@ -161,7 +160,6 @@ std::optional<T> VariantType<Types...>::try_to()
     {
         return *reinterpret_cast<T*>(&data_);
     }
-
     return {};
 }
 
