@@ -5,11 +5,14 @@
 #include <vector>
 #include <string>
 
-namespace file_reader
+namespace library
 {
-    std::vector<std::string> read_file_by_line(const std::filesystem::path& path);
-    std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, 
-                                                                      const std::vector<std::string_view>& extensions);
+    namespace file_reader
+    {
+        std::vector<std::string> read_file_by_line(const std::filesystem::path& path);
+        std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, 
+                                                                        const std::vector<std::string_view>& extensions);
+    }
 }
 
 #endif

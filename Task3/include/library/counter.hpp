@@ -6,16 +6,20 @@
 
 #include "line_type.hpp"
 
-class Counter
+namespace library
 {
-public:
-    void count_line_types(const std::vector<std::string>& data);
-    const LineType& counted_lines() const noexcept;
-private:
-    bool is_comment(const std::string& line);
-    void process_line(const std::string& line);
+    class Counter
+    {
+    public:
+        void count_line_types(const std::vector<std::string>& data);
+        const LineType& counted_lines() const noexcept;
+        void reset() noexcept;
+    private:
+        bool is_comment(const std::string& line, bool& multilineCommentApproached);
+        void process_line(const std::string& line, bool& multiLineCommentApproached);
 
-    LineType countedLines_;
-};
+        LineType countedLines_;
+    };   
+}
 
 #endif

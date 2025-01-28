@@ -7,57 +7,65 @@
 #include <stack>
 #include <fstream>
 
-#include "file_reader.hpp"
-#include "vector_chunk.hpp"
-#include "counter.hpp" 
+#include "library/timer.hpp"
+#include "library/file_reader.hpp"
 
-void read_file(const VectorChunk<std::filesystem::path>& chunk, Counter* counter)
-{
-    for(auto i{chunk.begin}; i != chunk.end; ++i)
-    {
-        counter->count_line_types(file_reader::read_file_by_line(*i));
-    }
-}
-
-void first_method(const std::vector<std::filesystem::path>& files, Counter& counter)
-{
-    const auto size{std::thread::hardware_concurrency()};
-    std::vector<std::future<void>> futures{};
-
-    auto chunks{split(files, size)};
-    for(const auto& chunk : chunks)
-    {
-        futures.push_back(std::async(std::launch::async, &read_file, chunk, &counter));
-    }
-
-    for(const auto& future : futures)
-    {
-        future.wait();
-    }
-}
+#include "application/concurrent_reader.hpp"
 
 int main(int argc, char** argv)
 {
-    const std::filesystem::path doomPath{"D:/SoftServe/Doom"};
-    Counter concurrentCounter{};
-    const auto start{std::chrono::steady_clock::now()};
+    if(argc < 2)
+    {
+        std::println("Error 0 arguments provided! Provide root directory path of your project");
+        return EXIT_FAILURE;
+    }
 
-    auto files{file_reader::find_all_files_with_extensions(doomPath, {".cpp", ".hpp", ".c", ".h"})};
+    if(!std::filesystem::is_directory(argv[1]))
+    {
+        std::println("Error invalid argument! Provide root directory path of your project");
+        return EXIT_FAILURE;
+    }
 
-    const auto allFilesFound{std::chrono::steady_clock::now()};
+    const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
+    library::Timer timer{};
+    application::ConcurrentReader reader{};
 
-    first_method(files, concurrentCounter);
+    timer.set_start();
+    auto files{library::file_reader::find_all_files_with_extensions(argv[1], extensions)};
+    timer.set_finish();
+    const auto filesFoundTime{timer.time()};
 
-    const auto finish{std::chrono::steady_clock::now()};
+    timer.set_start();
+    const auto& stats{reader.process_files_asynchronously(files)};
+    timer.set_finish();
+    const auto filesProcessedTime{timer.time()};
 
-    std::println("All files found: {}", std::chrono::duration_cast<std::chrono::milliseconds>(allFilesFound - start));
-    std::println("All files processed: {}", std::chrono::duration_cast<std::chrono::milliseconds>(finish - allFilesFound));
-    std::println("All time: {}", std::chrono::duration_cast<std::chrono::milliseconds>(finish - start));
+    timer.set_start();
+    library::Counter counter{};
+    for(const auto& file : files)
+    {
+        counter.count_line_types(library::file_reader::read_file_by_line(file));
+    }
+    timer.set_finish();
+    const auto filesProcessedSingleCore{timer.time()};
+
+    std::println("All files found: {}", filesFoundTime);
+    std::println("All files processed concurrently: {}", filesProcessedTime);
+    std::println("All files processed single core: {}", filesProcessedSingleCore);
+    std::println("All time: {}", filesFoundTime + filesProcessedTime + filesProcessedSingleCore);
 
     std::println();
-    std::println("Files counted concurrently any: {}", concurrentCounter.counted_lines().any.load());
-    std::println("Files counted concurrently blank: {}", concurrentCounter.counted_lines().blank.load());
-    std::println("Files counted concurrently comment: {}", concurrentCounter.counted_lines().comment.load());
-    std::println("Files counted concurrently code: {}", concurrentCounter.counted_lines().code.load());
+    std::println("Total lines: {}", stats.any.load());
+    std::println("Blank lines: {}", stats.blank.load());
+    std::println("Comment lines: {}", stats.comment.load());
+    std::println("Code lines: {}", stats.code.load());
+
+    std::println();
+    const auto& statsSingleCore{counter.counted_lines()};
+    std::println("Total lines: {}", statsSingleCore.any.load());
+    std::println("Blank lines: {}", statsSingleCore.blank.load());
+    std::println("Comment lines: {}", statsSingleCore.comment.load());
+    std::println("Code lines: {}", statsSingleCore.code.load());
+
     return EXIT_SUCCESS;
 }

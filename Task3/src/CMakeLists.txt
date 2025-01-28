@@ -1,6 +1,6 @@
 add_library(task3_library)
 add_subdirectory(library)
-target_include_directories(task3_library PUBLIC ${PROJECT_SOURCE_DIR}/include/library)
+target_include_directories(task3_library PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 add_executable(task3)
 add_subdirectory(application)

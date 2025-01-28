@@ -1,1 +1,1 @@
-target_sources(task3_library PRIVATE counter.cpp file_reader.cpp)
+target_sources(task3_library PRIVATE counter.cpp file_reader.cpp timer.cpp)

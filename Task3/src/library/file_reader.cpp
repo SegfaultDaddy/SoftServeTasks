@@ -1,48 +1,49 @@
 #include <fstream>
-#include <sstream>
-#include <print>
-#include <queue>
+#include <cassert>
 
-#include "file_reader.hpp"
+#include "./library/file_reader.hpp"
 
-namespace file_reader
+namespace library
 {
-    std::vector<std::string> read_file_by_line(const std::filesystem::path& path)
+    namespace file_reader
     {
-        std::vector<std::string> lines{};
-        std::string str{};
-        std::ifstream in{path};
-        if(!in.is_open())
+        std::vector<std::string> read_file_by_line(const std::filesystem::path& path)
         {
+            std::vector<std::string> lines{};
+            std::string str{};
+            std::ifstream in{path};
+            if(!in.is_open())
+            {
+                return lines;
+            }
+            while(std::getline(in, str))
+            {
+                lines.push_back(str);
+            }
+            if(str.empty())
+            {
+                lines.push_back(str);
+            }
             return lines;
         }
-        while(std::getline(in, str))
-        {
-            lines.push_back(str);
-        }
-        if(str.empty())
-        {
-            lines.push_back(str);
-        }
-        return lines;
-    }
 
-    std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions)
-    {
-        std::vector<std::filesystem::path> files{};
-        for(const auto& entry : std::filesystem::recursive_directory_iterator{startDirectory})
+        std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions)
         {
-            if(entry.is_regular_file())
+            std::vector<std::filesystem::path> files{};
+            for(const auto& entry : std::filesystem::recursive_directory_iterator{startDirectory})
             {
-                auto extension{entry.path().extension().string()};
-                if(std::any_of(std::begin(extensions), std::end(extensions), 
-                                [&](const auto& elem){
-                                return elem == extension;}))
+                if(entry.is_regular_file())
                 {
-                    files.push_back(entry.path());
+                    auto extension{entry.path().extension().string()};
+                    if(std::any_of(std::begin(extensions), std::end(extensions), 
+                                    [&](const auto& elem){
+                                    return elem == extension;}))
+                    {
+                        files.push_back(entry.path());
+                    }
                 }
             }
+            return files;
         }
-        return files;
     }
 }
