@@ -16,7 +16,6 @@ LineType<std::uint64_t> Counter::counted_lines() const noexcept
     copy.blank = countedLines_.blank;
     copy.code = countedLines_.code;
     copy.comment = countedLines_.comment;
-
     return copy;
 }
 

@@ -1,28 +1,23 @@
 #include <cstdlib>
 
-#include <ranges>
 #include <print>
 #include <chrono>
-#include <future>
-#include <stack>
-#include <fstream>
 
 #include "stopwatch.hpp"
 #include "file_reader.hpp"
-
 #include "concurrent_reader.hpp"
 
 int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        std::println("Error 0 arguments provided! Provide root directory path of project");
+        std::println("Error 0 arguments provided! Provide project root directory.");
         return EXIT_FAILURE;
     }
 
     if(!std::filesystem::is_directory(argv[1]))
     {
-        std::println("Error invalid argument! Provide root directory path of project");
+        std::println("Error invalid argument! Provide project root directory.");
         return EXIT_FAILURE;
     }
 
@@ -30,7 +25,6 @@ int main(int argc, char** argv)
     Stopwatch timer{};
     ConcurrentReader reader{};
 
-    timer.set_finish();
     timer.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     timer.set_finish();
@@ -67,6 +61,5 @@ int main(int argc, char** argv)
     std::println("Blank lines: {}", statsSingleCore.blank);
     std::println("Comment lines: {}", statsSingleCore.comment);
     std::println("Code lines: {}", statsSingleCore.code);
-
     return EXIT_SUCCESS;
 }
