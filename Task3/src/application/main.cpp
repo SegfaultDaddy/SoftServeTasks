@@ -16,13 +16,13 @@ int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        std::println("Error 0 arguments provided! Provide root directory path of your project");
+        std::println("Error 0 arguments provided! Provide root directory path of project");
         return EXIT_FAILURE;
     }
 
     if(!std::filesystem::is_directory(argv[1]))
     {
-        std::println("Error invalid argument! Provide root directory path of your project");
+        std::println("Error invalid argument! Provide root directory path of project");
         return EXIT_FAILURE;
     }
 
@@ -30,13 +30,14 @@ int main(int argc, char** argv)
     Stopwatch timer{};
     ConcurrentReader reader{};
 
+    timer.set_finish();
     timer.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     timer.set_finish();
     const auto filesFoundTime{timer.time()};
 
     timer.set_start();
-    const auto& stats{reader.process_files_asynchronously(files)};
+    const auto stats{reader.process_files_asynchronously(files)};
     timer.set_finish();
     const auto filesProcessedTime{timer.time()};
 
@@ -55,17 +56,17 @@ int main(int argc, char** argv)
     std::println("All time: {}", filesFoundTime + filesProcessedTime + filesProcessedSingleCore);
 
     std::println();
-    std::println("Total lines: {}", stats.any.load());
-    std::println("Blank lines: {}", stats.blank.load());
-    std::println("Comment lines: {}", stats.comment.load());
-    std::println("Code lines: {}", stats.code.load());
+    std::println("Total lines: {}", stats.any);
+    std::println("Blank lines: {}", stats.blank);
+    std::println("Comment lines: {}", stats.comment);
+    std::println("Code lines: {}", stats.code);
 
     std::println();
-    const auto& statsSingleCore{counter.counted_lines()};
-    std::println("Total lines: {}", statsSingleCore.any.load());
-    std::println("Blank lines: {}", statsSingleCore.blank.load());
-    std::println("Comment lines: {}", statsSingleCore.comment.load());
-    std::println("Code lines: {}", statsSingleCore.code.load());
+    const auto statsSingleCore{counter.counted_lines()};
+    std::println("Total lines: {}", statsSingleCore.any);
+    std::println("Blank lines: {}", statsSingleCore.blank);
+    std::println("Comment lines: {}", statsSingleCore.comment);
+    std::println("Code lines: {}", statsSingleCore.code);
 
     return EXIT_SUCCESS;
 }

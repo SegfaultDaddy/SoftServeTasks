@@ -10,13 +10,13 @@ class Counter
 {
 public:
     void count_line_types(const std::vector<std::string>& data);
-    const LineType& counted_lines() const noexcept;
+    LineType<std::uint64_t> counted_lines() const noexcept;
     void reset() noexcept;
 private:
-    bool is_comment(const std::string& line, bool& multilineCommentApproached);
+    bool is_comment(const std::string& line, bool& multilineCommentApproached) const;
     void process_line(const std::string& line, bool& multiLineCommentApproached);
 
-    LineType countedLines_;
+    LineType<std::atomic_uint64_t> countedLines_;
 };   
 
 #endif

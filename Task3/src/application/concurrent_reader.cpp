@@ -1,4 +1,3 @@
-#include <vector>
 #include <thread>
 #include <future>
 
@@ -6,7 +5,7 @@
 
 #include "concurrent_reader.hpp"
 
-const LineType& ConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
+LineType<std::uint64_t> ConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
 {
     const auto size{std::thread::hardware_concurrency()};
     std::vector<std::future<void>> futures{};

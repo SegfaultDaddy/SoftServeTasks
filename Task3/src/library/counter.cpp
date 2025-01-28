@@ -1,5 +1,3 @@
-#include <print>
-
 #include "counter.hpp"
 
 void Counter::count_line_types(const std::vector<std::string>& data)
@@ -11,9 +9,15 @@ void Counter::count_line_types(const std::vector<std::string>& data)
     }
 }
 
-const LineType& Counter::counted_lines() const noexcept
+LineType<std::uint64_t> Counter::counted_lines() const noexcept
 {
-    return countedLines_;
+    LineType<std::uint64_t> copy{};
+    copy.any = countedLines_.any;
+    copy.blank = countedLines_.blank;
+    copy.code = countedLines_.code;
+    copy.comment = countedLines_.comment;
+
+    return copy;
 }
 
 void Counter::process_line(const std::string& line, bool& multiLineComment)
@@ -33,10 +37,11 @@ void Counter::process_line(const std::string& line, bool& multiLineComment)
     }
 }
 
-bool Counter::is_comment(const std::string& line, bool& multiLineComment)
+bool Counter::is_comment(const std::string& line, bool& multiLineComment) const
 {
-    auto start{line.find_first_of("/*")};
-    auto end{line.find_first_of("*/")};
+    auto start{line.find("/*")};
+    auto end{line.find("*/")};
+    auto singleLine{line.find("//")};
     if(multiLineComment)
     {
         if(end != std::string::npos)
@@ -47,7 +52,11 @@ bool Counter::is_comment(const std::string& line, bool& multiLineComment)
     }
     else if(start != std::string::npos)
     {
-        if(end != std::string::npos && end > start + 1)
+        if(singleLine < start)
+        {
+            return true;
+        }
+        else if(end != std::string::npos && end > start + 1)
         {
             multiLineComment = false;
         }
@@ -57,7 +66,7 @@ bool Counter::is_comment(const std::string& line, bool& multiLineComment)
         }
         return true;
     }
-    return line.contains("//");
+    return singleLine != std::string::npos;
 }
 
 void Counter::reset() noexcept

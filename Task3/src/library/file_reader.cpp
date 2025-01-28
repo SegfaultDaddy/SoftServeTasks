@@ -1,5 +1,4 @@
 #include <fstream>
-#include <cassert>
 
 #include "file_reader.hpp"
 
@@ -32,7 +31,7 @@ namespace file_reader
         {
             if(entry.is_regular_file())
             {
-                auto extension{entry.path().extension().string()};
+                const auto extension{entry.path().extension().string()};
                 if(std::any_of(std::begin(extensions), std::end(extensions), 
                                 [&](const auto& elem){
                                 return elem == extension;}))

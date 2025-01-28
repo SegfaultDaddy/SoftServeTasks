@@ -1,5 +1,3 @@
-#include <cassert>
-
 #include "stopwatch.hpp"
 
 void Stopwatch::set_start()
@@ -10,7 +8,6 @@ void Stopwatch::set_start()
 
 void Stopwatch::set_finish()
 {
-    assert((start_ != std::chrono::steady_clock::time_point{}) && "Start is not initialized");
     finish_ = std::chrono::steady_clock::now();
 }
 
