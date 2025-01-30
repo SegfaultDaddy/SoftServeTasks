@@ -1,3 +1,4 @@
+#include <print>
 #include <ranges>
 
 #include "file_reader.hpp"
@@ -47,8 +48,7 @@ std::vector<Task> ControlledConcurrentReader::tasks() const noexcept
 bool ControlledConcurrentReader::done() const noexcept
 {
     auto currentTasks{tasks()};
-    return std::all_of(std::begin(currentTasks), std::end(currentTasks), 
-                       [](const auto& task){return task.done;});
+    return done(currentTasks);
 }
 
 bool ControlledConcurrentReader::done(const std::vector<Task>& tasks) const noexcept

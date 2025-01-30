@@ -20,6 +20,7 @@ private:
     ftxui::Element to_text(const int number);
     ftxui::Element to_text(const std::uint64_t number);
 
+    std::size_t filesFound_;
     ControlledConcurrentReader reader_;
     std::string resetPosition_;
 };

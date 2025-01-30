@@ -11,7 +11,7 @@ struct VectorChunk
 };
 
 template<typename T>
-std::vector<VectorChunk<T>> split(const std::vector<T>& data, std::size_t parts)
+std::vector<VectorChunk<T>> split(const std::vector<T>& data, const std::size_t parts)
 {
     std::vector<VectorChunk<T>> chunks{};
     if(std::size(data) < parts)
@@ -20,10 +20,10 @@ std::vector<VectorChunk<T>> split(const std::vector<T>& data, std::size_t parts)
         return chunks;
     }
     auto step{std::size(data) / parts};
-    for(std::size_t i{0}; i < std::size(data); i += step) 
+    for(std::size_t i{0}; i < parts; i += 1) 
     {
-        auto begin{std::begin(data) + i};
-        auto end{std::begin(data) + std::min(std::size(data), i + step)};
+        auto begin{std::begin(data) + (i) * step};
+        auto end{std::begin(data) + std::min(std::size(data), (i + 1) * step)};
         chunks.emplace_back(begin, end);
     }
     return chunks;

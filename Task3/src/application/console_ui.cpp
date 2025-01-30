@@ -17,6 +17,7 @@ void ConsoleUI::run(const std::vector<std::filesystem::path>& files)
     Stopwatch stopwatch{};
     stopwatch.set_start();
     reader_.process_files_asynchronously(files);
+    filesFound_ = std::size(files);
     while(true)
     {
         auto tasks{reader_.tasks()};
@@ -59,23 +60,26 @@ ftxui::Element ConsoleUI::render_summary(const LineType<std::uint64_t> stats, co
 {
     using namespace ftxui;
 
-    auto summary = vbox({hbox({text("- Total:   "),
+    auto summary = vbox({hbox({text("- Total files: "),
+                               to_text(filesFound_) | bold,
+                              }) | color(Color::Green),
+                         hbox({text("- Any:         "),
                                to_text(stats.any) | bold,
                               }) | color(Color::Green),
-                         hbox({text("- Blank:   "),
+                         hbox({text("- Blank:       "),
                                to_text(stats.blank) | bold,
                               }) | color(Color::Green),
-                         hbox({text("- Comment: "),
+                         hbox({text("- Comment:     "),
                                to_text(stats.comment) | bold,
                               }) | color(Color::Green),
-                         hbox({text("- Code:    "),
+                         hbox({text("- Code:        "),
                                to_text(stats.code) | bold,
                               }) | color(Color::Green),
-                         hbox({text("- Time:    "),
+                         hbox({text("- Time:        "),
                                text(std::format("{}", time)) | bold,
                               }) | color(Color::Green),
                         });
-    return window(text(" Lines "), summary);
+    return window(text(" Summary "), summary);
 }
 
 ftxui::Element ConsoleUI::render_task(const Task& task)
