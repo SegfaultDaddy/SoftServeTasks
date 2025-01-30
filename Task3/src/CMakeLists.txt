@@ -5,5 +5,4 @@ target_include_directories(task3_library PUBLIC ${PROJECT_SOURCE_DIR}/include/li
 add_executable(task3)
 add_subdirectory(application)
 target_link_libraries(task3 PRIVATE task3_library)
-target_link_libraries(task3 PRIVATE ftxui::dom ftxui::screen ftxui::component)
 target_include_directories(task3 PRIVATE ${PROJECT_SOURCE_DIR}/include/application)

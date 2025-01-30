@@ -24,6 +24,27 @@ namespace file_reader
         return lines;
     }
 
+    void read_file_by_line(const std::filesystem::path& path, Counter& counter)
+    {
+        std::ifstream in{path};
+        if(!in.is_open())
+        {
+            return;
+        }
+        std::vector<std::string> lines{};
+        std::string str{};
+        bool multiLineComment{false};
+        while(std::getline(in, str))
+        {
+            counter.process_line(str, multiLineComment);
+        }
+        if(str.empty())
+        {
+            counter.process_line(str, multiLineComment);
+        }
+        return;
+    }
+
     std::vector<std::filesystem::path> find_all_files_with_extensions(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions)
     {
         std::vector<std::filesystem::path> files{};

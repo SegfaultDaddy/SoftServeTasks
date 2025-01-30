@@ -11,7 +11,7 @@ class CounterTest : public ::testing::Test
 public:
     void SetUp() override
     {
-        counter.count_line_types(data);
+        counter.process_lines(data);
     }
 
     Counter counter{}; 
@@ -31,9 +31,9 @@ const std::vector<std::string> CounterTest::data
     "dsfjkdskfdks",
 };
 
-TEST_F(CounterTest, count_line_types_workds_properly)
+TEST_F(CounterTest, count_line_types_works_properly)
 {
-    const auto stats{counter.counted_lines()};
+    const auto stats{counter.stats()};
     EXPECT_EQ(9, stats.any);
     EXPECT_EQ(1, stats.blank);
     EXPECT_EQ(2, stats.code);
@@ -43,7 +43,7 @@ TEST_F(CounterTest, count_line_types_workds_properly)
 TEST_F(CounterTest, reset)
 {
     counter.reset();
-    const auto& stats{counter.counted_lines()};
+    const auto& stats{counter.stats()};
     EXPECT_EQ(0, stats.any);
     EXPECT_EQ(0, stats.blank);
     EXPECT_EQ(0, stats.code);

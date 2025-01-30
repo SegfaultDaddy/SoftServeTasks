@@ -6,10 +6,12 @@
 class Stopwatch
 {
 public:
+    using TimeType = std::chrono::milliseconds;
+
     void set_start();
     void set_finish();
     void reset() noexcept;
-    std::chrono::milliseconds time() const noexcept;
+    TimeType time() const noexcept;
 private:
     std::chrono::steady_clock::time_point start_;
     std::chrono::steady_clock::time_point finish_;

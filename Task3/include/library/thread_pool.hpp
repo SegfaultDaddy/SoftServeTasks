@@ -4,6 +4,7 @@
 class ThreadPool
 {
 public:
+private:
 };
 
 #endif

@@ -1,1 +1,2 @@
-target_sources(task3_library PRIVATE counter.cpp file_reader.cpp stopwatch.cpp)
+file(GLOB library_src CONFIGURE_DEPENDS "*.c" "*.cpp")
+target_sources(task3_library PRIVATE ${library_src})

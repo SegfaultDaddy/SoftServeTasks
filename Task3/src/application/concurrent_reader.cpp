@@ -18,7 +18,7 @@ LineType<std::uint64_t> ConcurrentReader::process_files_asynchronously(const std
     {
         future.wait();
     }
-    return counter_.counted_lines();
+    return counter_.stats();
 }
 
 void ConcurrentReader::reset() noexcept
@@ -30,6 +30,6 @@ void ConcurrentReader::read_and_process_file(const VectorChunk<std::filesystem::
 {
     for(auto i{chunk.begin}; i != chunk.end; ++i)
     {
-        counter_.count_line_types(file_reader::read_file_by_line(*i));
+        file_reader::read_file_by_line(*i, counter_);
     }
 }

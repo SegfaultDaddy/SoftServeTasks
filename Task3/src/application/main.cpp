@@ -3,11 +3,45 @@
 #include <print>
 #include <chrono>
 #include <thread>
+#include <iostream>
+#include <fstream>
 
 #include "stopwatch.hpp"
 #include "file_reader.hpp"
 #include "concurrent_reader.hpp"
-#include "console_ui.hpp"
+
+struct Contex
+{
+    std::size_t filesCount;
+    Stopwatch::TimeType filesFound;
+    Stopwatch::TimeType filesProcessed;
+    Stopwatch::TimeType filesProcessedSingleCore;
+    LineType<std::uint64_t> concurrent; 
+    LineType<std::uint64_t> singleCore;
+};
+
+void print_data(const Contex data, std::ostream& out)
+{
+    std::println(out, "All files found: {}", data.filesFound);
+    std::println(out, "All files processed concurrently: {}", data.filesProcessed);
+    std::println(out, "All files processed single core: {}", data.filesProcessedSingleCore);
+    std::println(out, "All time: {}", data.filesFound + data.filesProcessed + data.filesProcessedSingleCore);
+
+    std::println(out, "Total files: {}", data.filesCount);
+    std::println(out);
+    std::println(out, "Multithreaded:");
+    std::println(out, "Total lines: {}", data.concurrent.any);
+    std::println(out, "Blank lines: {}", data.concurrent.blank);
+    std::println(out, "Comment lines: {}", data.concurrent.comment);
+    std::println(out, "Code lines: {}", data.concurrent.code);
+
+    std::println(out);
+    std::println(out, "Single core:");
+    std::println(out, "Total lines: {}", data.singleCore.any);
+    std::println(out, "Blank lines: {}", data.singleCore.blank);
+    std::println(out, "Comment lines: {}", data.singleCore.comment);
+    std::println(out, "Code lines: {}", data.singleCore.code);
+}
 
 int main(int argc, char** argv)
 {
@@ -30,14 +64,6 @@ int main(int argc, char** argv)
     stopwatch.set_finish();
     const auto filesFoundTime{stopwatch.time()};
 
-    if(argc > 2 &&
-       std::strcmp(argv[2], "--ui") == 0)
-    {
-        ConsoleUI ui{};
-        ui.run(files);
-        return EXIT_SUCCESS;
-    }
-
     stopwatch.set_start();
     ConcurrentReader reader{};
     const auto stats{reader.process_files_asynchronously(files)};
@@ -48,27 +74,21 @@ int main(int argc, char** argv)
     Counter counter{};
     for(const auto& file : files)
     {
-        counter.count_line_types(file_reader::read_file_by_line(file));
+        file_reader::read_file_by_line(file, counter);
     }
     stopwatch.set_finish();
     const auto filesProcessedSingleCore{stopwatch.time()};
 
-    std::println("All files found: {}", filesFoundTime);
-    std::println("All files processed concurrently: {}", filesProcessedTime);
-    std::println("All files processed single core: {}", filesProcessedSingleCore);
-    std::println("All time: {}", filesFoundTime + filesProcessedTime + filesProcessedSingleCore);
+    Contex data{};
+    data.concurrent = stats;
+    data.singleCore = counter.stats();
+    data.filesCount = std::size(files);
+    data.filesFound = filesFoundTime;
+    data.filesProcessedSingleCore = filesProcessedSingleCore;
+    data.filesProcessed = filesProcessedTime; 
 
-    std::println();
-    std::println("Total lines: {}", stats.any);
-    std::println("Blank lines: {}", stats.blank);
-    std::println("Comment lines: {}", stats.comment);
-    std::println("Code lines: {}", stats.code);
-
-    std::println();
-    const auto statsSingleCore{counter.counted_lines()};
-    std::println("Total lines: {}", statsSingleCore.any);
-    std::println("Blank lines: {}", statsSingleCore.blank);
-    std::println("Comment lines: {}", statsSingleCore.comment);
-    std::println("Code lines: {}", statsSingleCore.code);
+    print_data(data, std::cout);
+    std::ofstream dataStream{"data.txt"};
+    print_data(data, dataStream);
     return EXIT_SUCCESS;
 }

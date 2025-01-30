@@ -11,7 +11,7 @@ void Stopwatch::set_finish()
     finish_ = std::chrono::steady_clock::now();
 }
 
-std::chrono::milliseconds Stopwatch::time() const noexcept
+Stopwatch::TimeType Stopwatch::time() const noexcept
 {
     return std::chrono::duration_cast<std::chrono::milliseconds>(finish_ - start_);
 }
