@@ -9,6 +9,17 @@ void Counter::count_line_types(const std::vector<std::string>& data)
     }
 }
 
+
+void Counter::count_line_types(const std::vector<std::string>& data, std::reference_wrapper<Task> task)
+{
+    bool multiLineComment{false};
+    task.get().processed = 0;
+    for(const auto& line : data)
+    {
+        task.get().processed += 1;
+        process_line(line, multiLineComment);
+    }
+}
 LineType<std::uint64_t> Counter::counted_lines() const noexcept
 {
     LineType<std::uint64_t> copy{};

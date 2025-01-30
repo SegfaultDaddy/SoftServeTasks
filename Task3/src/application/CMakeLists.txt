@@ -1,1 +1,1 @@
-target_sources(task3 PRIVATE main.cpp concurrent_reader.cpp)
+target_sources(task3 PRIVATE main.cpp concurrent_reader.cpp console_ui.cpp controlled_concurrent_reader.cpp)

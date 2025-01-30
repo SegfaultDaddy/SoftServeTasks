@@ -4,10 +4,7 @@
 template<typename T>
 struct LineType
 {
-    T any;
-    T blank;
-    T comment;
-    T code;
+    T any, blank, comment, code;
 };
 
 #endif

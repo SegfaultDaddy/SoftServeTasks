@@ -2,10 +2,12 @@
 
 #include <print>
 #include <chrono>
+#include <thread>
 
 #include "stopwatch.hpp"
 #include "file_reader.hpp"
 #include "concurrent_reader.hpp"
+#include "console_ui.hpp"
 
 int main(int argc, char** argv)
 {
@@ -22,27 +24,34 @@ int main(int argc, char** argv)
     }
 
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
-    Stopwatch timer{};
-    ConcurrentReader reader{};
-
-    timer.set_start();
+    Stopwatch stopwatch{};
+    stopwatch.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
-    timer.set_finish();
-    const auto filesFoundTime{timer.time()};
+    stopwatch.set_finish();
+    const auto filesFoundTime{stopwatch.time()};
 
-    timer.set_start();
+    if(argc > 2 &&
+       std::strcmp(argv[2], "--ui") == 0)
+    {
+        ConsoleUI ui{};
+        ui.run(files);
+        return EXIT_SUCCESS;
+    }
+
+    stopwatch.set_start();
+    ConcurrentReader reader{};
     const auto stats{reader.process_files_asynchronously(files)};
-    timer.set_finish();
-    const auto filesProcessedTime{timer.time()};
+    stopwatch.set_finish();
+    const auto filesProcessedTime{stopwatch.time()};
 
-    timer.set_start();
+    stopwatch.set_start();
     Counter counter{};
     for(const auto& file : files)
     {
         counter.count_line_types(file_reader::read_file_by_line(file));
     }
-    timer.set_finish();
-    const auto filesProcessedSingleCore{timer.time()};
+    stopwatch.set_finish();
+    const auto filesProcessedSingleCore{stopwatch.time()};
 
     std::println("All files found: {}", filesFoundTime);
     std::println("All files processed concurrently: {}", filesProcessedTime);
