@@ -16,7 +16,7 @@ private:
     ftxui::Element render(const std::vector<Task>& tasks, const LineType<std::uint64_t> stats, 
                           const std::chrono::milliseconds time);
     ftxui::Element render_summary(const LineType<std::uint64_t> stats, const std::chrono::milliseconds time);
-    ftxui::Element render_task(const Task& task);
+    ftxui::Element render_task(const Task& task, const std::size_t paddings);
     ftxui::Element to_text(const int number);
     ftxui::Element to_text(const std::uint64_t number);
 

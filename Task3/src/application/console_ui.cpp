@@ -45,9 +45,14 @@ ftxui::Element ConsoleUI::render(const std::vector<Task>& tasks, const LineType<
     using namespace ftxui;
 
     std::vector<Element> entries{};
+    const auto max{std::max_element(std::begin(tasks), std::end(tasks), 
+                                    [](const auto& first, const auto& second)
+                                    {
+                                        return std::size(first.name) < std::size(second.name);
+                                    })};
     for(const auto& task : tasks)
     {
-        entries.push_back(render_task(task));
+        entries.push_back(render_task(task, std::size(max->name)));
     }
     return vbox({window(text(" File "), vbox(std::move(entries))),
                  hbox({render_summary(stats, time),
@@ -82,12 +87,12 @@ ftxui::Element ConsoleUI::render_summary(const LineType<std::uint64_t> stats, co
     return window(text(" Summary "), summary);
 }
 
-ftxui::Element ConsoleUI::render_task(const Task& task)
+ftxui::Element ConsoleUI::render_task(const Task& task, const std::size_t paddings)
 {
     using namespace ftxui;
 
     auto style = (task.processed == task.size) ? dim : bold;
-    return hbox({text(task.name) | style,
+    return hbox({text(task.name) | style | size(WIDTH, EQUAL, paddings),
                  separator(),
                  to_text(task.processed),
                  text("/"),
@@ -109,4 +114,4 @@ ftxui::Element ConsoleUI::to_text(const std::uint64_t number)
     using namespace ftxui;
 
     return text(std::to_string(number)) | size(WIDTH, EQUAL, 12);
-}
+} 

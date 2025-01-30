@@ -9,7 +9,7 @@ void ControlledConcurrentReader::process_files_asynchronously(const std::vector<
     const auto size{std::thread::hardware_concurrency()};
     auto chunks{split(files, size)};
     tasks_.clear();
-    tasks_.resize(std::size(chunks));
+    tasks_.resize(size);
     for(const auto& [i, chunk] : chunks | std::views::enumerate)
     {
         futures_.push_back(std::async(std::launch::async, &ControlledConcurrentReader::read_and_process_file, 
@@ -57,7 +57,6 @@ bool ControlledConcurrentReader::done(const std::vector<Task>& tasks) const noex
     return std::all_of(std::begin(currentTasks), std::end(currentTasks), 
                        [](const auto& task){return task.done;});
 }
-
 
 LineType<std::uint64_t> ControlledConcurrentReader::counted_lines() const noexcept
 {
