@@ -88,7 +88,15 @@ int main(int argc, char** argv)
     data.filesProcessed = filesProcessedTime; 
 
     print_data(data, std::cout);
-    std::ofstream dataStream{"data.txt"};
-    print_data(data, dataStream);
+    if(argc > 2)
+    {
+        std::ofstream dataStream{argv[2]};
+        print_data(data, dataStream);
+    }
+    else
+    {
+        std::ofstream dataStream{"default.txt"};
+        print_data(data, dataStream);
+    }
     return EXIT_SUCCESS;
 }

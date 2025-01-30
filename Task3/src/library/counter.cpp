@@ -38,9 +38,9 @@ void Counter::process_line(const std::string& line, bool& multiLineComment)
 
 bool Counter::is_comment(const std::string& line, bool& multiLineComment) const
 {
-    auto start{line.find("/*")};
-    auto end{line.find("*/")};
-    auto singleLine{line.find("//")};
+    const auto start{line.find("/*")};
+    const auto end{line.find("*/")};
+    const auto singleLine{line.find("//")};
     if(multiLineComment)
     {
         if(end != std::string::npos)
