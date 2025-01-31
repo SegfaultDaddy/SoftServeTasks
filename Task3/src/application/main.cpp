@@ -32,6 +32,7 @@ void print_data(const Context context, std::ostream& out)
     const auto totalTime{context.filesFound + context.filesProcessedAsync + context.filesProcessedPool + context.filesProcessedSingleCore};
     std::println(out, "All time: {}", totalTime);
 
+    std::println(out);
     std::println(out, "Total files: {}", context.filesCount);
 
     std::println(out);
@@ -43,7 +44,6 @@ void print_data(const Context context, std::ostream& out)
 
     std::println(out);
     std::println(out, "Async implementation:");
-    std::println(out, "Single core:");
     std::println(out, "Total lines: {}", context.statsAsync.any);
     std::println(out, "Blank lines: {}", context.statsAsync.blank);
     std::println(out, "Comment lines: {}", context.statsAsync.comment);
@@ -51,7 +51,6 @@ void print_data(const Context context, std::ostream& out)
 
     std::println(out);
     std::println(out, "Pool implementation:");
-    std::println(out, "Single core:");
     std::println(out, "Total lines: {}", context.statsPool.any);
     std::println(out, "Blank lines: {}", context.statsPool.blank);
     std::println(out, "Comment lines: {}", context.statsPool.comment);
