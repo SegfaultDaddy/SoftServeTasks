@@ -4,26 +4,6 @@
 
 namespace file_reader
 {
-    std::vector<std::string> read_file_by_line(const std::filesystem::path& path)
-    {
-        std::vector<std::string> lines{};
-        std::string str{};
-        std::ifstream in{path};
-        if(!in.is_open())
-        {
-            return lines;
-        }
-        while(std::getline(in, str))
-        {
-            lines.push_back(str);
-        }
-        if(str.empty())
-        {
-            lines.push_back(str);
-        }
-        return lines;
-    }
-
     void read_file_by_line(const std::filesystem::path& path, Counter& counter)
     {
         std::ifstream in{path};

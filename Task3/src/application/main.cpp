@@ -9,6 +9,8 @@
 #include "stopwatch.hpp"
 #include "file_reader.hpp"
 #include "concurrent_reader.hpp"
+#include "thread_pool.hpp"
+#include "pool_concurrent_reader.hpp"
 
 struct Contex
 {
@@ -45,6 +47,7 @@ void print_data(const Contex data, std::ostream& out)
 
 int main(int argc, char** argv)
 {
+    /*
     if(argc < 2)
     {
         std::println("Error 0 arguments provided! Provide project root directory.");
@@ -56,16 +59,16 @@ int main(int argc, char** argv)
         std::println("Error invalid argument! Provide project root directory.");
         return EXIT_FAILURE;
     }
-
+    */
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
     Stopwatch stopwatch{};
     stopwatch.set_start();
-    auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
+    auto files{file_reader::find_all_files_with_extensions("D:/SoftServe", extensions)};
     stopwatch.set_finish();
     const auto filesFoundTime{stopwatch.time()};
 
     stopwatch.set_start();
-    ConcurrentReader reader{};
+    PCR reader{};
     const auto stats{reader.process_files_asynchronously(files)};
     stopwatch.set_finish();
     const auto filesProcessedTime{stopwatch.time()};
