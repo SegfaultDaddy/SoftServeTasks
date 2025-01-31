@@ -20,9 +20,9 @@ public:
 
 const std::vector<std::string> CounterTest::data
 {
-    //"/*/",
+    "/*/",
     "kdgkjdfkfka",
-    //"/*/",
+    "/*/",
     "dfsdsfds",
     "/**/",
     "///**/",

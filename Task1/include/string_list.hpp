@@ -71,14 +71,14 @@ namespace string_list
     void destroy(List* list); 
     std::size_t size(const List list);
     bool empty(const List list);
-    std::size_t index_of(const List list, const char* str, const bool showError = false);
+    std::size_t index_of(const List list, const char* str);
     void push_front(List list, const char* str);
     void push_back(List list, const char* str);
     void pop_front(List list);
     void pop_back(List list);
     void remove(List list, const char* str, const bool removeAll = true);
     void unique(List list);
-    void replace(List list, const char* src, const char* dest, const bool firstOccurence = false);
+    void replace(List list, const char* src, const char* dest, const bool replaceAll = true);
     void sort(List list);
 }
 

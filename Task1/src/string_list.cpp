@@ -108,6 +108,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         std::size_t counter{0};
         auto current{head(list)};
         while(current != nullptr)
@@ -122,13 +123,15 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         return head(list) == nullptr && tail(list) == nullptr;
     }
 
-    std::size_t index_of(const List list, const char* str, const bool showError)
+    std::size_t index_of(const List list, const char* str)
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         std::size_t counter{0};
         auto current{head(list)};
         while(current != nullptr)
@@ -140,7 +143,6 @@ namespace string_list
             counter += 1;
             current = next(current);
         }
-        assert(!showError && "Failed to find specified string in list");
         return counter;
     }
 
@@ -159,6 +161,7 @@ namespace string_list
         using namespace implementation;
 
         assert((list != nullptr) && "Provide viable address not nullptr");
+        assert((*list != nullptr) && "Provide initialized list not nullptr");
         auto head{implementation::head(*list)};
         while(head != nullptr)
         {
@@ -175,6 +178,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         auto node{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
@@ -194,6 +198,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         auto node{create_node(str)};
         if(empty(list)) [[unlikely]]
         {
@@ -213,6 +218,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         assert(!empty(list) && "Using pop_back on empty list");
 
         auto tail{implementation::tail(list)};
@@ -237,6 +243,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         assert(!empty(list) && "Using pop_front on empty list");
 
         auto head{implementation::head(list)};
@@ -261,6 +268,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         remove(list, head(list), str, removeAll);
     }
 
@@ -268,6 +276,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         auto current{head(list)};
         while(current != nullptr)
         {
@@ -277,10 +286,11 @@ namespace string_list
         }       
     }
 
-    void replace(List list, const char* src, const char* dest, const bool removeAll)
+    void replace(List list, const char* src, const char* dest, const bool replaceAll)
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         auto current{head(list)};
         while(current != nullptr)
         {
@@ -291,7 +301,7 @@ namespace string_list
                 strcpy_s(allocated, size * sizeof(char), dest);
                 set_value(current, allocated);
 
-                if(!removeAll)
+                if(!replaceAll)
                 {
                     return;
                 }
@@ -304,6 +314,7 @@ namespace string_list
     {
         using namespace implementation;
 
+        assert((list != nullptr) && "Provide initialized list not nullptr");
         auto head{implementation::head(list)};
         selection_sort(head);
     }

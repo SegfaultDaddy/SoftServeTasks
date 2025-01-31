@@ -1,406 +1,401 @@
-#include <random>
+#include <algorithm>
 #include <ranges>
+#include <unordered_set>
 
 #include <gtest/gtest.h>
 
 #include "string_list.hpp"
 
-TEST(StringList, init) 
+class EmptyStringListFixture : public ::testing::Test
+{
+public:
+    EmptyStringListFixture()
+    {
+        string_list::init(&list);
+    }
+
+    ~EmptyStringListFixture()
+    {
+        string_list::destroy(&list);
+    }
+protected:
+    string_list::List list;
+};
+
+class NonEmptyStringListFixture : public EmptyStringListFixture
+{
+public:
+    NonEmptyStringListFixture()
+    {
+        using namespace string_list;
+
+        for(const auto& elem : data)
+        {
+            push_back(list, elem);
+        }
+    }
+
+protected:
+    const static std::vector<const char*> data;
+};
+
+void hash_map_unique(std::vector<const char*>& data)
+{
+    std::unordered_set<const char*> seen{};
+    
+    data.erase(std::remove_if(std::begin(data), std::end(data),
+                              [&seen](const char* x)
+                              {
+                                  return !seen.insert(x).second;
+                              }),std::end(data));
+}
+
+const std::vector<const char*> NonEmptyStringListFixture::data
+{
+    "C",
+    "D",
+    "A",
+    "B",
+    "F",
+    "Z",
+    "C",
+};
+
+TEST(StringListTestLifetimeTest, init)
 {
     using namespace string_list;
 
     List list{nullptr};
-    EXPECT_DEATH(init(nullptr), "Provide viable address not nullptr");
-    EXPECT_NO_THROW(init(&list));
-    EXPECT_NE(list, nullptr);
+    init(&list);
+    EXPECT_NE(nullptr, list);
+}
+
+TEST(StringListTestLifetimeTest, init_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(init(nullptr), "");
+}
+
+TEST(StringListTestLifetimeTest, destroy)
+{
+    using namespace string_list;
+
+    List list{nullptr};
+    init(&list);
     destroy(&list);
+    EXPECT_EQ(nullptr, list);
 }
 
-TEST(StringList, destroy) 
+TEST(StringListTestLifetime, destroy_dies_with_nullptr_provided)
+{
+    using namespace string_list;
+    EXPECT_DEATH(destroy(nullptr), "");
+}
+
+TEST(StringListTestLifetime, destroy_dies_with_not_initialized_list)
+{
+    using namespace string_list;
+    List list{};
+    EXPECT_DEATH(destroy(&list), "");
+}
+
+TEST(StringListTestLifetime, size_dies)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    EXPECT_NO_THROW(destroy(&list));
-    EXPECT_EQ(list, nullptr);
-    EXPECT_DEATH(destroy(nullptr), "Provide viable address not nullptr");
+    EXPECT_DEATH(size(nullptr), "");
 }
 
-TEST(StringList, size) 
+TEST_F(EmptyStringListFixture, size)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    EXPECT_EQ(size(list), 0);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    EXPECT_EQ(size(list), 5);
-    destroy(&list);
+    EXPECT_EQ(0, size(list));
 }
 
-TEST(StringList, empty) 
+TEST_F(NonEmptyStringListFixture, size)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
+    EXPECT_EQ(std::size(data), size(list));
+}
+
+TEST(StringListTestLifetime, empty_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(empty(nullptr), "");
+}
+
+TEST_F(EmptyStringListFixture, empty)
+{
+    using namespace string_list;
+
     EXPECT_TRUE(empty(list));
-    EXPECT_EQ(size(list) == 0, empty(list));
-    push_back(list, "Hi");
+}
+
+TEST_F(NonEmptyStringListFixture, empty)
+{
+    using namespace string_list;
+
     EXPECT_FALSE(empty(list));
-    destroy(&list);
 }
 
-TEST(StringList, index_of) 
+TEST(StringListTestLifetime, index_of_dies)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    EXPECT_DEATH(index_of(list, "Hello", true), "Failed to find specified string in list");
-    EXPECT_EQ(index_of(list, "Hello"), 0);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    EXPECT_EQ(index_of(list, "Hello"), 1);
-    EXPECT_EQ(index_of(list, "Long time no see"), 5);
-    destroy(&list);
+    EXPECT_DEATH(index_of(nullptr, "A"), "");
 }
 
-TEST(StringList, push_front) 
-{
-    using namespace string_list;
-    using namespace implementation;
-
-    List list{nullptr};
-    init(&list);
-    push_front(list, "Hi");
-    push_front(list, "Hello");
-    push_front(list, "Good evening");
-    push_front(list, "Good afternoon");
-    push_front(list, "Nice to meet you");
-    push_front(list, "Long time no see");
-    const auto conditionFirst{std::strcmp(value(head(list)), "Long time no see")};
-    EXPECT_TRUE(conditionFirst == 0);
-    destroy(&list);
-    init(&list);
-    push_front(list, "Hi");
-    EXPECT_NO_THROW(push_back(list, "Hello"));
-    EXPECT_NO_THROW(push_front(list, "Long time no see"));
-    const auto conditionSecond{std::strcmp(value(head(list)), "Long time no see")};
-    EXPECT_TRUE(conditionSecond == 0);
-    destroy(&list);
-}
-
-TEST(StringList, push_back) 
-{
-    using namespace string_list;
-    using namespace implementation;
-
-    List list{nullptr};
-    init(&list);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    const auto conditionFirst{std::strcmp(value(tail(list)), "Long time no see")};
-    EXPECT_TRUE(conditionFirst == 0);
-    destroy(&list);
-    init(&list);
-    push_back(list, "Hi");
-    EXPECT_NO_THROW(push_front(list, "Hello"));
-    EXPECT_NO_THROW(push_back(list, "Long time no see"));
-    const auto conditionSecond{std::strcmp(value(tail(list)), "Long time no see")};
-    EXPECT_TRUE(conditionSecond == 0);
-    destroy(&list);
-}
-
-TEST(StringList, pop_front) 
+TEST_F(EmptyStringListFixture, index_of)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
+    EXPECT_EQ(0, index_of(list, "A"));
+}
+
+TEST_F(NonEmptyStringListFixture, index_of)
+{
+    using namespace string_list;
+
+    EXPECT_EQ(2, index_of(list, data[2]));
+}
+
+TEST(StringListTestLifetime, push_front_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(push_front(nullptr, "A"), "");
+}
+
+TEST_F(EmptyStringListFixture, push_front)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "DATA");
+    EXPECT_STREQ("DATA", value(head(list)));
+}
+
+TEST_F(NonEmptyStringListFixture, push_front)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "DATA");
+    EXPECT_STREQ("DATA", value(head(list)));
+}
+
+TEST(StringListTestLifetime, push_back_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(push_back(nullptr, "A"), "");
+}
+
+TEST_F(EmptyStringListFixture, push_back)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_back(list, "DATA");
+    EXPECT_STREQ("DATA", value(tail(list)));
+}
+
+TEST_F(NonEmptyStringListFixture, push_back)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_back(list, "DATA");
+    EXPECT_STREQ("DATA", value(tail(list)));
+}
+
+TEST(StringListTestLifetime, pop_front_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(pop_front(nullptr), "");
+}
+
+TEST_F(EmptyStringListFixture, pop_front_dies)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    EXPECT_DEATH(pop_front(list), "");
+}
+
+TEST_F(NonEmptyStringListFixture, pop_front)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
     pop_front(list);
-    pop_front(list);
-    pop_front(list);
-    EXPECT_EQ(size(list), 3);
-    pop_front(list);
-    pop_front(list);
-    pop_front(list);
-    EXPECT_NO_THROW(push_front(list, "Hi"));
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    EXPECT_NO_THROW(pop_back(list));
-    EXPECT_NO_THROW(pop_front(list));
-    EXPECT_EQ(size(list), 4);
-    destroy(&list);   
+    EXPECT_STREQ(data.at(1), value(head(list)));
 }
 
-TEST(StringList, pop_back) 
+TEST(StringListTestLifetime, pop_back_dies)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    pop_back(list);
-    pop_back(list);
-    pop_back(list);
-    EXPECT_EQ(size(list), 3);
-    pop_back(list);
-    pop_back(list);
-    pop_back(list);
-    EXPECT_NO_THROW(push_front(list, "Hi"));
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    EXPECT_NO_THROW(pop_front(list));
-    EXPECT_NO_THROW(pop_back(list));
-    EXPECT_EQ(size(list), 4);
-    destroy(&list);
+    EXPECT_DEATH(pop_back(nullptr), "");
 }
 
-TEST(StringList, remove) 
+TEST_F(EmptyStringListFixture, pop_back_dies)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    EXPECT_DEATH(pop_back(list), "");
+}
+
+TEST_F(NonEmptyStringListFixture, pop_back)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    pop_back(list);
+    EXPECT_STREQ(data.at(std::size(data) - 2), value(tail(list)));
+}
+
+TEST(StringListTestLifetime, remove_dies)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good evening");
-    push_back(list, "Hi");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    push_back(list, "Hi");
-    EXPECT_NO_THROW(remove(list, "Hi"));
-    EXPECT_EQ(size(list), 6);
-    EXPECT_DEATH(index_of(list, "Hi", true), "Failed to find specified string in list");
-    EXPECT_NO_THROW(remove(list, "Good evening", false));
-    EXPECT_EQ(size(list), 5);
-    EXPECT_EQ(index_of(list, "Good evening"), 1);
-    EXPECT_NO_THROW(remove(list, "Hello"));
-    EXPECT_NO_THROW(remove(list, "Good evening"));
-    EXPECT_NO_THROW(remove(list, "Good afternoon"));
-    EXPECT_NO_THROW(remove(list, "Nice to meet you"));
-    EXPECT_NO_THROW(remove(list, "Long time no see"));
-    EXPECT_EQ(size(list), 0);
-    EXPECT_NO_THROW(push_back(list, "Hi"));
-    EXPECT_EQ(size(list), 1);
-    EXPECT_EQ(index_of(list, "Hi"), 0);
-    destroy(&list);
+    EXPECT_DEATH(remove(nullptr, "A"), "");
 }
 
-TEST(StringList, unique) 
+TEST_F(EmptyStringListFixture, remove)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    push_back(list, "Hi");
-    push_back(list, "Hi");
-    push_back(list, "Hi");
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good evening");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hi");
-    push_back(list, "Good afternoon");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Hello");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    push_back(list, "Hi");
+    EXPECT_NO_THROW(remove(list, "A"));
+}
+
+TEST_F(NonEmptyStringListFixture, remove_one)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "REMOVE");
+    push_back(list, "REMOVE");
+    remove(list, "REMOVE", false);
+    EXPECT_STRNE("REMOVE", value(head(list)));
+    EXPECT_STREQ("REMOVE", value(tail(list)));
+}
+
+TEST_F(NonEmptyStringListFixture, remove_all)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "REMOVE");
+    push_back(list, "REMOVE");
+    remove(list, "REMOVE", true);
+    EXPECT_STRNE("REMOVE", value(head(list)));
+    EXPECT_STRNE("REMOVE", value(tail(list)));
+}
+
+TEST(StringListTestLifetime, unique_dies)
+{
+    using namespace string_list;
+
+    EXPECT_DEATH(unique(nullptr), "");
+}
+
+TEST_F(EmptyStringListFixture, unique)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
     EXPECT_NO_THROW(unique(list));
-    EXPECT_EQ(size(list), 6);
-    push_back(list, "Hola");
-    EXPECT_EQ(size(list), 7);
-    destroy(&list);
-    init(&list);
-    EXPECT_NO_THROW(unique(list));
-    push_back(list, "Hello");
-    EXPECT_NO_THROW(unique(list));
-    EXPECT_EQ(size(list), 1);
-    EXPECT_EQ(index_of(list, "Hello"), 0);
-    destroy(&list);
 }
 
-TEST(StringList, replace) 
+TEST_F(NonEmptyStringListFixture, unique)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    EXPECT_EQ(std::size(data), size(list));
+    auto copy{data};
+    hash_map_unique(copy);
+    unique(list);
+    EXPECT_EQ(std::size(copy), size(list));
+    for(const auto& [i, elem] : copy | std::views::enumerate)
+    {
+        EXPECT_EQ(i, index_of(list, elem));
+    }
+}
+
+TEST(StringListTestLifetime, replace_dies)
 {
     using namespace string_list;
 
-    List list{nullptr};
-    init(&list);
-    EXPECT_NO_THROW(replace(list, "Hi", "Hello"));
-    push_back(list, "Hi");
-    push_back(list, "Hello");
-    push_back(list, "Good evening");
-    push_back(list, "Good afternoon");
-    push_back(list, "Nice to meet you");
-    push_back(list, "Long time no see");
-    EXPECT_NO_THROW(replace(list, "Hi", "Hola"));
-    EXPECT_EQ(index_of(list, "Hola"), 0);
-    EXPECT_EQ(size(list), 6);
-    destroy(&list);
+    EXPECT_DEATH(replace(nullptr, "A", "B"), "");
 }
 
-TEST(StringList, sort) 
+TEST_F(EmptyStringListFixture, replace)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    EXPECT_NO_THROW(replace(list, "A", "C"));
+}
+
+TEST_F(NonEmptyStringListFixture, replace_one)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "REPLACE");
+    push_back(list, "REPLACE");
+    replace(list, "REPLACE", "REPLACED", false);
+    EXPECT_STREQ("REPLACED", value(head(list)));
+    EXPECT_STRNE("REPLACED", value(tail(list)));
+}
+
+TEST_F(NonEmptyStringListFixture, replace_all)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    push_front(list, "REPLACE");
+    push_back(list, "REPLACE");
+    replace(list, "REPLACE", "REPLACED", true);
+    EXPECT_STREQ("REPLACED", value(head(list)));
+    EXPECT_STREQ("REPLACED", value(tail(list)));
+}
+
+TEST(StringListTestLifetime, sort_dies)
 {
     using namespace string_list;
 
-    const char* data[]
-    {
-        "H",
-        "J",
-        "A",
-        "A",
-        "L",
-        "L",
-        "L",
-        "L",
-        "L",
-        "A",
-        "A",
-        "L",
-        "L",
-        "L",
-        "A",
-        "A",
-        "A",
-        "A",
-        "B",
-        "B",
-        "B",
-        "B",
-        "L",
-        "L",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "B",
-        "B",
-        "B",
-        "B",
-        "B",
-        "B",
-        "G",
-        "B",
-        "C",
-        "I",
-        "C",
-        "C",
-    };
+    EXPECT_DEATH(sort(nullptr), "");
+}
 
-    List list{nullptr};
+TEST_F(EmptyStringListFixture, sort)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
 
-    std::default_random_engine dre{std::random_device{}()};
-    for(const auto i : std::views::iota(0, 1000))
-    {
-        init(&list);
-        std::shuffle(std::begin(data), std::end(data), dre);
-        for(const auto& elem : data)
-        {
-            push_back(list, elem);
-        }
-        sort(list);
-        std::sort(std::begin(data), std::end(data), &implementation::compare_less_than);
-        auto j{implementation::head(list)};
-        for(auto k{0}; j != nullptr; k += 1)
-        {
-            EXPECT_TRUE(std::strcmp(data[k], implementation::value(j)) == 0);
-            j = implementation::next(j);
-        }
-        destroy(&list);
-    } 
+    EXPECT_NO_THROW(sort(list));
+}
 
-    for(const auto i : std::views::iota(0, 1000))
+TEST_F(NonEmptyStringListFixture, sort)
+{
+    using namespace string_list;
+    using namespace string_list::implementation;
+
+    auto copy{data};
+    hash_map_unique(copy);
+    std::sort(std::begin(copy), std::end(copy), compare_less_than);
+    unique(list);
+    sort(list);
+    for(const auto& [i, elem] : copy | std::views::enumerate)
     {
-        init(&list);
-        std::shuffle(std::begin(data), std::end(data), dre);
-        for(const auto& elem : data)
-        {
-            push_back(list, elem);
-        }
-        sort(list);
-        pop_back(list);
-        EXPECT_EQ(size(list), std::size(data) - 1);
-        destroy(&list);
+        EXPECT_EQ(i, index_of(list, elem));
     }
 }
