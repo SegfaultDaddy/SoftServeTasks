@@ -9,13 +9,13 @@ ThreadPool::ThreadPool()
     const auto threadCount{std::thread::hardware_concurrency()};
     try
     {
-        for(std::size_t i{0};i< threadCount; i += 1)
+        for(std::size_t i{0};i < threadCount; i += 1)
         {
             queues_.emplace_back(std::make_unique<ThiefQueue>());
         }
         for(std::size_t i{0}; i < threadCount; i += 1)
         {
-            threads_.emplace_back(&ThreadPool::worker_thread, this, index_);
+            threads_.emplace_back(&ThreadPool::worker_thread, this, i);
         }
     }
     catch(...)
@@ -33,10 +33,10 @@ ThreadPool::~ThreadPool()
 
 void ThreadPool::run_pending_task()
 {
-    TaskType task;
+    TaskType task{};
     if(pop_task_from_local_queue(task) || 
-        pop_task_from_pool_queue(task) || 
-        pop_task_from_other_thread_queue(task)) 
+       pop_task_from_pool_queue(task) || 
+       pop_task_from_other_thread_queue(task)) 
     {
         task();
     }
@@ -69,7 +69,7 @@ bool ThreadPool::pop_task_from_pool_queue(TaskType& task)
 
 bool ThreadPool::pop_task_from_other_thread_queue(TaskType& task)
 {
-    for(std::size_t i{0}; i < std::size(queues_); i+=1)
+    for(std::size_t i{0}; i < std::size(queues_); i += 1)
     {
         const auto index{(index_ + i + 1) % std::size(queues_)};
         if(queues_[index]->try_steal(task))

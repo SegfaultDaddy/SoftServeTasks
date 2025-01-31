@@ -114,5 +114,6 @@ int main(int argc, char** argv)
         std::ofstream dataStream{"default.txt"};
         print_data(context, dataStream);
     }
+
     return EXIT_SUCCESS;
 }

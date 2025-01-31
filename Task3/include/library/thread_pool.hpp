@@ -20,7 +20,7 @@ public:
 
     ThreadPool();
     ~ThreadPool();
-
+    
     template<typename FutureType>
     std::future<std::invoke_result_t<FutureType>> submit(FutureType function);
 private:
@@ -39,9 +39,9 @@ private:
 };
 
 template<typename FutureType>
-std::future<std::invoke_result_t<FutureType>> ThreadPool::submit(FutureType f)
+std::future<std::invoke_result_t<FutureType>> ThreadPool::submit(FutureType function)
 {
-    std::packaged_task<std::invoke_result_t<FutureType>()> task{f};
+    std::packaged_task<std::invoke_result_t<FutureType>()> task{function};
     auto result{task.get_future()};
     if(localThiefQueue_ != nullptr)
     {
