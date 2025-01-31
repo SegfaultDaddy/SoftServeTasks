@@ -16,7 +16,7 @@
 class ThreadPool
 {
 public:
-    using TaskType = FunctionWrapper;
+    using TaskType = std::move_only_function<void()>;
 
     ThreadPool()
         : done_{false}

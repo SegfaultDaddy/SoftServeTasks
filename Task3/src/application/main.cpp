@@ -8,46 +8,58 @@
 
 #include "stopwatch.hpp"
 #include "file_reader.hpp"
-#include "concurrent_reader.hpp"
-#include "thread_pool.hpp"
+#include "async_concurrent_reader.hpp"
 #include "pool_concurrent_reader.hpp"
 
-struct Contex
+struct Context
 {
     std::size_t filesCount;
     Stopwatch::TimeType filesFound;
-    Stopwatch::TimeType filesProcessed;
     Stopwatch::TimeType filesProcessedSingleCore;
-    LineType<std::uint64_t> concurrent; 
-    LineType<std::uint64_t> singleCore;
+    Stopwatch::TimeType filesProcessedAsync;
+    Stopwatch::TimeType filesProcessedPool;
+    LineType<std::uint64_t> statsSingleCore;
+    LineType<std::uint64_t> statsAsync; 
+    LineType<std::uint64_t> statsPool;
 };
 
-void print_data(const Contex data, std::ostream& out)
+void print_data(const Context context, std::ostream& out)
 {
-    std::println(out, "All files found: {}", data.filesFound);
-    std::println(out, "All files processed concurrently: {}", data.filesProcessed);
-    std::println(out, "All files processed single core: {}", data.filesProcessedSingleCore);
-    std::println(out, "All time: {}", data.filesFound + data.filesProcessed + data.filesProcessedSingleCore);
+    std::println(out, "All files found: {}", context.filesFound);
+    std::println(out, "All files processed concurrently async implementation: {}", context.filesProcessedAsync);
+    std::println(out, "All files processed concurrently pool implementation: {}", context.filesProcessedPool);
+    std::println(out, "All files processed single core: {}", context.filesProcessedSingleCore);
+    const auto totalTime{context.filesFound + context.filesProcessedAsync + context.filesProcessedPool + context.filesProcessedSingleCore};
+    std::println(out, "All time: {}", totalTime);
 
-    std::println(out, "Total files: {}", data.filesCount);
-    std::println(out);
-    std::println(out, "Multithreaded:");
-    std::println(out, "Total lines: {}", data.concurrent.any);
-    std::println(out, "Blank lines: {}", data.concurrent.blank);
-    std::println(out, "Comment lines: {}", data.concurrent.comment);
-    std::println(out, "Code lines: {}", data.concurrent.code);
+    std::println(out, "Total files: {}", context.filesCount);
 
     std::println(out);
     std::println(out, "Single core:");
-    std::println(out, "Total lines: {}", data.singleCore.any);
-    std::println(out, "Blank lines: {}", data.singleCore.blank);
-    std::println(out, "Comment lines: {}", data.singleCore.comment);
-    std::println(out, "Code lines: {}", data.singleCore.code);
+    std::println(out, "Total lines: {}", context.statsSingleCore.any);
+    std::println(out, "Blank lines: {}", context.statsSingleCore.blank);
+    std::println(out, "Comment lines: {}", context.statsSingleCore.comment);
+    std::println(out, "Code lines: {}", context.statsSingleCore.code);
+
+    std::println(out);
+    std::println(out, "Async implementation:");
+    std::println(out, "Single core:");
+    std::println(out, "Total lines: {}", context.statsAsync.any);
+    std::println(out, "Blank lines: {}", context.statsAsync.blank);
+    std::println(out, "Comment lines: {}", context.statsAsync.comment);
+    std::println(out, "Code lines: {}", context.statsAsync.code);
+
+    std::println(out);
+    std::println(out, "Pool implementation:");
+    std::println(out, "Single core:");
+    std::println(out, "Total lines: {}", context.statsPool.any);
+    std::println(out, "Blank lines: {}", context.statsPool.blank);
+    std::println(out, "Comment lines: {}", context.statsPool.comment);
+    std::println(out, "Code lines: {}", context.statsPool.code);
 }
 
 int main(int argc, char** argv)
 {
-    /*
     if(argc < 2)
     {
         std::println("Error 0 arguments provided! Provide project root directory.");
@@ -59,19 +71,16 @@ int main(int argc, char** argv)
         std::println("Error invalid argument! Provide project root directory.");
         return EXIT_FAILURE;
     }
-    */
+
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
+    Context context{};
     Stopwatch stopwatch{};
-    stopwatch.set_start();
-    auto files{file_reader::find_all_files_with_extensions("D:/SoftServe", extensions)};
-    stopwatch.set_finish();
-    const auto filesFoundTime{stopwatch.time()};
 
     stopwatch.set_start();
-    PCR reader{};
-    const auto stats{reader.process_files_asynchronously(files)};
+    auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     stopwatch.set_finish();
-    const auto filesProcessedTime{stopwatch.time()};
+    context.filesCount = std::size(files);
+    context.filesFound = stopwatch.time();
 
     stopwatch.set_start();
     Counter counter{};
@@ -80,26 +89,31 @@ int main(int argc, char** argv)
         file_reader::read_file_by_line(file, counter);
     }
     stopwatch.set_finish();
-    const auto filesProcessedSingleCore{stopwatch.time()};
+    context.filesProcessedSingleCore = stopwatch.time();
+    context.statsSingleCore = counter.stats();
 
-    Contex data{};
-    data.concurrent = stats;
-    data.singleCore = counter.stats();
-    data.filesCount = std::size(files);
-    data.filesFound = filesFoundTime;
-    data.filesProcessedSingleCore = filesProcessedSingleCore;
-    data.filesProcessed = filesProcessedTime; 
+    stopwatch.set_start();
+    AsyncConcurrentReader asyncReader{};
+    context.statsAsync = asyncReader.process_files_asynchronously(files);
+    stopwatch.set_finish();
+    context.filesProcessedAsync = stopwatch.time();
 
-    print_data(data, std::cout);
+    stopwatch.set_start();
+    PoolConcurrentReader poolReader{};
+    context.statsPool = poolReader.process_files_asynchronously(files);
+    stopwatch.set_finish();
+    context.filesProcessedPool = stopwatch.time();
+
+    print_data(context, std::cout);
     if(argc > 2)
     {
         std::ofstream dataStream{argv[2]};
-        print_data(data, dataStream);
+        print_data(context, dataStream);
     }
     else
     {
         std::ofstream dataStream{"default.txt"};
-        print_data(data, dataStream);
+        print_data(context, dataStream);
     }
     return EXIT_SUCCESS;
 }

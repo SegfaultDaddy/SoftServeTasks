@@ -5,25 +5,19 @@
 #include <mutex>
 #include <condition_variable>
 
+#include "threadsafe_node.hpp"
+
 template<typename T>
 class ThreadsafeQueue
 {
-private:
-    struct Node
-    {
-        std::shared_ptr<T> data;
-        std::unique_ptr<Node> next;
-    };
-    std::mutex headMutex_;
-    std::mutex tailMutex_;
-    std::unique_ptr<Node> head_;
-    Node* tail_;
-    std::condition_variable dataCondition_;
 public:
+    using NodeType = ThreadsafeNode<T>;
+
     ThreadsafeQueue()
-        : head_{std::make_unique<Node>()}, tail_{head_.get()}
+        : head_{std::make_unique<NodeType>()}, tail_{head_.get()}
     {
     }
+
     ThreadsafeQueue(const ThreadsafeQueue& other) = delete;
     ThreadsafeQueue& operator=(const ThreadsafeQueue& other) = delete;
 
@@ -54,11 +48,11 @@ public:
     void push(T value)
     {
         auto data{std::make_shared<T>(std::move(value))};
-        std::unique_ptr<Node> ptr{std::make_unique<Node>()};
+        std::unique_ptr<NodeType> ptr{std::make_unique<NodeType>()};
         {
             std::lock_guard<std::mutex> tailLock{tailMutex_};
             tail_->data = data;
-            Node* newTail{ptr.get()};
+            NodeType* newTail{ptr.get()};
             tail_->next = std::move(ptr);
             tail_ = newTail;
         }
@@ -71,15 +65,15 @@ public:
         return head_.get() == tail();
     }
 private:
-    Node* tail()
+    NodeType* tail()
     {
         std::lock_guard<std::mutex> tailLock_{tailMutex_};
         return tail_;
     }
 
-    std::unique_ptr<Node> pop_head()
+    std::unique_ptr<NodeType> pop_head()
     {
-        std::unique_ptr<Node> oldHead{std::move(head_)};
+        std::unique_ptr<NodeType> oldHead{std::move(head_)};
         head_ = std::move(oldHead->next);
         return oldHead;
     }
@@ -91,20 +85,20 @@ private:
         return std::move(headLock);
     }
 
-    std::unique_ptr<Node> wait_pop_head()
+    std::unique_ptr<NodeType> wait_pop_head()
     {
         auto headLock{wait_for_data()};
         return pop_head();
     }
 
-    std::unique_ptr<Node> wait_pop_head(T& value)
+    std::unique_ptr<NodeType> wait_pop_head(T& value)
     {
         auto headLock{wait_for_data()};
         value = std::move(*(head_->data));
         return pop_head();
     }
 
-    std::unique_ptr<Node> try_pop_head()
+    std::unique_ptr<NodeType> try_pop_head()
     {
         std::lock_guard<std::mutex> headLock{headMutex_};
         if(head_.get() == tail())
@@ -114,7 +108,7 @@ private:
         return pop_head();
     }
 
-    std::unique_ptr<Node> try_pop_head(T& value)
+    std::unique_ptr<NodeType> try_pop_head(T& value)
     {
         std::lock_guard<std::mutex> headLock{headMutex_};
         if(head_.get() == tail())
@@ -124,5 +118,11 @@ private:
         value = std::move(*(head_->data));
         return pop_head();
     }
+
+    std::mutex headMutex_;
+    std::mutex tailMutex_;
+    std::unique_ptr<NodeType> head_;
+    NodeType* tail_;
+    std::condition_variable dataCondition_;
 };
 #endif

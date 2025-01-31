@@ -8,7 +8,7 @@
 #include "counter.hpp"
 #include "thread_pool.hpp"
 
-class PCR 
+class PoolConcurrentReader
 {
 public:
     LineType<std::uint64_t> process_files_asynchronously(const std::vector<std::filesystem::path>& files);

@@ -5,12 +5,10 @@
 #include <mutex>
 #include <deque>
 
-#include "function_wrapper.hpp"
-
 class ThiefQueue
 {
 public:
-    using DataType = FunctionWrapper;
+    using DataType = std::move_only_function<void()>;
 
     ThiefQueue();
     ThiefQueue(const ThiefQueue& other) = delete;

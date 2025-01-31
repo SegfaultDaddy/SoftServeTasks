@@ -4,7 +4,7 @@
 #include "file_reader.hpp"
 #include "pool_concurrent_reader.hpp"
 
-LineType<std::uint64_t> PCR::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
+LineType<std::uint64_t> PoolConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
 {
     const auto size{std::thread::hardware_concurrency()};
     std::vector<std::future<void>> futures{};
@@ -20,12 +20,12 @@ LineType<std::uint64_t> PCR::process_files_asynchronously(const std::vector<std:
     return counter_.stats();
 }
 
-void PCR::reset() noexcept
+void PoolConcurrentReader::reset() noexcept
 {
     counter_.reset();
 }
 
-void PCR::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
+void PoolConcurrentReader::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
 {
     for(auto i{chunk.begin}; i != chunk.end; ++i)
     {

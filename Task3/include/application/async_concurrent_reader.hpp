@@ -7,7 +7,7 @@
 #include "vector_chunk.hpp"
 #include "counter.hpp"
 
-class ConcurrentReader
+class AsyncConcurrentReader
 {
 public:
     LineType<std::uint64_t> process_files_asynchronously(const std::vector<std::filesystem::path>& files);
