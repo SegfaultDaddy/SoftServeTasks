@@ -10,6 +10,22 @@ struct Data
     double z;
 };
 
+TEST(AnyTypeTest, destructor_without_value)
+{
+    AnyType any{};
+    any.~AnyType();
+    EXPECT_FALSE(any.has_value());
+}
+
+TEST(AnyTypeTest, destructor_with_value)
+{
+    auto value{true};
+    AnyType any{value};
+    EXPECT_EQ(value, any.to<bool>());
+    any.~AnyType();
+    EXPECT_FALSE(any.has_value());
+}
+
 TEST(AnyTypeTest, bool_copy_value_constructor)
 {
     auto value{true};
@@ -119,12 +135,6 @@ TEST(AnyTypeTest, any_type_move_constructor_custom_type)
     EXPECT_EQ(data.z, valSecond.z);
 }
 
-TEST(AnyTypeTest, destructor)
-{
-    AnyType any{};
-    any.~AnyType();
-    EXPECT_FALSE(any.has_value());
-}
 
 TEST(AnyTypeTest, swap_copy_constructed_move_constructed_any_types)
 {
