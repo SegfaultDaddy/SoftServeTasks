@@ -1,18 +1,17 @@
-#include <thread>
 #include <future>
+#include <thread>
 
 #include "file_reader.hpp"
+#include "pool_concurrent_reader.hpp"
 
-#include "async_concurrent_reader.hpp"
-
-LineType<std::uint64_t> AsyncConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
+LineCount<std::uint64_t> PoolConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
 {
     const auto size{std::thread::hardware_concurrency()};
     std::vector<std::future<void>> futures{};
     auto chunks{split(files, size)};
     for(const auto& chunk : chunks)
     {
-        futures.push_back(std::async(std::launch::async, &AsyncConcurrentReader::read_and_process_file, this, chunk));
+        futures.push_back(pool.submit([&]{this->read_and_process_file(chunk);}));
     }
     for(const auto& future : futures)
     {
@@ -21,12 +20,12 @@ LineType<std::uint64_t> AsyncConcurrentReader::process_files_asynchronously(cons
     return counter_.stats();
 }
 
-void AsyncConcurrentReader::reset() noexcept
+void PoolConcurrentReader::reset() noexcept
 {
     counter_.reset();
 }
 
-void AsyncConcurrentReader::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
+void PoolConcurrentReader::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
 {
     for(auto i{chunk.begin}; i != chunk.end; ++i)
     {

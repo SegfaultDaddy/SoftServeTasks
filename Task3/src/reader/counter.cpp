@@ -9,9 +9,9 @@ void Counter::process_lines(const std::vector<std::string>& data)
     }
 }
 
-LineType<std::uint64_t> Counter::stats() const noexcept
+LineCount<std::uint64_t> Counter::stats() const noexcept
 {
-    LineType<std::uint64_t> copy{};
+    LineCount<std::uint64_t> copy{};
     copy.any = countedLines_.any;
     copy.blank = countedLines_.blank;
     copy.code = countedLines_.code;

@@ -22,6 +22,7 @@
         "random": "cpp",
         "ranges": "cpp",
         "type_traits": "cpp",
-        "cstddef": "cpp"
+        "cstddef": "cpp",
+        "any": "cpp"
     }
 }

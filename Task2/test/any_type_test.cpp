@@ -1,8 +1,7 @@
-#include <cstring>
-
 #include <gtest/gtest.h>
 
-#include <any_type.hpp>
+#include <array>
+#include "any_type.hpp"
 
 struct Data
 {

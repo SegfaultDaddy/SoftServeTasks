@@ -18,9 +18,9 @@ struct Context
     Stopwatch::TimeType filesProcessedSingleCore;
     Stopwatch::TimeType filesProcessedAsync;
     Stopwatch::TimeType filesProcessedPool;
-    LineType<std::uint64_t> statsSingleCore;
-    LineType<std::uint64_t> statsAsync; 
-    LineType<std::uint64_t> statsPool;
+    LineCount<std::uint64_t> statsSingleCore;
+    LineCount<std::uint64_t> statsAsync; 
+    LineCount<std::uint64_t> statsPool;
 };
 
 void print_data(const Context context, std::ostream& out)

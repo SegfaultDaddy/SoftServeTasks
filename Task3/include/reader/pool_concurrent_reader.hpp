@@ -11,7 +11,7 @@
 class PoolConcurrentReader
 {
 public:
-    LineType<std::uint64_t> process_files_asynchronously(const std::vector<std::filesystem::path>& files);
+    LineCount<std::uint64_t> process_files_asynchronously(const std::vector<std::filesystem::path>& files);
     void reset() noexcept;
 private:
     void read_and_process_file(const VectorChunk<std::filesystem::path>& chunk);

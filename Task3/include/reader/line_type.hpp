@@ -2,7 +2,7 @@
 #define LINE_TYPE_HPP
 
 template<typename T>
-struct LineType
+struct LineCount
 {
     T any, blank, comment, code;
 };

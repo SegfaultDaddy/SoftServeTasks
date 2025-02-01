@@ -19,6 +19,7 @@ AnyType::AnyType(AnyType&& other)
 AnyType::~AnyType()
 {
     delete data_;
+    data_ = nullptr;
 }
 
 AnyType& AnyType::swap(AnyType& other)
