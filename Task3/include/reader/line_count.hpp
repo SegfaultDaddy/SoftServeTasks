@@ -1,5 +1,5 @@
-#ifndef LINE_TYPE_HPP
-#define LINE_TYPE_HPP
+#ifndef LINE_COUNT_HPP
+#define LINE_COUNT_HPP
 
 template<typename T>
 struct LineCount

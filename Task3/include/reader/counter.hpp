@@ -5,7 +5,7 @@
 #include <string>
 #include <atomic>
 
-#include "line_type.hpp"
+#include "line_count.hpp"
 
 class Counter
 {
