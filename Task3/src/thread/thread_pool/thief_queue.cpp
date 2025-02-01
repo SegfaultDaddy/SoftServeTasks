@@ -1,7 +1,7 @@
 #include <print>
 #include <thread>
 
-#include "thief_queue.hpp"
+#include "./thread_pool/thief_queue.hpp"
 
 ThiefQueue::ThiefQueue()
 {

@@ -5,7 +5,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "threadsafe_node.hpp"
+#include "./threadsafe_queue/threadsafe_node.hpp"
 
 template<typename T>
 class ThreadsafeQueue
@@ -17,6 +17,8 @@ public:
     ThreadsafeQueue();
     ThreadsafeQueue(const ThreadsafeQueue& other) = delete;
     ThreadsafeQueue& operator=(const ThreadsafeQueue& other) = delete; 
+    ThreadsafeQueue(ThreadsafeQueue&& other) = delete;
+    ThreadsafeQueue& operator=(ThreadsafeQueue&& other) = delete; 
     std::shared_ptr<T> try_pop();
     bool try_pop(T& value);
     std::shared_ptr<T> wait_and_pop();

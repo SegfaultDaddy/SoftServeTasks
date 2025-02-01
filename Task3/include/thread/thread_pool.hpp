@@ -11,7 +11,7 @@
 #include <type_traits>
 
 #include "threadsafe_queue.hpp"
-#include "thief_queue.hpp"
+#include "./thread_pool/thief_queue.hpp"
 
 class ThreadPool
 {

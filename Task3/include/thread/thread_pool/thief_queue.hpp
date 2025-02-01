@@ -13,6 +13,8 @@ public:
     ThiefQueue();
     ThiefQueue(const ThiefQueue& other) = delete;
     ThiefQueue& operator=(const ThiefQueue& other) = delete;
+    ThiefQueue(ThiefQueue&& other) = delete;
+    ThiefQueue& operator=(ThiefQueue&& other) = delete;
     void push(DataType data);
     bool try_pop(DataType& data);
     bool try_steal(DataType& data);

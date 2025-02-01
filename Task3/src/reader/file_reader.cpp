@@ -34,8 +34,10 @@ namespace file_reader
             {
                 const auto extension{entry.path().extension().string()};
                 if(std::any_of(std::begin(extensions), std::end(extensions), 
-                                [&](const auto& elem){
-                                return elem == extension;}))
+                               [&](const auto& elem)
+                               {
+                                    return elem == extension;
+                               }))
                 {
                     files.push_back(entry.path());
                 }
