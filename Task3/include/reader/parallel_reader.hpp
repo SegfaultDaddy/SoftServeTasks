@@ -20,6 +20,7 @@ public:
         read_directory_and_process_files(startDirectory, extensions); 
         return counter_.stats();
     }
+
     void reset() noexcept
     {
         counter_.reset();
@@ -39,7 +40,7 @@ private:
                                     return elem == extension;
                                }))
                 {
-                    file_reader::read_file_by_line(entry, counter_);
+                    futures.push_back(std::async(std::launch::async, [&, entry]{file_reader::read_file_by_line(entry, counter_);}));
                 }
             }
             else if(entry.is_directory())
