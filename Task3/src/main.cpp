@@ -10,15 +10,18 @@
 #include "file_reader.hpp"
 #include "async_concurrent_reader.hpp"
 #include "pool_concurrent_reader.hpp"
+#include "parallel_reader.hpp"
 
 struct Context
 {
     std::size_t filesCount;
     Stopwatch::TimeType filesFound;
-    Stopwatch::TimeType filesProcessedSingleCore;
+    Stopwatch::TimeType filesProcessedParallel;
     Stopwatch::TimeType filesProcessedAsync;
     Stopwatch::TimeType filesProcessedPool;
+    Stopwatch::TimeType filesProcessedSingleCore;
     LineCount<std::uint64_t> statsSingleCore;
+    LineCount<std::uint64_t> statsParallel;
     LineCount<std::uint64_t> statsAsync; 
     LineCount<std::uint64_t> statsPool;
 };
@@ -26,21 +29,24 @@ struct Context
 void print_data(const Context context, std::ostream& out)
 {
     std::println(out, "All files found: {}", context.filesFound);
+    std::println(out, "All files processed concurrently parallel implementation: {}", context.filesProcessedParallel);
     std::println(out, "All files processed concurrently async implementation: {}", context.filesProcessedAsync);
     std::println(out, "All files processed concurrently pool implementation: {}", context.filesProcessedPool);
     std::println(out, "All files processed single core: {}", context.filesProcessedSingleCore);
-    const auto totalTime{context.filesFound + context.filesProcessedAsync + context.filesProcessedPool + context.filesProcessedSingleCore};
+    const auto totalTime{context.filesFound + context.filesProcessedAsync + 
+                         context.filesProcessedPool + context.filesProcessedSingleCore +
+                         context.filesProcessedParallel};
     std::println(out, "All time: {}", totalTime);
 
     std::println(out);
     std::println(out, "Total files: {}", context.filesCount);
 
     std::println(out);
-    std::println(out, "Single core:");
-    std::println(out, "Total lines: {}", context.statsSingleCore.any);
-    std::println(out, "Blank lines: {}", context.statsSingleCore.blank);
-    std::println(out, "Comment lines: {}", context.statsSingleCore.comment);
-    std::println(out, "Code lines: {}", context.statsSingleCore.code);
+    std::println(out, "Parallel implementation:");
+    std::println(out, "Total lines: {}", context.statsParallel.any);
+    std::println(out, "Blank lines: {}", context.statsParallel.blank);
+    std::println(out, "Comment lines: {}", context.statsParallel.comment);
+    std::println(out, "Code lines: {}", context.statsParallel.code);
 
     std::println(out);
     std::println(out, "Async implementation:");
@@ -55,6 +61,13 @@ void print_data(const Context context, std::ostream& out)
     std::println(out, "Blank lines: {}", context.statsPool.blank);
     std::println(out, "Comment lines: {}", context.statsPool.comment);
     std::println(out, "Code lines: {}", context.statsPool.code);
+
+    std::println(out);
+    std::println(out, "Single core:");
+    std::println(out, "Total lines: {}", context.statsSingleCore.any);
+    std::println(out, "Blank lines: {}", context.statsSingleCore.blank);
+    std::println(out, "Comment lines: {}", context.statsSingleCore.comment);
+    std::println(out, "Code lines: {}", context.statsSingleCore.code);
 }
 
 int main(int argc, char** argv)
@@ -74,6 +87,12 @@ int main(int argc, char** argv)
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
     Context context{};
     Stopwatch stopwatch{};
+
+    stopwatch.set_start();
+    ParallelReader parallelReader{};
+    context.statsParallel = parallelReader.process_files(argv[1], extensions);
+    stopwatch.set_finish();
+    context.filesProcessedParallel = stopwatch.time();
 
     stopwatch.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
