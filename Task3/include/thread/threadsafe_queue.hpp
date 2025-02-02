@@ -79,7 +79,7 @@ template<typename T>
 void ThreadsafeQueue<T>::push(T value)
 {
     auto data{std::make_shared<T>(std::move(value))};
-    std::unique_ptr<NodeType> ptr{std::make_unique<NodeType>()};
+    auto ptr{std::make_unique<NodeType>()};
     {
         std::lock_guard<std::mutex> tailLock{tailMutex_};
         tail_->data = data;
