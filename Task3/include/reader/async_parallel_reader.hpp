@@ -9,14 +9,16 @@
 class AsyncParallelReader
 {
 public:
-    void process_files(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions);
+    AsyncParallelReader(const std::vector<std::string_view>& extensions);
+    void process_files(const std::filesystem::path& startDirectory);
     LineCount<std::uint64_t> stats() const noexcept;
     void reset() noexcept;
 private:
     void read_and_process_file(const VectorChunk<std::filesystem::path>& chunk);
-    void read_directory_and_process_files(const std::filesystem::path& startDirectory, const std::vector<std::string_view>& extensions);
+    void read_directory_and_process_files(const std::filesystem::path& startDirectory);
 
     Counter counter_;   
+    const std::vector<std::string_view> extensions_;
 };
 
 #endif

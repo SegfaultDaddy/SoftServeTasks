@@ -48,7 +48,7 @@ void print_data(const Context context, std::ostream& out)
     std::println(out, "Blank lines: {}", context.statsParallel.blank);
     std::println(out, "Comment lines: {}", context.statsParallel.comment);
     std::println(out, "Code lines: {}", context.statsParallel.code);
-
+    /*
     std::println(out);
     std::println(out, "Async implementation:");
     std::println(out, "Total lines: {}", context.statsAsync.any);
@@ -69,6 +69,7 @@ void print_data(const Context context, std::ostream& out)
     std::println(out, "Blank lines: {}", context.statsSingleCore.blank);
     std::println(out, "Comment lines: {}", context.statsSingleCore.comment);
     std::println(out, "Code lines: {}", context.statsSingleCore.code);
+    */
 }
 
 int main(int argc, char** argv)
@@ -92,12 +93,12 @@ int main(int argc, char** argv)
     Stopwatch stopwatch{};
 
     stopwatch.set_start();
-    PoolParallelReader parallelReader{};
-    parallelReader.process_files(argv[1], extensions);
+    PoolParallelReader parallelReader{extensions};
+    parallelReader.process_files("D:/Doom");
     stopwatch.set_finish();
     context.statsParallel = parallelReader.stats();
     context.filesProcessedParallel = stopwatch.time();
-
+    /*
     stopwatch.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     stopwatch.set_finish();
@@ -143,5 +144,6 @@ int main(int argc, char** argv)
         std::ofstream dataStream{"default.txt"};
         print_data(context, dataStream);
     }
+    */
     return EXIT_SUCCESS;
 }
