@@ -4,7 +4,7 @@
 #include "file_reader.hpp"
 #include "pool_concurrent_reader.hpp"
 
-LineCount<std::uint64_t> PoolConcurrentReader::process_files(const std::vector<std::filesystem::path>& files)
+void PoolConcurrentReader::process_files(const std::vector<std::filesystem::path>& files)
 {
     const auto size{std::thread::hardware_concurrency()};
     std::vector<std::future<void>> futures{};
@@ -17,6 +17,10 @@ LineCount<std::uint64_t> PoolConcurrentReader::process_files(const std::vector<s
     {
         future.wait();
     }
+}
+
+LineCount<std::uint64_t> PoolConcurrentReader::stats() const noexcept
+{
     return counter_.stats();
 }
 

@@ -10,7 +10,8 @@
 #include "file_reader.hpp"
 #include "async_concurrent_reader.hpp"
 #include "pool_concurrent_reader.hpp"
-#include "parallel_reader.hpp"
+#include "async_parallel_reader.hpp"
+#include "pool_parallel_reader.hpp"
 
 struct Context
 {
@@ -72,6 +73,7 @@ void print_data(const Context context, std::ostream& out)
 
 int main(int argc, char** argv)
 {
+    /*
     if(argc < 2)
     {
         std::println("Error 0 arguments provided! Provide project root directory.");
@@ -83,15 +85,17 @@ int main(int argc, char** argv)
         std::println("Error invalid argument! Provide project root directory.");
         return EXIT_FAILURE;
     }
+    */
 
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
     Context context{};
     Stopwatch stopwatch{};
 
     stopwatch.set_start();
-    ParallelReader parallelReader{};
-    context.statsParallel = parallelReader.process_files(argv[1], extensions);
+    PoolParallelReader parallelReader{};
+    parallelReader.process_files(argv[1], extensions);
     stopwatch.set_finish();
+    context.statsParallel = parallelReader.stats();
     context.filesProcessedParallel = stopwatch.time();
 
     stopwatch.set_start();
@@ -112,13 +116,15 @@ int main(int argc, char** argv)
     
     stopwatch.set_start();
     AsyncConcurrentReader asyncReader{};
-    context.statsAsync = asyncReader.process_files(files);
+    asyncReader.process_files(files);
     stopwatch.set_finish();
     context.filesProcessedAsync = stopwatch.time();
+    context.statsAsync = asyncReader.stats();
 
     stopwatch.set_start();
     PoolConcurrentReader poolReader{};
-    context.statsPool = poolReader.process_files(files);
+    poolReader.process_files(files);
+    context.statsPool = poolReader.stats();
     stopwatch.set_finish();
     context.filesProcessedPool = stopwatch.time();
 

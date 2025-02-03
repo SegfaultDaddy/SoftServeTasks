@@ -23,7 +23,6 @@ ThreadPool::ThreadPool()
         done_ = true;
         throw;
     }
-    
 }
 
 ThreadPool::~ThreadPool()

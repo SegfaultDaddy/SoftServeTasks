@@ -10,7 +10,8 @@
 class AsyncConcurrentReader
 {
 public:
-    LineCount<std::uint64_t> process_files(const std::vector<std::filesystem::path>& files);
+    void process_files(const std::vector<std::filesystem::path>& files);
+    LineCount<std::uint64_t> stats() const noexcept;
     void reset() noexcept;
 private:
     void read_and_process_file(const VectorChunk<std::filesystem::path>& chunk);
