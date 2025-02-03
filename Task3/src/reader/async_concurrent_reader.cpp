@@ -5,7 +5,7 @@
 
 #include "async_concurrent_reader.hpp"
 
-LineCount<std::uint64_t> AsyncConcurrentReader::process_files_asynchronously(const std::vector<std::filesystem::path>& files)
+LineCount<std::uint64_t> AsyncConcurrentReader::process_files(const std::vector<std::filesystem::path>& files)
 {
     const auto size{std::thread::hardware_concurrency()};
     std::vector<std::future<void>> futures{};

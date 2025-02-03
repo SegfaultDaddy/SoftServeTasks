@@ -109,16 +109,16 @@ int main(int argc, char** argv)
     stopwatch.set_finish();
     context.filesProcessedSingleCore = stopwatch.time();
     context.statsSingleCore = counter.stats();
-
+    
     stopwatch.set_start();
     AsyncConcurrentReader asyncReader{};
-    context.statsAsync = asyncReader.process_files_asynchronously(files);
+    context.statsAsync = asyncReader.process_files(files);
     stopwatch.set_finish();
     context.filesProcessedAsync = stopwatch.time();
 
     stopwatch.set_start();
     PoolConcurrentReader poolReader{};
-    context.statsPool = poolReader.process_files_asynchronously(files);
+    context.statsPool = poolReader.process_files(files);
     stopwatch.set_finish();
     context.filesProcessedPool = stopwatch.time();
 
@@ -126,6 +126,10 @@ int main(int argc, char** argv)
     if(argc > 2)
     {
         std::ofstream dataStream{argv[2]};
+        if(!dataStream.is_open())
+        {
+            throw std::runtime_error{"Error provided wrong filename!"};
+        }
         print_data(context, dataStream);
     }
     else
