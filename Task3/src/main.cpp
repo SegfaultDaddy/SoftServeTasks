@@ -11,7 +11,6 @@
 #include "async_concurrent_reader.hpp"
 #include "pool_concurrent_reader.hpp"
 #include "async_parallel_reader.hpp"
-#include "pool_parallel_reader.hpp"
 
 struct Context
 {
@@ -48,7 +47,7 @@ void print_data(const Context context, std::ostream& out)
     std::println(out, "Blank lines: {}", context.statsParallel.blank);
     std::println(out, "Comment lines: {}", context.statsParallel.comment);
     std::println(out, "Code lines: {}", context.statsParallel.code);
-    /*
+
     std::println(out);
     std::println(out, "Async implementation:");
     std::println(out, "Total lines: {}", context.statsAsync.any);
@@ -69,12 +68,10 @@ void print_data(const Context context, std::ostream& out)
     std::println(out, "Blank lines: {}", context.statsSingleCore.blank);
     std::println(out, "Comment lines: {}", context.statsSingleCore.comment);
     std::println(out, "Code lines: {}", context.statsSingleCore.code);
-    */
 }
 
 int main(int argc, char** argv)
 {
-    /*
     if(argc < 2)
     {
         std::println("Error 0 arguments provided! Provide project root directory.");
@@ -86,19 +83,18 @@ int main(int argc, char** argv)
         std::println("Error invalid argument! Provide project root directory.");
         return EXIT_FAILURE;
     }
-    */
 
     const std::vector<std::string_view> extensions{".cpp", ".hpp", ".c", ".h"};
     Context context{};
     Stopwatch stopwatch{};
 
     stopwatch.set_start();
-    PoolParallelReader parallelReader{extensions};
-    parallelReader.process_files("D:/Doom");
+    AsyncParallelReader parallelReader{extensions};
+    parallelReader.process_files(argv[1]);
     stopwatch.set_finish();
     context.statsParallel = parallelReader.stats();
     context.filesProcessedParallel = stopwatch.time();
-    /*
+
     stopwatch.set_start();
     auto files{file_reader::find_all_files_with_extensions(argv[1], extensions)};
     stopwatch.set_finish();
@@ -144,6 +140,5 @@ int main(int argc, char** argv)
         std::ofstream dataStream{"default.txt"};
         print_data(context, dataStream);
     }
-    */
     return EXIT_SUCCESS;
 }

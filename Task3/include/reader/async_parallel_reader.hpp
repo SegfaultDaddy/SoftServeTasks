@@ -14,7 +14,6 @@ public:
     LineCount<std::uint64_t> stats() const noexcept;
     void reset() noexcept;
 private:
-    void read_and_process_file(const VectorChunk<std::filesystem::path>& chunk);
     void read_directory_and_process_files(const std::filesystem::path& startDirectory);
 
     Counter counter_;   

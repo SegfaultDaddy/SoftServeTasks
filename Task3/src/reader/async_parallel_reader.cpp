@@ -4,7 +4,6 @@
 #include "vector_chunk.hpp"
 #include "async_parallel_reader.hpp"
 
-
 AsyncParallelReader::AsyncParallelReader(const std::vector<std::string_view>& extensions)
     : extensions_{extensions}
 {
@@ -41,7 +40,7 @@ void AsyncParallelReader::read_directory_and_process_files(const std::filesystem
             if(std::any_of(std::begin(extensions_), std::end(extensions_), 
                            [&](const auto& elem){return elem == extension;}))
             {
-                files.push_back(entry);
+                file_reader::read_file_by_line(entry, counter_);
             }
         }
         else if(entry.is_directory())
@@ -49,22 +48,8 @@ void AsyncParallelReader::read_directory_and_process_files(const std::filesystem
             futures.push_back(std::async(std::launch::async, &AsyncParallelReader::read_directory_and_process_files, this, entry));
         }
     }
-    const auto size{std::thread::hardware_concurrency()};
-    const auto chunks{split(files, size)};
-    for(const auto& chunk : chunks)
-    {
-        futures.push_back(std::async(std::launch::async, &AsyncParallelReader::read_and_process_file, this, chunk));
-    }
     for(auto& future : futures)
     {
         future.wait();
-    }
-}
-
-void AsyncParallelReader::read_and_process_file(const VectorChunk<std::filesystem::path>& chunk)
-{
-    for(auto i{chunk.begin}; i != chunk.end; ++i)
-    {
-        file_reader::read_file_by_line(*i, counter_);
     }
 }
