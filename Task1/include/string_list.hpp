@@ -38,7 +38,7 @@ namespace string_list
         using ListNode = char**;
 
         /**
-         * @brief `List` getter for field `head`.
+         * @brief Function that gets `head` field in `List`.
          * 
          * @param[in] list
          * @return `ListNode`
@@ -49,7 +49,7 @@ namespace string_list
         }
 
         /**
-         * @brief `List` getter for field `tail`.
+         * @brief Function that gets `tail` field in `List`.
          * 
          * @param[in] list 
          * @return `ListNode`
@@ -60,7 +60,7 @@ namespace string_list
         }
 
         /**
-         * @brief `List` setter for field `head`.
+         * @brief Function that sets `head` field in `List`.
          * 
          * @param list 
          * @param[in] head 
@@ -71,7 +71,7 @@ namespace string_list
         }
 
         /**
-         * @brief `List` setter for field `tail`.
+         * @brief Function that sets `tail` field in `List`.
          * 
          * @param list 
          * @param[in] tail 
@@ -82,10 +82,10 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` getter for field `value`.
+         * @brief Function that gets `value` field in `ListNode`.
          * 
          * @param[in] node 
-         * @return `char*`
+         * @return `char*`.
          */
         inline char* value(ListNode node)
         {
@@ -93,10 +93,10 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` getter for field `next`.
+         * @brief Function that gets `next` field in `ListNode`.
          * 
          * @param[in] node 
-         * @return `ListNode`
+         * @return `ListNode`.
          */
         inline ListNode next(ListNode node)
         {
@@ -104,7 +104,7 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` getter for field `prev`.
+         * @brief Function that gets `prev` field in `ListNode`.
          * 
          * @param[in] node 
          * @return `ListNode`
@@ -115,7 +115,7 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` setter for field `value`.
+         * @brief Function that sets `value` field in `ListNode`.
          * 
          * @param node 
          * @param[in] value
@@ -126,7 +126,7 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` setter for field `next`.
+         * @brief Function that sets `next` field in `ListNode`.
          * 
          * @param node 
          * @param[in] next 
@@ -137,7 +137,7 @@ namespace string_list
         }
 
         /**
-         * @brief `ListNode` setter for field `prev`.
+         * @brief Function that sets `prev` field in `ListNode`.
          * 
          * @param node 
          * @param[in] prev 
@@ -158,61 +158,64 @@ namespace string_list
         bool compare_less_than(const char* first, const char* second);
 
         /**
-         * @brief Allocates a `ListNode` object and default initializes its fields expect provided `str`
+         * @brief Function that allocates a `ListNode` object and default initializes its fields expect provided `str`
          * 
          * @param[in] str this data will be copied into created `ListNode` field `value`.
-         * @return created on heap `ListNode`.
+         * @return created on heap and initialized with provided `str `ListNode`.
          */
         ListNode create_node(const char* str);
 
         /**
-         * @brief 
+         * @brief Function that removes element(s) in `list` from position `start` if they is equal to `str`.
          * 
-         * @param list 
-         * @param[in] start 
-         * @param[in] str 
-         * @param[in] removeAll 
+         * @param list initialized list
+         * @param[in] start position from which remove will start.
+         * @param[in] str nodes that contains value equal to this parameter will be removed from list.
+         * @param[in] removeAll optional parameter is true removes all elements that match `str`, if false removes only first element.
          */
         void remove(List list, ListNode start, const char* str, const bool removeAll = true);
 
         /**
-         * @brief 
+         * @brief Function that sorts `List` starting from `head`. Implemented using selection sort algorithm.
          * 
-         * @param head 
-         * @param compare 
+         * @param head position of a first node.
+         * @param[in] compare predicate which compares `value` field in neighbour nodes.
          */
         void selection_sort(ListNode head, bool (*compare)(const char*, const char*) = &compare_less_than);
     }
 
     /** 
-    * @brief Allocates memory using std::malloc and default initializes `List`. 
+    * @brief Function that allocates memory using std::malloc and default initializes `List`. 
     * 
-    * @param[out] list is a pointer to an unitialized doubly-linked list. 
-    * @warning if nullptr provided then assertion will fail.
+    * @param[out] list is a pointer to unitialized `List`. 
+    * @warning If nullptr `list` provided then assertion will fail.
     */
     void init(List* list);
 
     /**
-     * @brief 
+     * @brief Function that destroys and deallocates initialized `list`.
      * 
-     * @param list 
+     * @param list is a pointer to initialized `List`.
+     * @warning If nullptr `list` provided then assertion will fail.
+     * @warning If `*list` is nullptr then assertion will fail.
      */
     void destroy(List* list); 
 
     /**
-     * @brief 
+     * @brief Function that return size of `list`.
      * 
      * @param list 
-     * @return std::size_t 
+     * @return `std::size_t` is a number of elements in `list`.
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     std::size_t size(const List list);
 
     /**
-     * @brief 
+     * @brief Function predicate that checks if list contains elements.
      * 
-     * @param list 
-     * @return true 
-     * @return false 
+     * @param[in] list 
+     * @return true if `list` is empty
+     * @return false if `list` contains elements
      */
     bool empty(const List list);
     
