@@ -214,17 +214,20 @@ namespace string_list
      * @brief Function predicate that checks if list contains elements.
      * 
      * @param[in] list 
-     * @return true if `list` is empty
-     * @return false if `list` contains elements
+     * @return true if `list` is empty.
+     * @return false if `list` contains elements.
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     bool empty(const List list);
     
     /**
-     * @brief 
+     * @brief Function that finds first element in the `list` and returns its index.
      * 
      * @param list 
-     * @param str 
-     * @return std::size_t 
+     * @param str criterium using which we will find needed element in the list
+     * @return if returns `std::size_t` index is less than size of `list` it means that element exists in list.
+     * @return if returns `std::size_t` index is greater equal than size of `list` it means that element exists in list.
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     std::size_t index_of(const List list, const char* str);
 
@@ -233,6 +236,7 @@ namespace string_list
      * 
      * @param list 
      * @param str 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void push_front(List list, const char* str);
 
@@ -241,6 +245,7 @@ namespace string_list
      * 
      * @param list 
      * @param str 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void push_back(List list, const char* str);
 
@@ -248,6 +253,7 @@ namespace string_list
      * @brief 
      * 
      * @param list 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void pop_front(List list);
 
@@ -255,6 +261,7 @@ namespace string_list
      * @brief 
      * 
      * @param list 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void pop_back(List list);
 
@@ -264,6 +271,7 @@ namespace string_list
      * @param list 
      * @param str 
      * @param removeAll 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void remove(List list, const char* str, const bool removeAll = true);
 
@@ -271,6 +279,7 @@ namespace string_list
      * @brief 
      * 
      * @param list 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void unique(List list);
 
@@ -281,6 +290,7 @@ namespace string_list
      * @param src 
      * @param dest 
      * @param replaceAll 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void replace(List list, const char* src, const char* dest, const bool replaceAll = true);
 
@@ -288,6 +298,7 @@ namespace string_list
      * @brief 
      * 
      * @param list 
+     * @warning If nullptr `list` provided then assertion will fail.
      */
     void sort(List list);
 }
