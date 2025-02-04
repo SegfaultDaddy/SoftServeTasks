@@ -1,0 +1,32 @@
+All files found: 45ms
+All files processed concurrently parallel implementation: 2351ms
+All files processed concurrently async implementation: 3029ms
+All files processed concurrently pool implementation: 3090ms
+All files processed single core: 4800ms
+All time: 13315ms
+
+Total files: 17550
+
+Parallel implementation:
+Total lines: 10375758
+Blank lines: 1622304
+Comment lines: 2422422
+Code lines: 6331032
+
+Async implementation:
+Total lines: 10375758
+Blank lines: 1622304
+Comment lines: 2422422
+Code lines: 6331032
+
+Pool implementation:
+Total lines: 10375758
+Blank lines: 1622304
+Comment lines: 2422422
+Code lines: 6331032
+
+Single core:
+Total lines: 10375758
+Blank lines: 1622304
+Comment lines: 2422422
+Code lines: 6331032

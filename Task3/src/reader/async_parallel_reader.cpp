@@ -31,7 +31,6 @@ void AsyncParallelReader::reset() noexcept
 void AsyncParallelReader::read_directory_and_process_files(const std::filesystem::path& startDirectory)
 {
     std::vector<std::future<void>> futures{};
-    std::vector<std::filesystem::path> files{};
     for(const auto& entry : std::filesystem::directory_iterator{startDirectory})
     {
         if(entry.is_regular_file())
